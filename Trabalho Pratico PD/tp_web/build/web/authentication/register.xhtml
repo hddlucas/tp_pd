@@ -1,0 +1,78 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <h:outputStylesheet library="css" name="style.css"  />   
+    </h:head>
+
+    <h:body styleClass="registerContainer">
+        <div class="registerBox">
+            <div class="image-container">
+                <h:graphicImage  library="images" name="register.png" />
+            </div>
+            <h:form>
+                <p:messages id="messages" />
+                <div class="register-label">
+                    <p:outputLabel value="Preencha a sua informação" />
+                </div>
+
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="username" value="Username " />
+                    <p:inputText id="username" value="#{RegistoMB.utilizador.username}" required="true"/>
+
+
+                    <h:outputLabel for="pwd1" value="Password *" />  
+                    <p:password id="pwd1" value="#{passwordBean.password5}" match="pwd2" label="Password 1" required="true"/>  
+
+                    <h:outputLabel for="pwd2" value="Repita Password *" />  
+                    <p:password id="pwd2" value="#{passwordBean.password5}" label="Password 2" required="true"/>  
+
+                    <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI *" />  
+                    <p:inputText id="bi" value="#{RegistoMB.bi}" required="true"/>  
+
+                    <h:outputLabel for="nif" value="NIF *" />  
+                    <p:inputText id="nif" value="#{RegistoMB.nif}" required="true"/>  
+
+                    <p:outputLabel for="morada" value="Morada " />
+                    <p:inputTextarea id="morada" rows="5" cols="30" counter="display" maxlength="100" counterTemplate="{0} caracteres disponiveis." autoResize="false" />
+
+                    <h:outputLabel  />  
+                    <h:outputText id="display" />
+
+                    <h:outputLabel for="contacto" value="Contacto" />  
+                    <p:inputText id="contacto" value="#{RegistoMB.contacto}"/> 
+
+                    <h:outputLabel for="codigo_postal" value="Código Postal" />  
+                    <p:inputText id="codigo_postal" value="#{RegistoMB.contacto}"/> 
+
+                    <p:outputLabel for="pais" value="País " />
+                    <p:selectOneMenu id="pais" value="#{paisJSFManagedBean.country}" >
+                        <f:selectItem itemLabel="Selecione um pais" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{paisJSFManagedBean.countries}" />
+                    </p:selectOneMenu>
+
+                    <h:outputLabel for="cidade" value="Cidade" />  
+                    <p:inputText id="cidade" value="#{RegistoMB.cidade}"/>  
+
+
+                    <p:outputLabel for="console" value="Tipo de Conta" />
+                    <p:selectOneRadio id="console" value="#{radioView.console}" styleClass="account-type">
+                        <f:selectItem itemLabel="Utilizador" itemValue="utilizador" />
+                        <f:selectItem itemLabel="Vendedor" itemValue="vendedor" />
+                    </p:selectOneRadio>
+
+                </p:panelGrid>
+
+                <div class="register-button-container">
+                    <p:commandButton value="Registar" action="#{RegistoMB.envia}" ajax="false">
+                    </p:commandButton>
+                </div>
+            </h:form>
+
+            <h:link value="Já tem uma conta?" outcome="login" styleClass="login-label" />
+
+        </div>
+    </h:body>
+</html>

@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <h:outputStylesheet library="css" name="style.css"  />   
+    </h:head>
+
+    <h:body styleClass="loginContainer">
+        <div class="loginBox">
+            <div class="image-container">
+                <h:graphicImage  library="images" name="login.png" />
+            </div>
+            <h:form>
+                <p:messages id="messages" />
+                <div class="credentialLabel">
+                    <p:outputLabel value="Introduza as suas credenciais" />
+                </div>
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="username" value="Username:" />
+                    <p:inputText id="username" value="#{LoginMB.utilizador.username}" />
+
+                    <p:outputLabel for="password" value="Password:" />
+                    <p:password id="password" value="#{LoginMB.utilizador.password}" />
+                </p:panelGrid>
+                <div class="login-button-container">
+                    <p:commandButton value="Enviar" action="#{LoginMB.envia}" ajax="false">
+                    </p:commandButton>
+                </div>
+
+            </h:form>
+
+            <h:link value="Clique para se registar" outcome="register" styleClass="register-label" />
+            <h:link value="Início" outcome="/index" styleClass="home-label" />
+
+
+        </div>
+    </h:body>
+</html>

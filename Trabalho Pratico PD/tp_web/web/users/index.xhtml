@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+
+
+
+        <ui:composition template="/template/commonLayout.xhtml">
+
+            <ui:define name="content">
+                <div class="ui-grid-col-12">
+                    <h1 class="page-title">
+                        Lista de Utilizadores
+                    </h1>
+                </div>
+
+
+
+                <p:button outcome="create" value="Adicionar Utilizador" icon="ui-icon-plus white">
+                    <f:param name="productId" value="10" />
+                </p:button>
+
+
+
+                <h:form>
+                    <p:dataTable var="car" value="#{dtPaginatorView.cars}" rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <p:column headerText="Id">
+                            <h:outputText value="1" />
+                        </p:column>
+
+                        <p:column headerText="Nome">
+                            <h:outputText value="teste" />
+                        </p:column>
+
+                        <p:column headerText="BI">
+                            <h:outputText value="teste" />
+                        </p:column>
+
+                        <p:column headerText="Ultimo Login">
+                            <h:outputText value="teste" />
+                        </p:column>
+
+                        <f:facet name="paginatorTopLeft">
+                            <p:commandButton type="button" icon="fa fa-refresh" />
+                        </f:facet>
+
+                        <f:facet name="paginatorBottomRight">
+                            <p:commandButton type="button" icon="fa fa-cloud-upload" />
+                        </f:facet>
+
+
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton update=":form:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="View">
+                                <f:setPropertyActionListener value="#{car}" target="#{dtSelectionView.selectedCar}" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+
+
+
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </h:body>
+
+</html>
