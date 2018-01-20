@@ -214,6 +214,7 @@ public class ConsolaRca {
         } while (consola.isUserNifInDB(texto) || !nifValida);
         JsonObject fieldsObject = userFields.build();
 
+        System.out.println(fieldsObject.toString());
         if (consola.addNewUser(fieldsObject.toString())) {
             System.out.println("O utilizador foi adicionado com sucesso");
         } else {

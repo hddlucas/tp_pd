@@ -51,7 +51,7 @@ ID_PERFIL
 /* Table: UTILIZADOR                                            */
 /*==============================================================*/
 create table UTILIZADOR (
-   ID_UTILIZADOR        INT4                 not null,
+   ID_UTILIZADOR        SERIAL,
    NOME                 VARCHAR(1024)        not null,
    USERNAME             VARCHAR(1024)        not null,
    PASSWORD             VARCHAR(1024)        not null,
@@ -128,8 +128,8 @@ VALUES (1,'admin','12345','Administrador','123456789','123456789',true);
 /* DEFAULT ROLES                              			*/
 /*==============================================================*/
 
-INSERT INTO  perfil (id_perfil,perfil)
-VALUES (1,'admin'),(2,'avaliador'),(3,'agente'),(4,'vendedor');
+INSERT INTO  perfil (id_perfil,perfil,descricao)
+VALUES (1,'admin','Administrador'),(2,'avaliador','Avaliador'),(3,'agente','Agente'),(4,'vendedor','Vendedor');
 
 
 /*==============================================================*/
