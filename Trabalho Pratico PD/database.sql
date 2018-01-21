@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     20/01/2018 19:59:07                          */
+/* Created on:     21/01/2018 18:25:21                          */
 /*==============================================================*/
 
 
@@ -71,7 +71,6 @@ create table AQUISICAO_PROPOSTA (
    ID_AQUISICAO         SERIAL               not null,
    ID_PRODUTO           INT4                 null,
    ID_UTILIZADOR        INT4                 not null,
-   ID_OPERADOR          INT4                 null,
    VALOR_MAX            DECIMAL(8)           null,
    CREATED_AT           TIMESTAMP            null,
    OBSERVACOES          VARCHAR(1024)        null,
@@ -115,6 +114,7 @@ ID_CATEGORIA
 create table COMPONENTE (
    ID_COMPONENTE        SERIAL               not null,
    ID_CATEGORIA         INT4                 not null,
+   ID_OPERADOR          INT4                 null,
    NOME                 VARCHAR(1024)        null,
    OBSERVACOES          VARCHAR(1024)        null,
    AVALIACAO            INT4                 null,
@@ -172,8 +172,8 @@ ID_COMPONENTE
 /*==============================================================*/
 create table OPERADOR (
    ID_OPERADOR          SERIAL               not null,
-   NOMEOPERADOR         VARCHAR(1024)        null,
-   DESCRICAOOPERADOR    VARCHAR(1024)        null,
+   NOME                 VARCHAR(1024)        null,
+   DESCRICAO            VARCHAR(1024)        null,
    constraint PK_OPERADOR primary key (ID_OPERADOR)
 );
 
@@ -199,7 +199,7 @@ ID_PERFIL
 /*==============================================================*/
 create table PRODUTO (
    ID_PRODUTO           SERIAL               not null,
-   DESCRICAO            VARCHAR(1024)        null,
+   DESCRICAO            TEXT                 null,
    constraint PK_PRODUTO primary key (ID_PRODUTO)
 );
 
@@ -217,7 +217,7 @@ create table PRODUTO_PROPOSTA (
    ID_PROPOSTA          INT4                 not null,
    ID_PRODUTO           INT4                 not null,
    VALOR_MAX            DECIMAL(4,2)         null,
-   OBSERVACOES          DECIMAL(4,2)         null,
+   OBSERVACOES          TEXT                 null,
    AVALIACAO            VARCHAR(1024)        null,
    constraint PK_PRODUTO_PROPOSTA primary key (ID_PROPOSTA, ID_PRODUTO)
 );
@@ -333,13 +333,13 @@ alter table AQUISICAO_PROPOSTA
       on delete restrict on update restrict;
 
 alter table AQUISICAO_PROPOSTA
-   add constraint FK_AQUISICA_AQUISICAO_OPERADOR foreign key (ID_OPERADOR)
-      references OPERADOR (ID_OPERADOR)
-      on delete restrict on update restrict;
-
-alter table AQUISICAO_PROPOSTA
    add constraint FK_AQUISICA_AQUISICAO_UTILIZAD foreign key (ID_UTILIZADOR)
       references UTILIZADOR (ID_UTILIZADOR)
+      on delete restrict on update restrict;
+
+alter table COMPONENTE
+   add constraint FK_COMPONEN_AQUISICAO_OPERADOR foreign key (ID_OPERADOR)
+      references OPERADOR (ID_OPERADOR)
       on delete restrict on update restrict;
 
 alter table COMPONENTE
@@ -398,6 +398,15 @@ VALUES ('admin','12345','Administrador','123456789','123456789',true);
 
 INSERT INTO  perfil (perfil,descricao)
 VALUES ('admin','Administrador'),('avaliador','Avaliador'),('agente','Agente'),('vendedor','Vendedor');
+
+
+/*==============================================================*/
+/* DEFAULT OPERATORS                             			*/
+/*==============================================================*/
+
+INSERT INTO  operador (nome,descricao)
+VALUES ('=','Igual a'),('<','Menor que'),('>','Maior que'),('!','Diferente de'),('⊃','Inclui'),('⊅','Exclui');
+
 
 
 /*==============================================================*/

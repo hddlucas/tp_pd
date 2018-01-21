@@ -34,6 +34,13 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Operador.findByDescricaooperador", query = "SELECT o FROM Operador o WHERE o.descricaooperador = :descricaooperador")})
 public class Operador implements Serializable {
 
+    @Column(name = "nome")
+    private String nome;
+    @Column(name = "descricao")
+    private String descricao;
+    @OneToMany(mappedBy = "idOperador")
+    private Collection<Componente> componenteCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,6 +117,31 @@ public class Operador implements Serializable {
     @Override
     public String toString() {
         return "models.Operador[ idOperador=" + idOperador + " ]";
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    @XmlTransient
+    public Collection<Componente> getComponenteCollection() {
+        return componenteCollection;
+    }
+
+    public void setComponenteCollection(Collection<Componente> componenteCollection) {
+        this.componenteCollection = componenteCollection;
     }
     
 }

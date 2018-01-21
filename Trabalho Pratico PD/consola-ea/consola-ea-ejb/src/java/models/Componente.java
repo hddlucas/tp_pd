@@ -40,6 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Componente.findByValor", query = "SELECT c FROM Componente c WHERE c.valor = :valor")})
 public class Componente implements Serializable {
 
+    @JoinColumn(name = "id_operador", referencedColumnName = "id_operador")
+    @ManyToOne
+    private Operador idOperador;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -150,6 +154,14 @@ public class Componente implements Serializable {
     @Override
     public String toString() {
         return "models.Componente[ idComponente=" + idComponente + " ]";
+    }
+
+    public Operador getIdOperador() {
+        return idOperador;
+    }
+
+    public void setIdOperador(Operador idOperador) {
+        this.idOperador = idOperador;
     }
     
 }

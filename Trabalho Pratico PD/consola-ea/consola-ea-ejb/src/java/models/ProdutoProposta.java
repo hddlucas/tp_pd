@@ -33,14 +33,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "ProdutoProposta.findByAvaliacao", query = "SELECT p FROM ProdutoProposta p WHERE p.avaliacao = :avaliacao")})
 public class ProdutoProposta implements Serializable {
 
+    @Column(name = "observacoes")
+    private String observacoes;
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ProdutoPropostaPK produtoPropostaPK;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valor_max")
     private BigDecimal valorMax;
-    @Column(name = "observacoes")
-    private BigDecimal observacoes;
     @Column(name = "avaliacao")
     private String avaliacao;
     @JoinColumn(name = "id_produto", referencedColumnName = "id_produto", insertable = false, updatable = false)
@@ -77,13 +78,6 @@ public class ProdutoProposta implements Serializable {
         this.valorMax = valorMax;
     }
 
-    public BigDecimal getObservacoes() {
-        return observacoes;
-    }
-
-    public void setObservacoes(BigDecimal observacoes) {
-        this.observacoes = observacoes;
-    }
 
     public String getAvaliacao() {
         return avaliacao;
@@ -132,6 +126,14 @@ public class ProdutoProposta implements Serializable {
     @Override
     public String toString() {
         return "models.ProdutoProposta[ produtoPropostaPK=" + produtoPropostaPK + " ]";
+    }
+
+    public String getObservacoes() {
+        return observacoes;
+    }
+
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
     }
     
 }
