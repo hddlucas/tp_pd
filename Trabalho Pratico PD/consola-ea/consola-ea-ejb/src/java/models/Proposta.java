@@ -40,6 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Proposta.findByCreatedAt", query = "SELECT p FROM Proposta p WHERE p.createdAt = :createdAt")})
 public class Proposta implements Serializable {
 
+    @Column(name = "ganhou")
+    private Boolean ganhou;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -128,6 +131,14 @@ public class Proposta implements Serializable {
     @Override
     public String toString() {
         return "models.Proposta[ idProposta=" + idProposta + " ]";
+    }
+
+    public Boolean getGanhou() {
+        return ganhou;
+    }
+
+    public void setGanhou(Boolean ganhou) {
+        this.ganhou = ganhou;
     }
     
 }

@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     21/01/2018 18:25:21                          */
+/* Created on:     21/01/2018 19:20:16                          */
 /*==============================================================*/
 
 
@@ -72,9 +72,8 @@ create table AQUISICAO_PROPOSTA (
    ID_PRODUTO           INT4                 null,
    ID_UTILIZADOR        INT4                 not null,
    VALOR_MAX            DECIMAL(8)           null,
-   CREATED_AT           TIMESTAMP            null,
    OBSERVACOES          VARCHAR(1024)        null,
-   GANHOU               BOOL                 null,
+   CREATED_AT           TIMESTAMP            null,
    constraint PK_AQUISICAO_PROPOSTA primary key (ID_AQUISICAO)
 );
 
@@ -216,7 +215,6 @@ ID_PRODUTO
 create table PRODUTO_PROPOSTA (
    ID_PROPOSTA          INT4                 not null,
    ID_PRODUTO           INT4                 not null,
-   VALOR_MAX            DECIMAL(4,2)         null,
    OBSERVACOES          TEXT                 null,
    AVALIACAO            VARCHAR(1024)        null,
    constraint PK_PRODUTO_PROPOSTA primary key (ID_PROPOSTA, ID_PRODUTO)
@@ -251,6 +249,7 @@ create table PROPOSTA (
    ID_PROPOSTA          SERIAL               not null,
    ID_UTILIZADOR        INT4                 not null,
    VALOR_TOTAL          DECIMAL(8)           null,
+   GANHOU               BOOL                 null,
    CREATED_AT           TIMESTAMP            null,
    constraint PK_PROPOSTA primary key (ID_PROPOSTA)
 );
@@ -381,6 +380,7 @@ alter table UTILIZADOR_PERFIL
    add constraint FK_UTILIZAD_UTILIZADO_PERFIL foreign key (ID_PERFIL)
       references PERFIL (ID_PERFIL)
       on delete restrict on update restrict;
+
 
 
 
