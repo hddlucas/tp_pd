@@ -5,7 +5,6 @@
  */
 package consola.rca;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;

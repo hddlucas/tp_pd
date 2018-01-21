@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logica;
+package controllers;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -22,7 +22,7 @@ public class DAO implements DAOLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-    @PersistenceContext(unitName = "consolaPU")
+   @PersistenceContext(unitName = "consolaPU")
     private EntityManager em;
 
     @Override
@@ -30,10 +30,7 @@ public class DAO implements DAOLocal {
         return em;
     }
 
-    @PreDestroy
-    void encerra() {
-        em.close();
-    }
+  
 
     @Override
     public void persist(Object object) {

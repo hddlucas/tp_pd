@@ -5,16 +5,16 @@
  */
 package logica;
 
-import controllers.PerfilJpaController;
-import controllers.UtilizadorJpaController;
+import controllers.PerfilFacade;
+import controllers.PerfilFacadeLocal;
+import controllers.UtilizadorFacade;
+import controllers.UtilizadorFacadeLocal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
 import models.Perfil;
 import models.Utilizador;
-import org.json.*;
 
 /**
  *
@@ -22,17 +22,18 @@ import org.json.*;
  */
 @Stateful
 public class Administrador implements AdministradorRemote {
-
+    
     @EJB
-    private DAOLocal dao;
+    private UtilizadorFacadeLocal userFacade;
+    
+    @EJB
+    private PerfilFacadeLocal perfilFacade;
 
     //USERS
     @Override
     public ArrayList<String> getUsersList() {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
 
-        List<Utilizador> utilizadores = userController.getUsersList();
+        List<Utilizador> utilizadores = userFacade.getUsersList();
         ArrayList<String> res = new ArrayList<>();
         for (Utilizador u : utilizadores) {
             res.add(u.toString());
@@ -44,10 +45,7 @@ public class Administrador implements AdministradorRemote {
     @Override
     public ArrayList<String> getListOfNonActiveUsers() {
 
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
-
-        List<Utilizador> utilizadores = userController.getListOfNonActiveUsers();
+        List<Utilizador> utilizadores = userFacade.getListOfNonActiveUsers();
         ArrayList<String> res = new ArrayList<>();
         for (Utilizador u : utilizadores) {
             res.add(u.toString());
@@ -58,10 +56,8 @@ public class Administrador implements AdministradorRemote {
 
     @Override
     public boolean addNewUser(String fields) {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
         try {
-            userController.create(fields);
+            userFacade.create(fields);
             return true;
 
         } catch (Exception e) {
@@ -71,11 +67,9 @@ public class Administrador implements AdministradorRemote {
 
     @Override
     public boolean deleteUser(int id) {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
 
         try {
-            userController.destroy(id);
+            userFacade.destroy(id);
             return true;
         } catch (Exception e) {
             return false;
@@ -83,10 +77,8 @@ public class Administrador implements AdministradorRemote {
     }
 
     public boolean isUserIdInDB(int id) {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
         boolean isPresent = false;
-        if (userController.findUtilizador(id) != null) {
+        if (userFacade.findUtilizador(id) != null) {
             isPresent = true;
         }
         return isPresent;
@@ -94,9 +86,7 @@ public class Administrador implements AdministradorRemote {
 
     @Override
     public boolean isUserUsernameInDB(String username) {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
-        List<Utilizador> utilizadores = userController.findUtilizadorByUsername(username);
+        List<Utilizador> utilizadores = userFacade.findUtilizadorByUsername(username);
 
         if (utilizadores.size() > 0) {
             return true;
@@ -106,9 +96,7 @@ public class Administrador implements AdministradorRemote {
 
     @Override
     public boolean isUserBiInDB(String bi) {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
-        List<Utilizador> utilizadores = userController.findUtilizadorByBi(bi);
+        List<Utilizador> utilizadores = userFacade.findUtilizadorByBi(bi);
 
         if (utilizadores.size() > 0) {
             return true;
@@ -118,9 +106,7 @@ public class Administrador implements AdministradorRemote {
 
     @Override
     public boolean isUserNifInDB(String nif) {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
-        List<Utilizador> utilizadores = userController.findUtilizadorByNif(nif);
+        List<Utilizador> utilizadores = userFacade.findUtilizadorByNif(nif);
 
         if (utilizadores.size() > 0) {
             return true;
@@ -130,28 +116,22 @@ public class Administrador implements AdministradorRemote {
 
     @Override
     public boolean login(String username, String password) {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
 
-        return userController.login(username, password);
+        return userFacade.login(username, password);
 
     }
 
     @Override
     public boolean hasRole(int userId, String role) {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
 
-        return userController.hasRole(userId, role);
+        return userFacade.hasRole(userId, role);
 
     }
 
     @Override
     public ArrayList<String> getUserRolesList(int userId) {
 
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
-        List<Perfil> perfis = userController.getUserRolesByUserId(userId);
+        List<Perfil> perfis = userFacade.getUserRolesByUserId(userId);
 
         ArrayList<String> res = new ArrayList<>();
         for (Perfil p : perfis) {
@@ -163,11 +143,9 @@ public class Administrador implements AdministradorRemote {
 
     @Override
     public boolean updateUserInformation(int userId, String fields) {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
 
         try {
-            userController.update(fields, userId);
+            userFacade.update(fields, userId);
             return true;
 
         } catch (Exception e) {
@@ -177,18 +155,14 @@ public class Administrador implements AdministradorRemote {
 
     @Override
     public boolean isActive(int userId) {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
-        return userController.isActive(userId);
+        return userFacade.isActive(userId);
     }
 
     @Override
     public boolean activeUser(int userId) {
 
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
         try {
-            userController.activeUser(userId);
+            userFacade.activeUser(userId);
             return true;
 
         } catch (Exception e) {
@@ -198,20 +172,16 @@ public class Administrador implements AdministradorRemote {
 
     @Override
     public int getUserIdByUsername(String username) {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
-        List<Utilizador> utilizadores = userController.findUtilizadorByUsername(username);
+        List<Utilizador> utilizadores = userFacade.findUtilizadorByUsername(username);
 
         return utilizadores.get(0).getIdUtilizador();
     }
 
     @Override
     public boolean addUserRole(int userId, int roleId) {
-        EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
 
         try {
-            userController.addUserRole(userId,roleId);
+            userFacade.addUserRole(userId,roleId);
             return true;
 
         } catch (Exception e) {
@@ -220,10 +190,8 @@ public class Administrador implements AdministradorRemote {
     }
     
     public boolean removeUserRole(int userId,int roleId) {
-    EntityManager em = dao.getEntityManager();
-        UtilizadorJpaController userController = new UtilizadorJpaController(em);
          try {
-            userController.removeUserRole(userId,roleId);
+            userFacade.removeUserRole(userId,roleId);
             return true;
 
         } catch (Exception e) {
@@ -236,10 +204,7 @@ public class Administrador implements AdministradorRemote {
     //ROLES
     @Override
     public ArrayList<String> getRolesList() {
-        EntityManager em = dao.getEntityManager();
-        PerfilJpaController perfilController = new PerfilJpaController(em);
-
-        List<Perfil> perfis = perfilController.getRolesList();
+        List<Perfil> perfis = perfilFacade.getRolesList();
         ArrayList<String> res = new ArrayList<>();
         for (Perfil u : perfis) {
             res.add(u.toString());
@@ -250,10 +215,7 @@ public class Administrador implements AdministradorRemote {
 
     @Override
     public String getRoleNameById(int roleId) {
-        EntityManager em = dao.getEntityManager();
-        PerfilJpaController perfilController = new PerfilJpaController(em);
-
-        return perfilController.getRoleNameById(roleId);
+        return perfilFacade.getRoleNameById(roleId);
 
     }
     
