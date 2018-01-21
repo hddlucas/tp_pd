@@ -10,14 +10,18 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,6 +52,16 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Utilizador.findByUltimoLogin", query = "SELECT u FROM Utilizador u WHERE u.ultimoLogin = :ultimoLogin")
     , @NamedQuery(name = "Utilizador.findByAtivo", query = "SELECT u FROM Utilizador u WHERE u.ativo = :ativo")})
 public class Utilizador implements Serializable {
+
+    @JoinTable(name = "utilizador_perfil", joinColumns = {
+        @JoinColumn(name = "id_utilizador", referencedColumnName = "id_utilizador")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_perfil", referencedColumnName = "id_perfil")})
+    @ManyToMany
+    private Collection<Perfil> perfilCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUtilizador")
+    private Collection<Proposta> propostaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUtilizador")
+    private Collection<AquisicaoProposta> aquisicaoPropostaCollection;
 
     private static final long serialVersionUID = 1L;
     @Id 
@@ -86,8 +100,7 @@ public class Utilizador implements Serializable {
     @Basic(optional = false)
     @Column(name = "ativo")
     private boolean ativo;
-    @ManyToMany(mappedBy = "utilizadorCollection")
-    private Collection<Perfil> perfilCollection;
+
 
     public Utilizador() {
     }
@@ -243,6 +256,25 @@ public class Utilizador implements Serializable {
     public String toString() {
         return "Id do Utilizador: " + idUtilizador + " Username: " + username + " Nome: " + nome + " BI: " + bi + " NIF: " + nif  +   " Pais: " + pais  +  " Cidade: " + cidade  +   " Codigo Postal: " + codigoPostal    +   " Contacto: " + contacto  + " Ativo: " + ativo +"" ;
 }
+
+
+    @XmlTransient
+    public Collection<Proposta> getPropostaCollection() {
+        return propostaCollection;
+    }
+
+    public void setPropostaCollection(Collection<Proposta> propostaCollection) {
+        this.propostaCollection = propostaCollection;
+    }
+
+    @XmlTransient
+    public Collection<AquisicaoProposta> getAquisicaoPropostaCollection() {
+        return aquisicaoPropostaCollection;
+    }
+
+    public void setAquisicaoPropostaCollection(Collection<AquisicaoProposta> aquisicaoPropostaCollection) {
+        this.aquisicaoPropostaCollection = aquisicaoPropostaCollection;
+    }
     
 }
 

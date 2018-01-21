@@ -58,7 +58,7 @@ public class UtilizadorJpaController implements Serializable {
             u.setPassword(userFields.getString("password"));
             u.setBi(userFields.getString("bi"));
             u.setNif(userFields.getString("nif"));
-            u.setAtivo(true);
+            u.setAtivo(false);
 
             em.persist(u);
 
@@ -144,9 +144,9 @@ public class UtilizadorJpaController implements Serializable {
             for (int i = 0; i < utilizadores.size(); i++) {
                 Utilizador u = utilizadores.get(i);
                 if (u.getPassword().equals(password)) {
-                    Date date = new Date();
-                    u.setUltimoLogin(new Timestamp(date.getTime()));
-                    em.refresh(u);
+                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                    u.setUltimoLogin(timestamp);
+                    em.merge(u);
                     return true;
                 }
             }

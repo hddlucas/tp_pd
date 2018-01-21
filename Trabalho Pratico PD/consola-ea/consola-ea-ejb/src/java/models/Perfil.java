@@ -34,6 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Perfil.findByDescricao", query = "SELECT p FROM Perfil p WHERE p.descricao = :descricao")})
 public class Perfil implements Serializable {
 
+    @ManyToMany(mappedBy = "perfilCollection")
+    private Collection<Utilizador> utilizadorCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -44,11 +47,7 @@ public class Perfil implements Serializable {
     private String perfil;
     @Column(name = "descricao")
     private String descricao;
-    @JoinTable(name = "utilizador_perfil", joinColumns = {
-        @JoinColumn(name = "id_perfil", referencedColumnName = "id_perfil")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_utilizador", referencedColumnName = "id_utilizador")})
-    @ManyToMany
-    private Collection<Utilizador> utilizadorCollection;
+
 
     public Perfil() {
     }
@@ -119,5 +118,7 @@ public class Perfil implements Serializable {
     public String toString() {
         return "Id do Perfil: " + idPerfil + " Perfil: " + descricao;
     }
+
+ 
     
 }
