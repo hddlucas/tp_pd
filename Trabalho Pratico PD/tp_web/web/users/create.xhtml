@@ -1,12 +1,91 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:body>
-        Hello from Facelets
-    </h:body>
-</html>
+        <ui:composition template="/template/commonLayout.xhtml">
 
+            <ui:define name="content">
+                <div class="ui-grid-col-12">
+                    <p:breadCrumb>
+                        <p:menuitem  value="" url="/" />
+                        <p:menuitem value="#{bundle.UtilizadoresTitle_vista}" outcome="index" />
+                    </p:breadCrumb>
+                </div>
+                <div class="ui-grid-col-12">
+                    <h1 class="page-title">
+                        #{bundle.UtilizadoresTitle_criar}
+                    </h1>
+                </div>
+                <div class="ui-grid-col-12">
+                    <h:form styleClass="form">
+                        <h:panelGrid columns="2">
+
+                            <h:outputLabel value="Username *"
+                                           for="username" />
+                            <h:inputText id="username"
+                                         value="#{utilizadoresBean.username}"
+                                         required="true"
+                                         requiredMessage="O campo username é obrigatório"/>
+                            <h:outputLabel value="Nome *"
+                                           for="nome"/>
+                            <h:inputText id="nome"
+                                         value="#{utilizadoresBean.nome}"
+                                         required="true"
+                                         requiredMessage="O campo Nome é obrigatório"/>
+
+                            <h:outputLabel for="pwd1" value="Password *" />  
+                            <p:password id="pwd1" value="#{utilizadoresBean.password}" match="pwd2" label="Password 1" required="true"/>  
+
+                            <h:outputLabel for="pwd2" value="Repita Password *" />  
+                            <p:password id="pwd2" value="#{utilizadoresBean.password}" label="Password 2" required="true"/>  
+
+
+                            <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI *" />  
+                            <h:inputText id="bi" value="#{utilizadoresBean.bi}"
+                                        required="true"
+                                        requiredMessage="O campo BI é obrigatório"/>
+
+                            <h:outputLabel for="nif" value="NIF *" />  
+                            <h:inputText id="nif" value="#{utilizadoresBean.nif}" 
+                                    required="true"
+                                    requiredMessage="O campo NIF é obrigatório"/>
+                            
+                            
+                            
+                            <h:outputLabel for="morada" value="Morada " />
+                            <p:inputTextarea id="morada" rows="5" cols="30" counter="display" maxlength="100" counterTemplate="{0} caracteres disponiveis." autoResize="false" />
+                            <h:outputLabel  />  
+                            <h:outputText id="display" />
+
+                            <h:outputLabel for="contacto" value="Contacto" />  
+                            <h:inputText id="contacto" value="#{utilizadoresBean.contacto}"/> 
+
+                            <h:outputLabel for="codigo_postal" value="Código Postal" />  
+                            <h:inputText id="codigo_postal" value="#{utilizadoresBean.codigoPostal}"/> 
+
+                            <h:outputLabel for="pais" value="País " />
+                            <h:selectOneMenu id="pais" value="#{paisJSFManagedBean.country}" >
+                                <f:selectItem itemLabel="Selecione um pais" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{paisJSFManagedBean.countries}" />
+                            </h:selectOneMenu>
+
+                            <h:outputLabel for="cidade" value="Cidade" />  
+                            <h:inputText id="cidade" value="#{utilizadoresBean.cidade}"/>  
+                        </h:panelGrid>
+                        <h:messages layout="table"
+                                    errorStyle="color:blue"/>
+                        <br />
+                        <h:commandLink action="#{utilizadoresBean.criarUtilizador}"
+                                       value="Inserir" />
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+
+</html>

@@ -5,6 +5,7 @@
  */
 package logica;
 
+import controllers.AquisicaoPropostaFacadeLocal;
 import controllers.PerfilFacade;
 import controllers.PerfilFacadeLocal;
 import controllers.UtilizadorFacade;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import models.AquisicaoProposta;
 import models.Perfil;
 import models.Utilizador;
 
@@ -29,6 +31,9 @@ public class Administrador implements AdministradorRemote {
     @EJB
     private PerfilFacadeLocal perfilFacade;
 
+    @EJB
+    private AquisicaoPropostaFacadeLocal acquisitionFacade ;
+    
     //USERS
     @Override
     public ArrayList<String> getUsersList() {
@@ -218,9 +223,18 @@ public class Administrador implements AdministradorRemote {
         return perfilFacade.getRoleNameById(roleId);
 
     }
-    
 
-    
+    @Override
+    public ArrayList<String> getAcquisitionProposals() {
+
+        List<AquisicaoProposta> proposals = acquisitionFacade.getAcquisitionProposals();
+        ArrayList<String> res = new ArrayList<>();
+        for (AquisicaoProposta u : proposals) {
+            res.add(u.toString());
+        }
+
+        return res;
+    }    
     
 
 }

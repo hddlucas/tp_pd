@@ -10,7 +10,8 @@ and open the template in the editor.
 
 /*****************GLOBAL CONFIGURATIONS***********/
 .page-title{
-    color: #7d222b;
+    color: #248b8c;
+    font-size: 24px;
 
 }
 
@@ -24,28 +25,39 @@ and open the template in the editor.
 }
 
 .main .ui-button{
-    background-color: #7d222b;
+    background-color: #248b8c;
     color:white;
     text-shadow: none;
     background-image: none;
     margin-bottom: 2rem;
+    font-size: 15px;
 }
+
+.ui-breadcrumb{
+    border:none!important;
+    background: none!important;
+}
+
+
 /*****************SIDEBAR***********/
 
 .sidebar .ui-menu .ui-menuitem-link:hover{
-    background-color: #7d222b;
+    background-color: #248b8c;
     color:white;
     text-shadow: none;
     background-image: none;
 }
 
+.sidebar .ui-menu {
+    width: 100%;
+}
 
 
 
 
 /*****************HEADER***********/
 .header .ui-layout-unit-content {
-    background-color: #7d222b;
+    background-color: #248b8c;
 }
 
 .header .title {
@@ -62,7 +74,7 @@ and open the template in the editor.
 /*****************FOOTER***********/
 
 .footer .ui-layout-unit-content {
-    background-color: #7d222b;
+    background-color: #248b8c;
 }
 
 .footer .authors{
@@ -77,7 +89,7 @@ and open the template in the editor.
 
 /***************LOGIN***********/
 .loginContainer {
-    background-color: #7d222b;
+    background-color: #248b8c;
 }
 
 .loginBox {
@@ -109,7 +121,7 @@ and open the template in the editor.
     margin-top: 15px;
 }
 .loginBox button{
-    background-color: #7d222b;
+    background-color: #248b8c;
     color: white;
     width:100%;
     display: unset;
@@ -128,18 +140,19 @@ and open the template in the editor.
 .loginBox a.register-label{
     float: right;
     margin-top: 1rem;
-    color: #7d222b;
+    color: #248b8c;
 }
 .loginBox a.home-label{
     float: left;
     margin-top: 1rem;
-    color: #7d222b;
+    color: #248b8c;
 }
 
-/***************REGISTER***********/
 
+
+/***************REGISTER***********/
 .registerContainer {
-    background-color: #7d222b;
+    background-color: #248b8c!important;
 
 }
 
@@ -177,8 +190,6 @@ and open the template in the editor.
 }
 
 
-
-
 .registerBox .ui-selectonemenu{
     width: 100% !important;
 }
@@ -196,7 +207,7 @@ and open the template in the editor.
     margin-top: 15px;
 }
 .registerBox button{
-    background-color: #7d222b;
+    background-color: #248b8c;
     color: white;
     width:100%;
     display: unset;
@@ -216,6 +227,116 @@ and open the template in the editor.
 .registerBox a.login-label{
     float: right;
     margin-top: 1rem;
-    color: #7d222b;
+    color: #248b8c;
 }
 
+/***************FORMS***********/
+
+.form  {
+    margin-top: 20px;
+}
+
+.form td{
+    text-align: left;
+}
+
+
+.form td:first-of-type {
+    width: 200px;
+
+}
+
+.form label {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.form input,textarea {
+    width: 90%!important;
+    float: left;
+}
+
+.form .ui-widget-content a{
+    font-weight: bold;
+}
+
+.form  a{
+    padding-bottom : 20px;
+           
+}
+
+
+.form  a:hover{
+    color:#248b8c!important;
+}
+
+
+/***************DATATABLE***********/
+table {
+
+    empty-cells: show;
+    width: 100%;
+    text-align: center;
+
+}
+
+form.list_form th, td th {
+
+    font-size: x-small;
+    color: #4e6a71;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-color: #b2d5d6;
+    border-bottom-color: #b2d5d6;
+    border-left-color: #90b4bd;
+    border-right-color: #90b4bd;
+    letter-spacing: 3px;
+    text-align: left;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 6px;
+    padding-right: 6px;
+    background-color: #b2d5d6;
+
+}
+
+
+td {
+    vertical-align: top;
+    padding-bottom: 8px;
+    font-size: small;
+}
+
+
+form.list_form td, td td {
+
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-color: #b2d5d6;
+    border-bottom-color: #b2d5d6;
+    border-left-color: #b2d5d6;
+    border-right-color: #b2d5d6;
+    vertical-align: baseline;
+    padding-bottom: 0px;
+
+}
+
+tr.linhas_impares {
+    background-color: #f5f5f5;
+}
+
+
+tr.linhas_pares {
+}

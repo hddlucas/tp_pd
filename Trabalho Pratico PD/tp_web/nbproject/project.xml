@@ -10,6 +10,9 @@
                     <file>${file.reference.primefaces-5.1.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+                <library dirs="100">
+                    <file>${reference.consola-ea-ejb.dist}</file>
+                </library>
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>
@@ -19,5 +22,15 @@
                 <root id="test.src.dir"/>
             </test-roots>
         </data>
+        <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
+            <reference>
+                <foreign-project>consola-ea-ejb</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>dist</target>
+                <clean-target>clean</clean-target>
+                <id>dist</id>
+            </reference>
+        </references>
     </configuration>
 </project>

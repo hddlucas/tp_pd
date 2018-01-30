@@ -42,6 +42,7 @@ public interface AdministradorRemote {
     ArrayList<String> getRolesList();
     String getRoleNameById(int roleId);
    
-    
+    //PROCESSES
+    ArrayList<String> getAcquisitionProposals();
     
 }

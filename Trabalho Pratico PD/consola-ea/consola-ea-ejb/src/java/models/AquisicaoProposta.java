@@ -39,10 +39,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AquisicaoProposta implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id_aquisicao")
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @Column(name = "id_aquisicao", insertable = false , columnDefinition = "serial") 
     private Integer idAquisicao;
     @Column(name = "valor_max")
     private Integer valorMax;
@@ -156,7 +155,7 @@ public class AquisicaoProposta implements Serializable {
 
     @Override
     public String toString() {
-        return "models.AquisicaoProposta[ idAquisicao=" + idAquisicao + " ]";
+        return "Id da Proposta de Aquisicao: " + idAquisicao + " Proposta por : " + idUtilizador + " Id do Produto: " + idProduto + " Valor Maximo de Aquisicao: " + valorMax + " Criada em : " + createdAt + "";
     }
     
 }
