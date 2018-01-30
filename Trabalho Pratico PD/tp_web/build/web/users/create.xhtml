@@ -22,7 +22,8 @@
                     </h1>
                 </div>
                 <div class="ui-grid-col-12">
-                    <h:form styleClass="form">
+                    
+                    <h:form styleClass="form" id="form">
                         <h:panelGrid columns="2">
 
                             <h:outputLabel value="Username *"
@@ -30,7 +31,9 @@
                             <h:inputText id="username"
                                          value="#{utilizadoresBean.username}"
                                          required="true"
-                                         requiredMessage="O campo username é obrigatório"/>
+                                         requiredMessage="O campo username é obrigatório"
+                                         validator="#{utilizadoresBean.validateUsername}">
+                            </h:inputText>
                             <h:outputLabel value="Nome *"
                                            for="nome"/>
                             <h:inputText id="nome"
@@ -38,24 +41,26 @@
                                          required="true"
                                          requiredMessage="O campo Nome é obrigatório"/>
 
-                            <h:outputLabel for="pwd1" value="Password *" />  
-                            <p:password id="pwd1" value="#{utilizadoresBean.password}" match="pwd2" label="Password 1" required="true"/>  
+                            <h:outputLabel for="password" value="Password *" />  
+                            <p:password id="password" value="#{utilizadoresBean.password}" match="password2" label="Password 1" required="true"/>  
 
-                            <h:outputLabel for="pwd2" value="Repita Password *" />  
-                            <p:password id="pwd2" value="#{utilizadoresBean.password}" label="Password 2" required="true"/>  
+                            <h:outputLabel for="password2" value="Repita Password *" />  
+                            <p:password id="password2" value="#{utilizadoresBean.password}" label="Password 2" required="true"/>  
 
 
                             <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI *" />  
                             <h:inputText id="bi" value="#{utilizadoresBean.bi}"
-                                        required="true"
-                                        requiredMessage="O campo BI é obrigatório"/>
+                                         required="true"
+                                         requiredMessage="O campo BI é obrigatório"
+                                         validator="#{utilizadoresBean.validateBi}"/>
+
 
                             <h:outputLabel for="nif" value="NIF *" />  
                             <h:inputText id="nif" value="#{utilizadoresBean.nif}" 
-                                    required="true"
-                                    requiredMessage="O campo NIF é obrigatório"/>
-                            
-                            
+                                         required="true"
+                                         requiredMessage="O campo NIF é obrigatório"
+                                         validator="#{utilizadoresBean.validateNif}"/>
+
                             
                             <h:outputLabel for="morada" value="Morada " />
                             <p:inputTextarea id="morada" rows="5" cols="30" counter="display" maxlength="100" counterTemplate="{0} caracteres disponiveis." autoResize="false" />
@@ -69,9 +74,9 @@
                             <h:inputText id="codigo_postal" value="#{utilizadoresBean.codigoPostal}"/> 
 
                             <h:outputLabel for="pais" value="País " />
-                            <h:selectOneMenu id="pais" value="#{paisJSFManagedBean.country}" >
+                            <h:selectOneMenu id="pais" value="#{utilizadoresBean.pais}" >
                                 <f:selectItem itemLabel="Selecione um pais" itemValue="" noSelectionOption="true" />
-                                <f:selectItems value="#{paisJSFManagedBean.countries}" />
+                                <f:selectItems value="#{paisBean.countries}" />
                             </h:selectOneMenu>
 
                             <h:outputLabel for="cidade" value="Cidade" />  

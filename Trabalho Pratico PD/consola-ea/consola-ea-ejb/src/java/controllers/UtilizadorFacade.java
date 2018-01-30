@@ -58,6 +58,24 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             u.setPassword(userFields.getString("password"));
             u.setBi(userFields.getString("bi"));
             u.setNif(userFields.getString("nif"));
+            
+            if(userFields.has("morada")){
+                u.setMorada(userFields.getString("morada"));
+            }
+            if(userFields.has("contacto")){
+                u.setContacto(userFields.getString("contacto"));
+            }
+            if(userFields.has("codigo_postal")){
+                u.setCodigoPostal(userFields.getString("codigo_postal"));
+            }
+            if(userFields.has("cidade")){
+                u.setCidade(userFields.getString("cidade"));
+            }
+             if(userFields.has("pais")){
+                u.setPais(userFields.getString("pais"));
+            }
+
+
             u.setAtivo(false);
 
             dAO.getEntityManager().persist(u);
