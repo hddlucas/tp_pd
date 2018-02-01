@@ -21,9 +21,19 @@
                         #{utilizadoresBean.user.nome}
                     </h1>
                 </div>
+
+                <div class="ui-grid-col-12">
+                    <p:commandButton  value="Eliminar" styleClass="top-delete-button" onclick="if (!confirm('Tem a certeza que deseja eliminar o utilizador?'))
+                                return false" action="#{utilizadoresBean.destroy(utilizadoresBean.user.idUtilizador)}"  icon="ui-icon-trash white"    >
+                    </p:commandButton> 
+
+                    <p:commandButton  value="Editar" styleClass="top-edit-button" action="#{utilizadoresBean.edit(utilizadoresBean.user)}"  icon="ui-icon-pencil white"    >
+                    </p:commandButton> 
+                </div>
+
                 <div class="ui-grid-col-12">
                     <h:form styleClass="form" id="form">
-                        
+
                         <h:panelGrid columns="2">
 
                             <h:outputLabel value="Username" for="username" />
@@ -52,7 +62,7 @@
 
                             <h:outputLabel for="cidade" value="Cidade" />  
                             <h:outputText id="cidade" value="#{utilizadoresBean.user.cidade}"/>  
-                     
+
                         </h:panelGrid>
                     </h:form>
                 </div>

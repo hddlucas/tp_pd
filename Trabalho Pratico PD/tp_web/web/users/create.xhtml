@@ -22,7 +22,6 @@
                     </h1>
                 </div>
                 <div class="ui-grid-col-12">
-
                     <h:form styleClass="form" id="form">
                         <h:panelGrid columns="2">
 
@@ -85,8 +84,8 @@
                         <p:growl id="msgs" showDetail="true" />
 
                         <br />
-                        <h:commandLink action="#{utilizadoresBean.create}"
-                                       value="Inserir" />
+                        <p:commandButton  styleClass="create-button" value="Criar"  action="#{utilizadoresBean.create}" >
+                        </p:commandButton> 
                     </h:form>
                 </div>
             </ui:define>

@@ -61,7 +61,6 @@ public class UtilizadoresBean implements Serializable {
 
     public String create() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
-
         try {
             JsonObjectBuilder userFields = Json.createObjectBuilder();
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -89,7 +88,6 @@ public class UtilizadoresBean implements Serializable {
                     .getFlash().setKeepMessages(true);
 
             return "index.xhtml";
-
         }
     }
 
@@ -100,6 +98,44 @@ public class UtilizadoresBean implements Serializable {
     public String show(Utilizador u) {
         this.user = u;
         return "user.xhtml";
+    }
+
+    public String edit(Utilizador u) throws Exception {
+        this.user = u;
+        return "edit.xhtml";
+    }
+
+    public String update(Utilizador u) throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            this.user = u;
+            JsonObjectBuilder userFields = Json.createObjectBuilder();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+            userFields.add("nome", request.getParameter("form:nome"));
+            userFields.add("password", request.getParameter("form:password"));
+            userFields.add("bi", request.getParameter("form:bi"));
+            userFields.add("nif", request.getParameter("form:nif"));
+            userFields.add("morada", request.getParameter("form:morada"));
+            userFields.add("contacto", request.getParameter("form:contacto"));
+            userFields.add("codigo_postal", request.getParameter("form:codigo_postal"));
+            userFields.add("cidade", request.getParameter("form:cidade"));
+            userFields.add("pais", request.getParameter("form:pais"));
+
+            JsonObject fieldsObject = userFields.build();
+            utilizadorFacade.update(fieldsObject.toString(),u.getIdUtilizador());
+            context.addMessage("growl", new FacesMessage("Informacao do utilizador atualizada com sucesso"));
+
+        } catch (Exception ex) {
+            context.addMessage("growl", new FacesMessage("Ocorreu um erro ao atualizar a Informacao do utilizador"));
+        } finally {
+            FacesContext.getCurrentInstance()
+                    .getExternalContext()
+                    .getFlash().setKeepMessages(true);
+            
+            return this.show(u);
+        }
+
     }
 
     public String destroy(int id) throws Exception {
@@ -115,9 +151,7 @@ public class UtilizadoresBean implements Serializable {
                     .getExternalContext()
                     .getFlash().setKeepMessages(true);
 
-            String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-            return viewId + "?faces-redirect=true";
-
+            return "index.xhtml";
         }
     }
 

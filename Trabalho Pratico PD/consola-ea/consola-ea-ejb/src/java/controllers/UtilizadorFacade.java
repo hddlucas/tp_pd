@@ -68,13 +68,12 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             if(userFields.has("codigo_postal")){
                 u.setCodigoPostal(userFields.getString("codigo_postal"));
             }
+            if(userFields.has("pais")){
+                u.setPais(userFields.getString("pais"));
+            }
             if(userFields.has("cidade")){
                 u.setCidade(userFields.getString("cidade"));
             }
-             if(userFields.has("pais")){
-                u.setPais(userFields.getString("pais"));
-            }
-
 
             u.setAtivo(false);
 
@@ -89,15 +88,28 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
     @Override
     public void update(String fields, int userId) throws Exception {
         try {
-
             Utilizador u = (Utilizador) dAO.getEntityManager().find(Utilizador.class, userId);
-
             JSONObject userFields = new JSONObject(fields);
-            u.setPais(userFields.getString("pais"));
-            u.setCidade(userFields.getString("cidade"));
-            u.setCodigoPostal(userFields.getString("codigo_postal"));
-            u.setContacto(userFields.getString("contacto"));
 
+            if(userFields.has("nome")){
+                u.setPassword(userFields.getString("nome"));
+            }
+            if(userFields.has("password")){
+                u.setPassword(userFields.getString("password"));
+            }
+            if(userFields.has("codigo_postal")){
+                u.setCodigoPostal(userFields.getString("codigo_postal"));
+            }
+            if(userFields.has("contacto")){
+                u.setContacto(userFields.getString("contacto"));
+            }
+            if(userFields.has("pais")){
+                u.setPais(userFields.getString("pais"));
+            }
+            if(userFields.has("cidade")){
+                u.setCidade(userFields.getString("cidade"));
+            }
+            
             dAO.getEntityManager().merge(u);
 
         } catch (Exception ex) {

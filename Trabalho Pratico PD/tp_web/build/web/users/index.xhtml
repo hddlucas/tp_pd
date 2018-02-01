@@ -15,20 +15,17 @@
                         #{bundle.UtilizadoresTitle_vista}
                     </h1>
                 </div>
-                <p:button outcome="create" value="Adicionar Utilizador" icon="ui-icon-plus white">
-                </p:button>
+                <p:button outcome="create" value="Adicionar Utilizador"/>
 
                 <div class="ui-grid-col-12">
                     <h:form>
-
-
                         <p:dataTable id="usersList" var="user" value="#{utilizadoresBean.list}">
                             <p:column headerText="Id">
-                                <h:link outcome = "user" value="#{user.idUtilizador}" onclick="#{utilizadoresBean.show(user)}"/>
+                                <h:outputText value="#{user.idUtilizador}" />
                             </p:column>
 
                             <p:column headerText="Username">
-                                <h:link outcome = "user" value="#{user.username}" onclick="#{utilizadoresBean.show(user)}"/>
+                                <h:outputText value="#{user.username}" />
                             </p:column>
 
                             <p:column headerText="Nome">
@@ -51,9 +48,9 @@
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>
-
+                        
                         <p:growl id="msgs" showDetail="true" />
-
+                        
                     </h:form>
                 </div>
             </ui:define>

@@ -42,6 +42,30 @@ and open the template in the editor.
     border-color:  red;
 }
 
+.ui-button.top-delete-button{
+    background-color: red;
+    position: absolute!important;
+    right: 50px!important;
+    top: 30px!important;
+}
+
+
+.ui-button.top-edit-button{
+    background-color: #248b8c;
+    position: absolute!important;
+    right: 168px!important;
+    top: 30px!important;
+}
+
+.ui-button.create-button{
+    float: right;
+    margin-right: 130px!important;
+}
+
+.ui-button.edit-button{
+    float: right;
+    margin-right: 130px!important;
+}
 
 /*****************ICONS***********/
 .ui-icon.white { background-image: url("../../faces/javax.faces.resource/images/ui-icons_ffffff_256x240.png?ln=primefaces-aristo")!important; }
