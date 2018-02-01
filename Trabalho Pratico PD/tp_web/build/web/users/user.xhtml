@@ -2,21 +2,62 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      >
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:body>
-
-        <ui:composition template="template/commonLayout.xhtml">
+        <ui:composition template="/template/commonLayout.xhtml">
 
             <ui:define name="content">
-                <h1 class="page-title">
-                    Lista de Utilizadores
-                </h1>
+                <div class="ui-grid-col-12">
+                    <p:breadCrumb>
+                        <p:menuitem  value="" url="/" />
+                        <p:menuitem value="#{bundle.UtilizadoresTitle_vista}" outcome="index" />
+                    </p:breadCrumb>
+                </div>
+                <div class="ui-grid-col-12">
+                    <h1 class="page-title">
+                        #{utilizadoresBean.user.nome}
+                    </h1>
+                </div>
+                <div class="ui-grid-col-12">
+                    <h:form styleClass="form" id="form">
+                        
+                        <h:panelGrid columns="2">
+
+                            <h:outputLabel value="Username" for="username" />
+                            <h:outputText id="username" value="#{utilizadoresBean.user.username}"/>
+
+                            <h:outputLabel value="Nome" for="nome"/>
+                            <h:outputText id="nome" value="#{utilizadoresBean.user.nome}"/>
+
+                            <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI" />  
+                            <h:outputText id="bi" value="#{utilizadoresBean.user.bi}"/>
+
+                            <h:outputLabel for="nif" value="NIF" />  
+                            <h:outputText id="nif" value="#{utilizadoresBean.user.nif}"/>
+
+                            <h:outputLabel for="morada" value="Morada"/>
+                            <h:outputText  id="morada"   value="#{utilizadoresBean.user.morada}"/>
+
+                            <h:outputLabel for="contacto" value="Contacto"/>  
+                            <h:outputText id="contacto" value="#{utilizadoresBean.user.contacto}"/> 
+
+                            <h:outputLabel for="codigo_postal" value="Código Postal" />  
+                            <h:outputText id="codigo_postal" value="#{utilizadoresBean.user.codigoPostal}"/> 
+
+                            <h:outputLabel for="pais" value="País" />
+                            <h:outputText  value="#{utilizadoresBean.user.pais}"/>
+
+                            <h:outputLabel for="cidade" value="Cidade" />  
+                            <h:outputText id="cidade" value="#{utilizadoresBean.user.cidade}"/>  
+                     
+                        </h:panelGrid>
+                    </h:form>
+                </div>
             </ui:define>
-
         </ui:composition>
-
     </h:body>
 
 </html>

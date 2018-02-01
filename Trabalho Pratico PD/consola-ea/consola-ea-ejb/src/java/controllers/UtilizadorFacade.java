@@ -106,16 +106,12 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
     }
 
     @Override
-    public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws Exception  {
         try {
-            Utilizador utilizador = (Utilizador) dAO.getEntityManager().find(Utilizador.class, id);
-            dAO.getEntityManager().remove(utilizador);
+            Utilizador u = dAO.getEntityManager().find(Utilizador.class, id);
+            dAO.getEntityManager().createQuery("DELETE FROM Utilizador u WHERE u.idUtilizador = :id").setParameter("id", id).executeUpdate();
 
-        } catch (Exception ex) {
-            try {
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
+        } catch (Exception ex) { 
             throw ex;
         }
     }

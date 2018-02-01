@@ -22,25 +22,38 @@
                     <h:form>
 
 
-                        <p:dataTable id="usersList" var="user" value="#{utilizadoresBean.lista}">
+                        <p:dataTable id="usersList" var="user" value="#{utilizadoresBean.list}">
                             <p:column headerText="Id">
-                                <h:outputText value="#{user.idUtilizador}" />
+                                <h:link outcome = "user" value="#{user.idUtilizador}" onclick="#{utilizadoresBean.show(user)}"/>
                             </p:column>
+
                             <p:column headerText="Username">
-                                <h:outputText value="#{user.username}" />
+                                <h:link outcome = "user" value="#{user.username}" onclick="#{utilizadoresBean.show(user)}"/>
                             </p:column>
+
                             <p:column headerText="Nome">
                                 <h:outputText value="#{user.nome}" />
                             </p:column>
                             <p:column headerText="NIF">
                                 <h:outputText value="#{user.nif}" />
                             </p:column>
-                            
-                             <p:column headerText="Ativo">
-                                 <h:outputText value="#{user.ativo eq true ? 'Sim' : 'Não'}  " />
+
+                            <p:column headerText="Ativo">
+                                <h:outputText value="#{user.ativo eq true ? 'Sim' : 'Não'}  " />
                             </p:column>
-                            
+
+                            <p:column style="width:80px;text-align: center">
+                                <p:commandButton onclick="if (!confirm('Tem a certeza que deseja eliminar o utilizador?'))
+                                            return false" action="#{utilizadoresBean.destroy(user.idUtilizador)}"  icon="ui-icon-trash white"  styleClass="delete-button"  >
+                                </p:commandButton> 
+
+                                <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{utilizadoresBean.show(user)}">
+                                </p:commandButton>
+                            </p:column>
                         </p:dataTable>
+
+                        <p:growl id="msgs" showDetail="true" />
+
                     </h:form>
                 </div>
             </ui:define>

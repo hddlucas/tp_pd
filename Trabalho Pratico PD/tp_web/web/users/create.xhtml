@@ -22,7 +22,7 @@
                     </h1>
                 </div>
                 <div class="ui-grid-col-12">
-                    
+
                     <h:form styleClass="form" id="form">
                         <h:panelGrid columns="2">
 
@@ -61,7 +61,7 @@
                                          requiredMessage="O campo NIF é obrigatório"
                                          validator="#{utilizadoresBean.validateNif}"/>
 
-                            
+
                             <h:outputLabel for="morada" value="Morada " />
                             <p:inputTextarea id="morada" rows="5" cols="30" counter="display" maxlength="100" counterTemplate="{0} caracteres disponiveis." autoResize="false" />
                             <h:outputLabel  />  
@@ -82,10 +82,10 @@
                             <h:outputLabel for="cidade" value="Cidade" />  
                             <h:inputText id="cidade" value="#{utilizadoresBean.cidade}"/>  
                         </h:panelGrid>
-                        <h:messages layout="table"
-                                    errorStyle="color:blue"/>
+                        <p:growl id="msgs" showDetail="true" />
+
                         <br />
-                        <h:commandLink action="#{utilizadoresBean.criarUtilizador}"
+                        <h:commandLink action="#{utilizadoresBean.create}"
                                        value="Inserir" />
                     </h:form>
                 </div>

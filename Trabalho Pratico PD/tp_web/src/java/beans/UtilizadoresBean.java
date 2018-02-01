@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.json.Json;
@@ -33,7 +34,7 @@ public class UtilizadoresBean implements Serializable {
 
     @EJB
     private UtilizadorFacadeLocal utilizadorFacade;
-
+    private Utilizador user = new Utilizador();
     private Integer idUtilizador;
     private String nome;
     private String username;
@@ -54,31 +55,70 @@ public class UtilizadoresBean implements Serializable {
     public UtilizadoresBean() {
     }
 
-    public List<Utilizador> getLista() {
+    public List<Utilizador> getList() {
         return utilizadorFacade.getUsersList();
     }
 
-    public boolean criarUtilizador() throws Exception {
+    public String create() throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
 
-        JsonObjectBuilder userFields = Json.createObjectBuilder();
+        try {
+            JsonObjectBuilder userFields = Json.createObjectBuilder();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-    
-        userFields.add("nome",request.getParameter("form:nome"));
-        userFields.add("username",request.getParameter("form:username"));
-        userFields.add("password",request.getParameter("form:password"));
-        userFields.add("bi",request.getParameter("form:bi"));
-        userFields.add("nif",request.getParameter("form:nif"));
-        userFields.add("morada",request.getParameter("form:morada"));
-        userFields.add("contacto",request.getParameter("form:contacto"));
-        userFields.add("codigo_postal",request.getParameter("form:codigo_postal"));
-        userFields.add("cidade",request.getParameter("form:cidade"));
-        userFields.add("pais",request.getParameter("form:pais"));
+            userFields.add("nome", request.getParameter("form:nome"));
+            userFields.add("username", request.getParameter("form:username"));
+            userFields.add("password", request.getParameter("form:password"));
+            userFields.add("bi", request.getParameter("form:bi"));
+            userFields.add("nif", request.getParameter("form:nif"));
+            userFields.add("morada", request.getParameter("form:morada"));
+            userFields.add("contacto", request.getParameter("form:contacto"));
+            userFields.add("codigo_postal", request.getParameter("form:codigo_postal"));
+            userFields.add("cidade", request.getParameter("form:cidade"));
+            userFields.add("pais", request.getParameter("form:pais"));
 
-        JsonObject fieldsObject = userFields.build();
+            JsonObject fieldsObject = userFields.build();
+            utilizadorFacade.create(fieldsObject.toString());
+            context.addMessage("growl", new FacesMessage("Utilizador criado com sucesso"));
 
-        utilizadorFacade.create(fieldsObject.toString());
-        return true;
+        } catch (Exception ex) {
+            context.addMessage("growl", new FacesMessage("Ocorreu um problema ao criar o utilizador"));
+        } finally {
+            FacesContext.getCurrentInstance()
+                    .getExternalContext()
+                    .getFlash().setKeepMessages(true);
+
+            return "index.xhtml";
+
+        }
+    }
+
+    public Utilizador getUser() {
+        return this.user;
+    }
+
+    public String show(Utilizador u) {
+        this.user = u;
+        return "user.xhtml";
+    }
+
+    public String destroy(int id) throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            utilizadorFacade.destroy(id);
+            context.addMessage("growl", new FacesMessage("Utilizador Removido com sucesso"));
+
+        } catch (Exception ex) {
+            context.addMessage("growl", new FacesMessage("Ocorreu um problema ao eliminar o utilizador"));
+        } finally {
+            FacesContext.getCurrentInstance()
+                    .getExternalContext()
+                    .getFlash().setKeepMessages(true);
+
+            String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+            return viewId + "?faces-redirect=true";
+
+        }
     }
 
     //PROPRIEDADES

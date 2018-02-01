@@ -41,6 +41,13 @@ and open the template in the editor.
 .inputInvalid{
     border-color:  red;
 }
+
+
+/*****************ICONS***********/
+.ui-icon.white { background-image: url("../../faces/javax.faces.resource/images/ui-icons_ffffff_256x240.png?ln=primefaces-aristo")!important; }
+
+
+
 /*****************SIDEBAR***********/
 
 .sidebar .ui-menu .ui-menuitem-link:hover{
@@ -55,8 +62,6 @@ and open the template in the editor.
 }
 
 
-
-
 /*****************HEADER***********/
 .header .ui-layout-unit-content {
     background-color: #248b8c;
@@ -65,10 +70,6 @@ and open the template in the editor.
 .header .title {
     color:#fff;
     margin-left: 10px;
-}
-
-.ui-icon.white {
-    background-image: url("../javax.faces.resource/images/ui-icons_ffffff_256x240.png.jsf?ln=primefaces-aristo")!important;
 }
 
 
@@ -279,8 +280,16 @@ table {
     empty-cells: show;
     width: 100%;
     text-align: center;
-
 }
+
+table .ui-button{
+    margin-bottom: 0!important;
+}
+
+table .delete-button{
+    background-color: red!important;
+}
+
 
 form.list_form th, td th {
 
