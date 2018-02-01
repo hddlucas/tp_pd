@@ -60,13 +60,36 @@ and open the template in the editor.
 .ui-button.create-button{
     float: right;
     margin-right: 130px!important;
+    width: 90.5px!important;
+    line-height: 32px!important;
+    padding-bottom: 0!important;
 }
 
-.ui-button.edit-button{
+.ui-button.cancel-button{
+    float: right;
+    margin-right: 10px!important;
+    width: 90.5px!important;
+    line-height: 32px!important;
+    padding-bottom: 0!important;
+    background-color: red!important;
+}
+
+
+.ui-button.update-button{
     float: right;
     margin-right: 130px!important;
+    width: 90.5px!important;
+    line-height: 32px!important;
+    padding-bottom: 0!important;
 }
 
+.ui-button.create-button:hover{
+    color:white!important;
+}
+
+.ui-button.update-button:hover{
+    color:white!important;
+}
 /*****************ICONS***********/
 .ui-icon.white { background-image: url("../../faces/javax.faces.resource/images/ui-icons_ffffff_256x240.png?ln=primefaces-aristo")!important; }
 

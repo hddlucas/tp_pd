@@ -48,7 +48,7 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
     }
 
     @Override
-    public void create(String fields) throws RollbackFailureException, Exception {
+    public Utilizador create(String fields) throws RollbackFailureException, Exception {
         try {
 
             JSONObject userFields = new JSONObject(fields);
@@ -79,6 +79,8 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
 
             dAO.getEntityManager().persist(u);
 
+            return u;
+            
         } catch (Exception ex) {
             throw ex;
         }
@@ -92,7 +94,7 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             JSONObject userFields = new JSONObject(fields);
 
             if(userFields.has("nome")){
-                u.setPassword(userFields.getString("nome"));
+                u.setNome(userFields.getString("nome"));
             }
             if(userFields.has("password")){
                 u.setPassword(userFields.getString("password"));
@@ -100,6 +102,11 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             if(userFields.has("codigo_postal")){
                 u.setCodigoPostal(userFields.getString("codigo_postal"));
             }
+            
+             if(userFields.has("morada")){
+                u.setMorada(userFields.getString("morada"));
+            }
+            
             if(userFields.has("contacto")){
                 u.setContacto(userFields.getString("contacto"));
             }

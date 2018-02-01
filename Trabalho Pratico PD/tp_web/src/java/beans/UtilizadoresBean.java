@@ -77,17 +77,18 @@ public class UtilizadoresBean implements Serializable {
             userFields.add("pais", request.getParameter("form:pais"));
 
             JsonObject fieldsObject = userFields.build();
-            utilizadorFacade.create(fieldsObject.toString());
-            context.addMessage("growl", new FacesMessage("Utilizador criado com sucesso"));
+            this.user = utilizadorFacade.create(fieldsObject.toString());
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Utilizador criado com sucesso"));
 
         } catch (Exception ex) {
-            context.addMessage("growl", new FacesMessage("Ocorreu um problema ao criar o utilizador"));
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um erro ao criar o utilizador"));
+
+            return "create.xhtml?faces-redirect=true?";
         } finally {
-            FacesContext.getCurrentInstance()
+            context.getCurrentInstance()
                     .getExternalContext()
                     .getFlash().setKeepMessages(true);
-
-            return "index.xhtml";
+            return "user.xhtml?faces-redirect=true?";
         }
     }
 
@@ -123,35 +124,35 @@ public class UtilizadoresBean implements Serializable {
             userFields.add("pais", request.getParameter("form:pais"));
 
             JsonObject fieldsObject = userFields.build();
-            utilizadorFacade.update(fieldsObject.toString(),u.getIdUtilizador());
-            context.addMessage("growl", new FacesMessage("Informacao do utilizador atualizada com sucesso"));
+            utilizadorFacade.update(fieldsObject.toString(), this.user.getIdUtilizador());
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Informacao do utilizador atualizada com sucesso"));
 
         } catch (Exception ex) {
-            context.addMessage("growl", new FacesMessage("Ocorreu um erro ao atualizar a Informacao do utilizador"));
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um erro ao atualizar a Informacao do utilizador"));
+
         } finally {
             FacesContext.getCurrentInstance()
                     .getExternalContext()
                     .getFlash().setKeepMessages(true);
-            
-            return this.show(u);
+            return "user.xhtml?faces-redirect=true?";
         }
-
     }
 
     public String destroy(int id) throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
             utilizadorFacade.destroy(id);
-            context.addMessage("growl", new FacesMessage("Utilizador Removido com sucesso"));
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Utilizador Removido com sucesso"));
 
         } catch (Exception ex) {
-            context.addMessage("growl", new FacesMessage("Ocorreu um problema ao eliminar o utilizador"));
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um problema ao eliminar o utilizador"));
+
         } finally {
             FacesContext.getCurrentInstance()
                     .getExternalContext()
                     .getFlash().setKeepMessages(true);
 
-            return "index.xhtml";
+            return "index.xhtml?faces-redirect=true";
         }
     }
 

@@ -25,6 +25,8 @@
                 </div>
                 <div class="ui-grid-col-12">
                     <h:form styleClass="form" id="form">
+                            <p:growl id="msgs" showDetail="true" />
+
                         <h:panelGrid columns="2">
 
                            <h:outputLabel value="Username" for="username" />
@@ -78,11 +80,14 @@
                             <h:outputLabel for="cidade" value="Cidade" />  
                             <h:inputText id="cidade" value="#{utilizadoresBean.user.cidade}"/>  
                         </h:panelGrid>
-                        <p:growl id="msgs" showDetail="true" />
 
                         <br />
-                        <p:commandButton  styleClass="edit-button" value="Atualizar"  action="#{utilizadoresBean.update(utilizadoresBean.user)}">
-                        </p:commandButton> 
+                   
+                        <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all update-button" value="Atualizar"  action="#{utilizadoresBean.update}" >
+                        </h:commandLink> 
+                        
+                        <h:button styleClass="ui-button ui-widget ui-state-default ui-corner-all cancel-button" value="Cancelar" outcome="#{utilizadoresBean.show(utilizadoresBean.user)}" >
+                        </h:button> 
                     </h:form>
                 </div>
             </ui:define>

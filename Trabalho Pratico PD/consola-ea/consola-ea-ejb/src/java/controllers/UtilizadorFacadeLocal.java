@@ -19,7 +19,7 @@ public interface UtilizadorFacadeLocal {
     
     List<Utilizador> getUsersList();
     List<Utilizador> getListOfNonActiveUsers();
-    void create(String fields)throws Exception;
+    Utilizador create(String fields)throws Exception;
     void update(String fields, int userId)throws Exception;
     void destroy(Integer id)throws Exception;
     Utilizador findUtilizador(Integer id);
