@@ -25,11 +25,11 @@
                 </div>
                 <div class="ui-grid-col-12">
                     <h:form styleClass="form" id="form">
-                            <p:growl id="msgs" showDetail="true" />
+                        <p:growl id="msgs" showDetail="true" />
 
                         <h:panelGrid columns="2">
 
-                           <h:outputLabel value="Username" for="username" />
+                            <h:outputLabel value="Username" for="username" />
                             <h:outputText id="username" value="#{utilizadoresBean.user.username}"/>
 
                             <h:outputLabel value="Nome *"
@@ -40,10 +40,10 @@
                                          requiredMessage="O campo Nome é obrigatório"/>
 
                             <h:outputLabel for="password" value="Password *" />  
-                            <p:password id="password" value="#{utilizadoresBean.user.password}" match="password2" label="Password 1" required="true"/>  
+                            <p:password id="password" value="#{utilizadoresBean.user.password}" match="password2" label="Password 1" required="true" redisplay="true" />  
 
                             <h:outputLabel for="password2" value="Repita Password *" />  
-                            <p:password id="password2" value="#{utilizadoresBean.user.password}" label="Password 2" required="true"/>  
+                            <p:password id="password2" value="#{utilizadoresBean.user.password}" label="Password 2" required="true" redisplay="true"/>  
 
 
                             <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI *" />  
@@ -79,13 +79,16 @@
 
                             <h:outputLabel for="cidade" value="Cidade" />  
                             <h:inputText id="cidade" value="#{utilizadoresBean.user.cidade}"/>  
+
+                            <h:outputLabel value="Ativo " />
+                            <p:selectBooleanCheckbox id="ativo" value="#{utilizadoresBean.user.ativo}" />
                         </h:panelGrid>
 
                         <br />
-                   
-                        <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all update-button" value="Atualizar"  action="#{utilizadoresBean.update}" >
+
+                        <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all update-button" value="Atualizar"  action="#{utilizadoresBean.update(utilizadoresBean.user)}" >
                         </h:commandLink> 
-                        
+
                         <h:button styleClass="ui-button ui-widget ui-state-default ui-corner-all cancel-button" value="Cancelar" outcome="#{utilizadoresBean.show(utilizadoresBean.user)}" >
                         </h:button> 
                     </h:form>

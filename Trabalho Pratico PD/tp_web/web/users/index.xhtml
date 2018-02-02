@@ -31,9 +31,15 @@
                             <p:column headerText="Nome">
                                 <h:outputText value="#{user.nome}" />
                             </p:column>
+
+                            <p:column headerText="BI">
+                                <h:outputText value="#{user.bi}" />
+                            </p:column>
                             <p:column headerText="NIF">
                                 <h:outputText value="#{user.nif}" />
                             </p:column>
+
+
 
                             <p:column headerText="Ativo">
                                 <h:outputText value="#{user.ativo eq true ? 'Sim' : 'Não'}  " />
@@ -48,9 +54,9 @@
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>
-                        
+
                         <p:growl id="msgs" showDetail="true" />
-                        
+
                     </h:form>
                 </div>
             </ui:define>

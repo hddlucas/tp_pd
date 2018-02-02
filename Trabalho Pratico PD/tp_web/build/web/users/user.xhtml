@@ -64,6 +64,9 @@
                             <h:outputLabel for="cidade" value="Cidade" />  
                             <h:outputText id="cidade" value="#{utilizadoresBean.user.cidade}"/>  
 
+                            <h:outputLabel for="ativo" value="Ativo" />  
+                            <h:outputText id="ativo" value="#{utilizadoresBean.user.ativo eq true ? 'Sim' : 'Não'}  " />
+                            
                         </h:panelGrid>
                     </h:form>
                 </div>

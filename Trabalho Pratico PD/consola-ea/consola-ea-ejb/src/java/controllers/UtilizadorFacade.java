@@ -74,8 +74,12 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             if(userFields.has("cidade")){
                 u.setCidade(userFields.getString("cidade"));
             }
-
-            u.setAtivo(false);
+            if(userFields.has("ativo")){
+                u.setAtivo(true);
+            }
+            else{
+                u.setAtivo(false);
+            }
 
             dAO.getEntityManager().persist(u);
 
@@ -99,6 +103,13 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             if(userFields.has("password")){
                 u.setPassword(userFields.getString("password"));
             }
+            if(userFields.has("nif")){
+                u.setNif(userFields.getString("nif"));
+            }
+            if(userFields.has("bi")){
+                u.setBi(userFields.getString("bi"));
+            }
+            
             if(userFields.has("codigo_postal")){
                 u.setCodigoPostal(userFields.getString("codigo_postal"));
             }
@@ -116,7 +127,12 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             if(userFields.has("cidade")){
                 u.setCidade(userFields.getString("cidade"));
             }
-            
+            if(userFields.has("ativo")){
+                u.setAtivo(true);
+            }
+            else{
+                u.setAtivo(false);
+            }
             dAO.getEntityManager().merge(u);
 
         } catch (Exception ex) {

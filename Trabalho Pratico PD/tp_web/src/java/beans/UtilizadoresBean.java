@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
@@ -75,6 +76,9 @@ public class UtilizadoresBean implements Serializable {
             userFields.add("codigo_postal", request.getParameter("form:codigo_postal"));
             userFields.add("cidade", request.getParameter("form:cidade"));
             userFields.add("pais", request.getParameter("form:pais"));
+            if (request.getParameterMap().containsKey("form:ativo_input")) {
+                userFields.add("ativo", "1");
+            }
 
             JsonObject fieldsObject = userFields.build();
             this.user = utilizadorFacade.create(fieldsObject.toString());
@@ -113,6 +117,7 @@ public class UtilizadoresBean implements Serializable {
             JsonObjectBuilder userFields = Json.createObjectBuilder();
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
+            System.out.println(request.getParameter("form:ativo"));
             userFields.add("nome", request.getParameter("form:nome"));
             userFields.add("password", request.getParameter("form:password"));
             userFields.add("bi", request.getParameter("form:bi"));
@@ -122,6 +127,9 @@ public class UtilizadoresBean implements Serializable {
             userFields.add("codigo_postal", request.getParameter("form:codigo_postal"));
             userFields.add("cidade", request.getParameter("form:cidade"));
             userFields.add("pais", request.getParameter("form:pais"));
+            if (request.getParameterMap().containsKey("form:ativo_input")) {
+                userFields.add("ativo", "1");
+            }
 
             JsonObject fieldsObject = userFields.build();
             utilizadorFacade.update(fieldsObject.toString(), this.user.getIdUtilizador());
@@ -129,7 +137,6 @@ public class UtilizadoresBean implements Serializable {
 
         } catch (Exception ex) {
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um erro ao atualizar a Informacao do utilizador"));
-
         } finally {
             FacesContext.getCurrentInstance()
                     .getExternalContext()
@@ -151,7 +158,6 @@ public class UtilizadoresBean implements Serializable {
             FacesContext.getCurrentInstance()
                     .getExternalContext()
                     .getFlash().setKeepMessages(true);
-
             return "index.xhtml?faces-redirect=true";
         }
     }
@@ -253,34 +259,52 @@ public class UtilizadoresBean implements Serializable {
         this.ultimoLogin = ultimoLogin;
     }
 
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
     //VALIDATORS
     public void validateUsername(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-
-        List<Utilizador> utilizadores = utilizadorFacade.findUtilizadorByUsername(value.toString());
-        if (utilizadores.size() > 0) {
-            FacesMessage msg = new FacesMessage("O username introduzido já existe");
-            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            throw new ValidatorException(msg);
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Object oldValue = ((UIInput) component).getValue();
+        if (!(value != null ? value.equals(oldValue) : oldValue == null)) {
+            List<Utilizador> utilizadores = utilizadorFacade.findUtilizadorByUsername(value.toString());
+            if (utilizadores.size() > 0) {
+                FacesMessage msg = new FacesMessage("O username introduzido já existe");
+                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                throw new ValidatorException(msg);
+            }
         }
     }
 
     public void validateBi(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
-        List<Utilizador> utilizadores = utilizadorFacade.findUtilizadorByBi(value.toString());
-        if (utilizadores.size() > 0) {
-            FacesMessage msg = new FacesMessage("O BI introduzido já existe");
-            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            throw new ValidatorException(msg);
+        Object oldValue = ((UIInput) component).getValue();
+        if (!(value != null ? value.equals(oldValue) : oldValue == null)) {
+            List<Utilizador> utilizadores = utilizadorFacade.findUtilizadorByBi(value.toString());
+            if (utilizadores.size() > 0) {
+                FacesMessage msg = new FacesMessage("O BI introduzido já existe");
+                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                throw new ValidatorException(msg);
+            }
         }
     }
 
     public void validateNif(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-
-        List<Utilizador> utilizadores = utilizadorFacade.findUtilizadorByNif(value.toString());
-        if (utilizadores.size() > 0) {
-            FacesMessage msg = new FacesMessage("O NIF introduzido já existe");
-            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            throw new ValidatorException(msg);
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Object oldValue = ((UIInput) component).getValue();
+        if (!(value != null ? value.equals(oldValue) : oldValue == null)) {
+            List<Utilizador> utilizadores = utilizadorFacade.findUtilizadorByNif(value.toString());
+            if (utilizadores.size() > 0) {
+                FacesMessage msg = new FacesMessage("O NIF introduzido já existe");
+                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                throw new ValidatorException(msg);
+            }
         }
     }
 
