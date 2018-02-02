@@ -10,66 +10,89 @@
         <ui:composition template="/template/commonLayout.xhtml">
 
             <ui:define name="content">
-                <div class="ui-grid-col-12">
-                    <p:breadCrumb>
-                        <p:menuitem  value="" url="/" />
-                        <p:menuitem value="#{bundle.UtilizadoresTitle_vista}" outcome="index" />
-                    </p:breadCrumb>
-                </div>
-                <div class="ui-grid-col-12">
-                    <h1 class="page-title">
-                        #{utilizadoresBean.user.nome}
-                    </h1>
-                </div>
 
-                <div class="ui-grid-col-12">
-                    <p:commandButton  value="Eliminar" styleClass="top-delete-button" onclick="if (!confirm('Tem a certeza que deseja eliminar o utilizador?'))
-                                return false" action="#{utilizadoresBean.destroy(utilizadoresBean.user.idUtilizador)}"  icon="ui-icon-trash white"    >
-                    </p:commandButton> 
+                <p:breadCrumb>
+                    <p:menuitem  value="" url="/" />
+                    <p:menuitem value="#{bundle.UtilizadoresTitle_vista}" outcome="index" />
+                </p:breadCrumb>
 
-                    <p:commandButton  value="Editar" styleClass="top-edit-button" action="#{utilizadoresBean.edit(utilizadoresBean.user)}"  icon="ui-icon-pencil white"    >
-                    </p:commandButton> 
-                </div>
+                <h1 class="page-title">
+                    #{utilizadoresBean.user.nome}
+                </h1>
+                <p:commandButton  value="Eliminar" styleClass="top-delete-button" onclick="if (!confirm('Tem a certeza que deseja eliminar o utilizador?'))
+                            return false" action="#{utilizadoresBean.destroy(utilizadoresBean.user.idUtilizador)}"  icon="ui-icon-trash white"    >
+                </p:commandButton> 
 
-                <div class="ui-grid-col-12">
-                    <h:form styleClass="form" id="form">
-                        <p:growl id="msgs" showDetail="true" />
+                <p:commandButton  value="Editar" styleClass="top-edit-button" action="#{utilizadoresBean.edit(utilizadoresBean.user)}"  icon="ui-icon-pencil white"    >
+                </p:commandButton> 
 
-                        <h:panelGrid columns="2">
+                <p:tabView>
+                    <p:tab title="#{bundle.UtilizadoresTitle_informacao}">
+                        <h:form styleClass="form" id="form">
+                            <p:growl id="msgs" showDetail="true" />
 
-                            <h:outputLabel value="Username" for="username" />
-                            <h:outputText id="username" value="#{utilizadoresBean.user.username}"/>
+                            <h:panelGrid columns="2">
 
-                            <h:outputLabel value="Nome" for="nome"/>
-                            <h:outputText id="nome" value="#{utilizadoresBean.user.nome}"/>
+                                <h:outputLabel value="Username" for="username" />
+                                <h:outputText id="username" value="#{utilizadoresBean.user.username}"/>
 
-                            <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI" />  
-                            <h:outputText id="bi" value="#{utilizadoresBean.user.bi}"/>
+                                <h:outputLabel value="Nome" for="nome"/>
+                                <h:outputText id="nome" value="#{utilizadoresBean.user.nome}"/>
 
-                            <h:outputLabel for="nif" value="NIF" />  
-                            <h:outputText id="nif" value="#{utilizadoresBean.user.nif}"/>
+                                <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI" />  
+                                <h:outputText id="bi" value="#{utilizadoresBean.user.bi}"/>
 
-                            <h:outputLabel for="morada" value="Morada"/>
-                            <h:outputText  id="morada"   value="#{utilizadoresBean.user.morada}"/>
+                                <h:outputLabel for="nif" value="NIF" />  
+                                <h:outputText id="nif" value="#{utilizadoresBean.user.nif}"/>
 
-                            <h:outputLabel for="contacto" value="Contacto"/>  
-                            <h:outputText id="contacto" value="#{utilizadoresBean.user.contacto}"/> 
+                                <h:outputLabel for="morada" value="Morada"/>
+                                <h:outputText  id="morada"   value="#{utilizadoresBean.user.morada}"/>
 
-                            <h:outputLabel for="codigo_postal" value="Código Postal" />  
-                            <h:outputText id="codigo_postal" value="#{utilizadoresBean.user.codigoPostal}"/> 
+                                <h:outputLabel for="contacto" value="Contacto"/>  
+                                <h:outputText id="contacto" value="#{utilizadoresBean.user.contacto}"/> 
 
-                            <h:outputLabel for="pais" value="País" />
-                            <h:outputText  value="#{utilizadoresBean.user.pais}"/>
+                                <h:outputLabel for="codigo_postal" value="Código Postal" />  
+                                <h:outputText id="codigo_postal" value="#{utilizadoresBean.user.codigoPostal}"/> 
 
-                            <h:outputLabel for="cidade" value="Cidade" />  
-                            <h:outputText id="cidade" value="#{utilizadoresBean.user.cidade}"/>  
+                                <h:outputLabel for="pais" value="País" />
+                                <h:outputText  value="#{utilizadoresBean.user.pais}"/>
 
-                            <h:outputLabel for="ativo" value="Ativo" />  
-                            <h:outputText id="ativo" value="#{utilizadoresBean.user.ativo eq true ? 'Sim' : 'Não'}  " />
-                            
-                        </h:panelGrid>
-                    </h:form>
-                </div>
+                                <h:outputLabel for="cidade" value="Cidade" />  
+                                <h:outputText id="cidade" value="#{utilizadoresBean.user.cidade}"/>  
+
+                                <h:outputLabel for="ativo" value="Ativo" />  
+                                <h:outputText id="ativo" value="#{utilizadoresBean.user.ativo eq true ? 'Sim' : 'Não'}  " />
+
+                            </h:panelGrid>
+                        </h:form>
+                    </p:tab>
+
+                    <p:tab title="#{bundle.UtilizadoresTitle_permissoes}">
+
+                        <h2 class="page-subTitle">
+                            #{bundle.PerfisTitle_lista}
+                        </h2>
+
+                        <h:form>
+                            <p:dataTable id="rolesList" var="role" value="#{perfisBean.list}">
+                                <p:column headerText="Id">
+                                    <h:outputText value="#{role.idPerfil}" />
+                                </p:column>
+
+                                <p:column headerText="Code">
+                                    <h:outputText value="#{role.perfil}" />
+                                </p:column>
+
+                                <p:column headerText="Descricao">
+                                    <h:outputText value="#{role.descricao}" />
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:form>
+
+                    </p:tab>    
+
+                </p:tabView>
             </ui:define>
         </ui:composition>
     </h:body>
