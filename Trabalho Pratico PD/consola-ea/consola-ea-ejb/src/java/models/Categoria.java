@@ -35,11 +35,11 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Categoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id_categoria")
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @Column(name = "id_categoria", insertable = false , columnDefinition = "serial") 
     private Integer idCategoria;
+    
     @Column(name = "nome")
     private String nome;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")

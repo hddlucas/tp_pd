@@ -161,6 +161,12 @@ public class UtilizadoresBean implements Serializable {
             return "index.xhtml?faces-redirect=true";
         }
     }
+    
+    
+    public boolean hasRole(int userId, String role) {
+        return utilizadorFacade.hasRole(userId, role);
+    }
+    
 
     //PROPRIEDADES
     public Integer getIdUtilizador() {
@@ -274,8 +280,7 @@ public class UtilizadoresBean implements Serializable {
         if (!(value != null ? value.equals(oldValue) : oldValue == null)) {
             List<Utilizador> utilizadores = utilizadorFacade.findUtilizadorByUsername(value.toString());
             if (utilizadores.size() > 0) {
-                FacesMessage msg = new FacesMessage("O username introduzido já existe");
-                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "O username introduzido já existe");
                 throw new ValidatorException(msg);
             }
         }
@@ -288,8 +293,7 @@ public class UtilizadoresBean implements Serializable {
         if (!(value != null ? value.equals(oldValue) : oldValue == null)) {
             List<Utilizador> utilizadores = utilizadorFacade.findUtilizadorByBi(value.toString());
             if (utilizadores.size() > 0) {
-                FacesMessage msg = new FacesMessage("O BI introduzido já existe");
-                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "O BI introduzido já existe");
                 throw new ValidatorException(msg);
             }
         }
@@ -301,8 +305,7 @@ public class UtilizadoresBean implements Serializable {
         if (!(value != null ? value.equals(oldValue) : oldValue == null)) {
             List<Utilizador> utilizadores = utilizadorFacade.findUtilizadorByNif(value.toString());
             if (utilizadores.size() > 0) {
-                FacesMessage msg = new FacesMessage("O NIF introduzido já existe");
-                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro","O NIF introduzido já existe");
                 throw new ValidatorException(msg);
             }
         }
