@@ -9,20 +9,21 @@ import controllers.UtilizadorFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.annotation.XmlTransient;
+import models.Perfil;
 import models.Utilizador;
 
 /**
@@ -49,6 +50,9 @@ public class UtilizadoresBean implements Serializable {
     private String codigoPostal;
     private Date ultimoLogin;
     private boolean ativo;
+    private boolean userRole;
+
+    private Collection<Perfil> perfilCollection;
 
     /**
      * Creates a new instance of UtilizadoresBean
@@ -56,10 +60,15 @@ public class UtilizadoresBean implements Serializable {
     public UtilizadoresBean() {
     }
 
+    
+       public Utilizador getUser() {
+        return this.user;
+    }
+
     public List<Utilizador> getList() {
         return utilizadorFacade.getUsersList();
     }
-
+   
     public String create() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
@@ -96,10 +105,7 @@ public class UtilizadoresBean implements Serializable {
         }
     }
 
-    public Utilizador getUser() {
-        return this.user;
-    }
-
+ 
     public String show(Utilizador u) {
         this.user = u;
         return "user.xhtml";
@@ -161,12 +167,27 @@ public class UtilizadoresBean implements Serializable {
             return "index.xhtml?faces-redirect=true";
         }
     }
-    
-    
+
     public boolean hasRole(int userId, String role) {
         return utilizadorFacade.hasRole(userId, role);
     }
-    
+
+    public void addUserRole(int idUtilizador, int roleId) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            utilizadorFacade.addUserRole(idUtilizador, roleId);
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Perfil adicionado ao utilizador com sucesso"));
+
+        } catch (Exception ex) {
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um problema ao adicionar o perfil ao utilizador"));
+
+        } finally {
+            FacesContext.getCurrentInstance()
+                    .getExternalContext()
+                    .getFlash().setKeepMessages(true);
+            
+        }
+    }
 
     //PROPRIEDADES
     public Integer getIdUtilizador() {
@@ -272,6 +293,24 @@ public class UtilizadoresBean implements Serializable {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
+    
+
+    public Collection<Perfil> getPerfilCollection() {
+        return perfilCollection;
+    }
+
+    public void setPerfilCollection(Collection<Perfil> perfilCollection) {
+        this.perfilCollection = perfilCollection;
+    }
+    
+   public boolean isUserRole(Perfil p) {
+        userRole = this.user.getPerfilCollection().contains(p);
+        return userRole;
+    }
+
+    public void setUserRole(boolean userRole) {
+        this.userRole = userRole;
+    }
 
     //VALIDATORS
     public void validateUsername(FacesContext context, UIComponent component, Object value) throws ValidatorException {
@@ -305,7 +344,7 @@ public class UtilizadoresBean implements Serializable {
         if (!(value != null ? value.equals(oldValue) : oldValue == null)) {
             List<Utilizador> utilizadores = utilizadorFacade.findUtilizadorByNif(value.toString());
             if (utilizadores.size() > 0) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro","O NIF introduzido já existe");
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "O NIF introduzido já existe");
                 throw new ValidatorException(msg);
             }
         }

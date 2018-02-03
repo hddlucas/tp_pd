@@ -107,7 +107,7 @@ and open the template in the editor.
     color:#248b8c!important;
 }
 .ui-tabs{
-   
+
     border:none;
 }
 
@@ -134,10 +134,34 @@ and open the template in the editor.
 .header .title {
     color:#fff;
     margin-left: 10px;
+    display: inline-block;
+}
+
+.header .unlogged-user{
+    color:white;
+}
+
+.header .login-users {
+    float: right;
+    display: inline-block;
+    margin-top: 25px;
+    margin-right: 50px;
+    color: white;
 }
 
 
+.header .ui-menubutton .ui-button{
+    margin: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    box-shadow: none
+}
 
+.header .ui-icon-triangle-1-s{
+    background-image: url("../../faces/javax.faces.resource/images/ui-icons_ffffff_256x240.png?ln=primefaces-aristo")!important; 
+}
 /*****************FOOTER***********/
 
 .footer .ui-layout-unit-content {
@@ -329,7 +353,7 @@ and open the template in the editor.
 
 .form  a{
     padding-bottom : 20px;
-           
+
 }
 
 

@@ -1,20 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-          
-      xmlns:p="http://primefaces.org/ui">
-    <body>
-	    <ui:composition>
-                <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-                
-                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true" styleClass="header">
-                    <h2 class="title">
-                        Plataformas de Desenvolvimento
-                    </h2>
-                </p:layoutUnit>
 
-	    </ui:composition>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition>
+            <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+            <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true" styleClass="header">
+                <h2 class="title">
+                    Plataformas de Desenvolvimento
+                </h2>
+
+                <h:form styleClass="login-users">
+                <p:growl id="messages" showDetail="true"/>
+
+                <h:commandLink rendered="#{loginBean.loggedUser.username == null}" styleClass="unlogged-user" action="/authentication/login.xhtml" value="Clique para fazer Login"/>
+                
+                <p:menuButton rendered="#{loginBean.loggedUser.username != null}" value="Bem vindo, #{loginBean.loggedUser.username}" >
+                    <p:menuitem value="Ver Perfil"   icon="ui-icon-person"/>
+                    <p:menuitem value="Mensagens"   icon="ui-icon-mail-open"/>
+                    <p:menuitem value="Sair" action="#{loginBean.logout}"  icon="ui-icon-power"/>
+
+                </p:menuButton>
+            </h:form>
+
+            </p:layoutUnit>
+        </ui:composition>
     </body>
 </html>
