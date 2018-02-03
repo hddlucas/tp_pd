@@ -63,6 +63,8 @@
                                 <h:outputLabel for="ativo" value="Ativo" />  
                                 <h:outputText id="ativo" value="#{utilizadoresBean.user.ativo eq true ? 'Sim' : 'Não'}  " />
 
+                                <h:outputLabel for="ultimo_login" value="Ultimo Login" />  
+                                <h:outputText id="ultimo_login" value="#{utilizadoresBean.user.ultimoLogin}  " />
                             </h:panelGrid>
                         </h:form>
                     </p:tab>
@@ -80,12 +82,12 @@
                                     </p:selectBooleanCheckbox>
                                 </p:column>
 
-                               
+
                                 <p:column headerText="Descrição">
                                     <h:outputText value="#{role.descricao}" />
                                 </p:column>
-                                
-                                 <p:column headerText="Código">
+
+                                <p:column headerText="Código">
                                     <h:outputText value="#{role.perfil}" />
                                 </p:column>
 

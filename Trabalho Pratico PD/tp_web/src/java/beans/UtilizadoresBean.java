@@ -104,6 +104,10 @@ public class UtilizadoresBean implements Serializable {
         }
     }
 
+    public String showUserInfo(Utilizador u) {
+        this.user = u;
+        return "/users/userProfile.xhtml?faces-redirect=true?";
+    }
  
     public String show(Utilizador u) {
         this.user = u;
