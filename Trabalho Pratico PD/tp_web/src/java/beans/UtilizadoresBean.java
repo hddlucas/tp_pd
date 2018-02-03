@@ -50,7 +50,6 @@ public class UtilizadoresBean implements Serializable {
     private String codigoPostal;
     private Date ultimoLogin;
     private boolean ativo;
-    private boolean userRole;
 
     private Collection<Perfil> perfilCollection;
 
@@ -84,7 +83,7 @@ public class UtilizadoresBean implements Serializable {
             userFields.add("contacto", request.getParameter("form:contacto"));
             userFields.add("codigo_postal", request.getParameter("form:codigo_postal"));
             userFields.add("cidade", request.getParameter("form:cidade"));
-            userFields.add("pais", request.getParameter("form:pais"));
+            userFields.add("pais", request.getParameter("form:pais_input"));
             if (request.getParameterMap().containsKey("form:ativo_input")) {
                 userFields.add("ativo", "1");
             }
@@ -136,6 +135,7 @@ public class UtilizadoresBean implements Serializable {
             if (request.getParameterMap().containsKey("form:ativo_input")) {
                 userFields.add("ativo", "1");
             }
+      
 
             JsonObject fieldsObject = userFields.build();
             utilizadorFacade.update(fieldsObject.toString(), this.user.getIdUtilizador());
@@ -303,14 +303,6 @@ public class UtilizadoresBean implements Serializable {
         this.perfilCollection = perfilCollection;
     }
     
-   public boolean isUserRole(Perfil p) {
-        userRole = this.user.getPerfilCollection().contains(p);
-        return userRole;
-    }
-
-    public void setUserRole(boolean userRole) {
-        this.userRole = userRole;
-    }
 
     //VALIDATORS
     public void validateUsername(FacesContext context, UIComponent component, Object value) throws ValidatorException {
