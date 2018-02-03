@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/commonLayout.xhtml">
+
+            <ui:define name="content">
+
+                <p:breadCrumb>
+                    <p:menuitem  value="" url="/" />
+                    <p:menuitem value="#{bundle.vendedoresTitle_vista}" outcome="index" />
+                </p:breadCrumb>
+
+                <h1 class="page-title">
+                    #{vendedoresBean.user.nome}
+                </h1>
+
+
+                <p:tabView>
+                    <p:tab title="#{bundle.UtilizadoresTitle_informacao}">
+                        <h:form styleClass="form" id="form">
+                            <p:growl id="msgs" showDetail="true" />
+
+                            <h:panelGrid columns="2">
+
+                                <h:outputLabel value="Username" for="username" />
+                                <h:outputText id="username" value="#{vendedoresBean.user.username}"/>
+
+                                <h:outputLabel value="Nome" for="nome"/>
+                                <h:outputText id="nome" value="#{vendedoresBean.user.nome}"/>
+
+                                <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI" />  
+                                <h:outputText id="bi" value="#{vendedoresBean.user.bi}"/>
+
+                                <h:outputLabel for="nif" value="NIF" />  
+                                <h:outputText id="nif" value="#{vendedoresBean.user.nif}"/>
+
+                                <h:outputLabel for="morada" value="Morada"/>
+                                <h:outputText  id="morada"   value="#{vendedoresBean.user.morada}"/>
+
+                                <h:outputLabel for="contacto" value="Contacto"/>  
+                                <h:outputText id="contacto" value="#{vendedoresBean.user.contacto}"/> 
+
+                                <h:outputLabel for="codigo_postal" value="Código Postal" />  
+                                <h:outputText id="codigo_postal" value="#{vendedoresBean.user.codigoPostal}"/> 
+
+                                <h:outputLabel for="pais" value="País" />
+                                <h:outputText  value="#{vendedoresBean.user.pais}"/>
+
+                                <h:outputLabel for="cidade" value="Cidade" />  
+                                <h:outputText id="cidade" value="#{vendedoresBean.user.cidade}"/>  
+                            </h:panelGrid>
+                        </h:form>
+                    </p:tab>
+
+                    <p:tab title="#{bundle.vendedoresTitle_vendas}">
+
+                        <h2 class="page-subTitle">
+                            #{bundle.vendasTitle_lista}
+                        </h2>
+
+                        <h:form>
+                            <p:dataTable id="salesList" var="role" value="#{perfisBean.list}">
+
+                                <p:column headerText="Venda">
+                                    <h:outputText value="#{role.perfil}" />
+                                </p:column>
+
+                                <p:column headerText="Preço">
+                                    <h:outputText value="#{role.descricao}" />
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>    
+                </p:tabView>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+
+</html>
