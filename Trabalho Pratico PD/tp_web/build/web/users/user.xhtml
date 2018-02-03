@@ -75,23 +75,21 @@
 
                         <h:form>
                             <p:dataTable id="rolesList" var="role" value="#{perfisBean.list}">
-                                <p:column headerText="Id">
-                                    <h:outputText value="#{role.idPerfil}" />
+                                <p:column>
+                                    <p:selectBooleanCheckbox id="ativo" value="#{utilizadoresBean.hasRole(utilizadoresBean.user.idUtilizador,role.perfil)}" />
                                 </p:column>
 
-                                <p:column headerText="Code">
+                                <p:column headerText="Código">
                                     <h:outputText value="#{role.perfil}" />
                                 </p:column>
 
-                                <p:column headerText="Descricao">
+                                <p:column headerText="Descrição">
                                     <h:outputText value="#{role.descricao}" />
                                 </p:column>
 
                             </p:dataTable>
                         </h:form>
-
                     </p:tab>    
-
                 </p:tabView>
             </ui:define>
         </ui:composition>
