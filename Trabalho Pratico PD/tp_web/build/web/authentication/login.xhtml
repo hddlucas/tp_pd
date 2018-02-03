@@ -26,7 +26,8 @@
 
                         <p:outputLabel for="password" value="Password:" />
                         <p:password id="password" value="#{loginBean.password}"
-                                    required="true"/>
+                                    required="true"
+                                    requiredMessage="O campo Password é obrigatório" />
                 </p:panelGrid>
                 <div class="login-button-container">
                     <p:commandButton value="Enviar" action="#{loginBean.login}" ajax="false">

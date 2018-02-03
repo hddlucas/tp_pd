@@ -127,6 +127,51 @@ public class LoginBean implements Serializable {
         }
     }
 
+    public String showUserInfo(Utilizador u) {
+        this.logedUser = u;
+        return "/authentication/userProfile.xhtml?faces-redirect=true?";
+    }
+    
+     public String edit(Utilizador u) {
+        this.logedUser = u;
+        return "/authentication/editProfile.xhtml?faces-redirect=true?";
+    }
+     
+       public String updateUserProfile(Utilizador u) throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            this.logedUser = u;
+            JsonObjectBuilder userFields = Json.createObjectBuilder();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+            System.out.println(request.getParameter("form:ativo"));
+            userFields.add("nome", request.getParameter("form:nome"));
+            userFields.add("password", request.getParameter("form:password"));
+            userFields.add("bi", request.getParameter("form:bi"));
+            userFields.add("nif", request.getParameter("form:nif"));
+            userFields.add("morada", request.getParameter("form:morada"));
+            userFields.add("contacto", request.getParameter("form:contacto"));
+            userFields.add("codigo_postal", request.getParameter("form:codigo_postal"));
+            userFields.add("cidade", request.getParameter("form:cidade"));
+            userFields.add("pais", request.getParameter("form:pais"));
+            userFields.add("ativo", this.logedUser.getAtivo());
+
+      
+            JsonObject fieldsObject = userFields.build();
+            utilizadorFacade.update(fieldsObject.toString(), this.logedUser.getIdUtilizador());
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "A sua informação foi atualizada com sucesso"));
+
+        } catch (Exception ex) {
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um erro ao atualizar a sua Informacao"));
+        } finally {
+            FacesContext.getCurrentInstance()
+                    .getExternalContext()
+                    .getFlash().setKeepMessages(true);
+            return this.showUserInfo(this.logedUser);
+        }
+    }
+    
+    
     //PROPRIEDADES
     public Integer getIdUtilizador() {
         return idUtilizador;

@@ -40,11 +40,23 @@
                                          requiredMessage="O campo Nome é obrigatório"/>
 
                             <h:outputLabel for="password" value="Password *" />  
-                            <p:password id="password" value="#{utilizadoresBean.user.password}" match="password2" label="Password 1" required="true" redisplay="true" />  
+                            <p:password id="password" value="#{utilizadoresBean.user.password}" match="password2" label="Password 1"  
+                                        redisplay="true" 
+                                         requiredMessage="O campo password é obrigatório"
+                                        required="true"
+                                        validatorMessage="As passwords não coincidem."/>
+
+                                    
 
                             <h:outputLabel for="password2" value="Repita Password *" />  
-                            <p:password id="password2" value="#{utilizadoresBean.user.password}" label="Password 2" required="true" redisplay="true"/>  
+                            <p:password id="password2" value="#{utilizadoresBean.user.password}" 
+                                        label="Password 2"  
+                                        redisplay="true"
+                                        requiredMessage="O campo password é obrigatório"
+                                        required="true"
+                                        validatorMessage="As passwords não coincidem."/>
 
+                              
 
                             <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI *" />  
                             <h:inputText id="bi" value="#{utilizadoresBean.user.bi}"

@@ -22,7 +22,7 @@
                 <h:commandLink rendered="#{loginBean.loggedUser.username == null}" styleClass="unlogged-user" action="/authentication/login.xhtml" value="Clique para fazer Login"/>
                 
                 <p:menuButton rendered="#{loginBean.loggedUser.username != null}" value="Bem vindo, #{loginBean.loggedUser.username}" >
-                    <p:menuitem value="Ver Perfil" action="#{utilizadoresBean.showUserInfo(loginBean.loggedUser)}"  icon="ui-icon-person"/>
+                    <p:menuitem value="Ver Perfil" action="#{loginBean.showUserInfo(loginBean.loggedUser)}"  icon="ui-icon-person"/>
                     <p:menuitem value="Mensagens"   icon="ui-icon-mail-open"/>
                     <p:menuitem value="Sair" action="#{loginBean.logout}"  icon="ui-icon-power"/>
 
