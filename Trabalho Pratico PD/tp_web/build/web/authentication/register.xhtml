@@ -12,67 +12,92 @@
             <div class="image-container">
                 <h:graphicImage  library="images" name="register.png" />
             </div>
-            <h:form>
-                <p:messages id="messages" />
+            <h:form id="form">
+                <p:growl id="msgs" showDetail="true" />
+
                 <div class="register-label">
                     <p:outputLabel value="Preencha a sua informação" />
                 </div>
 
                 <p:panelGrid columns="2">
                     <p:outputLabel for="username" value="Username " />
-                    <p:inputText id="username" value="#{RegistoMB.utilizador.username}" required="true"/>
+                    <p:inputText id="username"  
+                                 required="true"
+                                 requiredMessage="O campo username é obrigatório"
+                                 validator="#{utilizadoresBean.validateUsername}"/>
 
+                    <p:outputLabel for="nome" value="Nome  " />
+                    <p:inputText id="nome"  
+                                 required="true"
+                                 requiredMessage="O campo Nome é obrigatório"
+                                />
 
-                    <h:outputLabel for="pwd1" value="Password *" />  
-                    <p:password id="pwd1" value="#{passwordBean.password5}" match="pwd2" label="Password 1" required="true"/>  
+                    <h:outputLabel for="password" value="Password *" />  
+                    <p:password id="password"  match="password2" label="Password 1"
+                                requiredMessage="O campo password é obrigatório"
+                                required="true"
+                                 validatorMessage="As passwords não coincidem."
+                                />  
 
-                    <h:outputLabel for="pwd2" value="Repita Password *" />  
-                    <p:password id="pwd2" value="#{passwordBean.password5}" label="Password 2" required="true"/>  
-
+                    <h:outputLabel for="password2" value="Repita Password *" />  
+                    <p:password id="password2"  label="Password 2" 
+                                requiredMessage="O campo password de confirmação é obrigatório"
+                                required="true"
+                                validatorMessage="As passwords não coincidem."/>
+                           
                     <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI *" />  
-                    <p:inputText id="bi" value="#{RegistoMB.bi}" required="true"/>  
+                    <p:inputText id="bi"     
+                                 required="true"
+                                 requiredMessage="O campo Bi é obrigatório"
+                                 validator="#{utilizadoresBean.validateBi}"/>
 
                     <h:outputLabel for="nif" value="NIF *" />  
-                    <p:inputText id="nif" value="#{RegistoMB.nif}" required="true"/>  
+                    <p:inputText id="nif"  
+                                 required="true"
+                                 requiredMessage="O campo NIF é obrigatório"
+                                 validator="#{utilizadoresBean.validateNif}"/> 
 
                     <p:outputLabel for="morada" value="Morada " />
-                    <p:inputTextarea id="morada" rows="5" cols="30" counter="display" maxlength="100" counterTemplate="{0} caracteres disponiveis." autoResize="false" />
+                    <p:inputTextarea id="morada"  rows="5" cols="30" counter="display" maxlength="100" counterTemplate="{0} caracteres disponiveis." autoResize="false" />
 
                     <h:outputLabel  />  
                     <h:outputText id="display" />
 
                     <h:outputLabel for="contacto" value="Contacto" />  
-                    <p:inputText id="contacto" value="#{RegistoMB.contacto}"/> 
+                    <p:inputText id="contacto"/> 
 
                     <h:outputLabel for="codigo_postal" value="Código Postal" />  
-                    <p:inputText id="codigo_postal" value="#{RegistoMB.contacto}"/> 
+                    <p:inputText id="codigo_postal"/> 
 
                     <p:outputLabel for="pais" value="País " />
-                    <p:selectOneMenu id="pais" value="#{paisJSFManagedBean.country}" >
+                    <p:selectOneMenu id="pais"  >
                         <f:selectItem itemLabel="Selecione um pais" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{paisJSFManagedBean.countries}" />
+                        <f:selectItems value="#{paisBean.countries}" />
                     </p:selectOneMenu>
 
                     <h:outputLabel for="cidade" value="Cidade" />  
-                    <p:inputText id="cidade" value="#{RegistoMB.cidade}"/>  
+                    <p:inputText id="cidade"/>  
 
-
-                    <p:outputLabel for="console" value="Tipo de Conta" />
-                    <p:selectOneRadio id="console" value="#{radioView.console}" styleClass="account-type">
+                    <p:outputLabel for="tipo_de_conta" value="Tipo de Conta" />
+                    <p:selectOneRadio id="tipo_de_conta"  styleClass="account-type" 
+                                      requiredMessage="Selecione o tipo de conta pretendida"
+                                      required="true">
                         <f:selectItem itemLabel="Utilizador" itemValue="utilizador" />
                         <f:selectItem itemLabel="Vendedor" itemValue="vendedor" />
                     </p:selectOneRadio>
 
                 </p:panelGrid>
 
-                <div class="register-button-container">
-                    <p:commandButton value="Registar" action="#{RegistoMB.envia}" ajax="false">
+                <div class="register-button-container" >
+                    <p:commandButton value="Registar" action="#{loginBean.register}" ajax="false">
                     </p:commandButton>
                 </div>
+
+               
+                <h:link value="Já tem uma conta?" outcome="login" styleClass="login-label" />
             </h:form>
 
-            <h:link value="Já tem uma conta?" outcome="login" styleClass="login-label" />
-
         </div>
+
     </h:body>
 </html>

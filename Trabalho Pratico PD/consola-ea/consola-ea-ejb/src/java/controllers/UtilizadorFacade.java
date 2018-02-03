@@ -77,8 +77,14 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             if(userFields.has("ativo")){
                 u.setAtivo(true);
             }
+            else if (userFields.has("tipo_de_conta")) {
+                   if(userFields.getString("tipo_de_conta").equals("vendedor"))
+                        u.setAtivo(false);
+                   else
+                        u.setAtivo(true);
+            }
             else{
-                u.setAtivo(false);
+                u.setAtivo(true);
             }
 
             dAO.getEntityManager().persist(u);

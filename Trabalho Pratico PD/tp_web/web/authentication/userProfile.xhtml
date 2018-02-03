@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/commonLayout.xhtml">
+
+            <ui:define name="content">
+
+                <h1 class="page-title">
+                    Perfil Pessoal - #{loginBean.loggedUser.nome} 
+                </h1>
+
+                <p:commandButton  value="Editar" styleClass="top-edit-button" action="#{loginBean.edit(loginBean.loggedUser)}"  icon="ui-icon-pencil white"    >
+                </p:commandButton> 
+                
+                <h:form styleClass="form" id="form">
+                    <p:growl id="msgs" showDetail="true" />
+
+                    <h:panelGrid columns="2">
+
+                        <h:outputLabel value="Username" for="username" />
+                        <h:outputText id="username" value="#{loginBean.loggedUser.username}"/>
+
+                        <h:outputLabel value="Nome" for="nome"/>
+                        <h:outputText id="nome" value="#{loginBean.loggedUser.nome}"/>
+
+                        <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI" />  
+                        <h:outputText id="bi" value="#{loginBean.loggedUser.bi}"/>
+
+                        <h:outputLabel for="nif" value="NIF" />  
+                        <h:outputText id="nif" value="#{loginBean.loggedUser.nif}"/>
+
+                        <h:outputLabel for="morada" value="Morada"/>
+                        <h:outputText  id="morada"   value="#{loginBean.loggedUser.morada}"/>
+
+                        <h:outputLabel for="contacto" value="Contacto"/>  
+                        <h:outputText id="contacto" value="#{loginBean.loggedUser.contacto}"/> 
+
+                        <h:outputLabel for="codigo_postal" value="Código Postal" />  
+                        <h:outputText id="codigo_postal" value="#{loginBean.loggedUser.codigoPostal}"/> 
+
+                        <h:outputLabel for="pais" value="País" />
+                        <h:outputText  value="#{loginBean.loggedUser.pais}"/>
+
+                        <h:outputLabel for="cidade" value="Cidade" />  
+                        <h:outputText id="cidade" value="#{loginBean.loggedUser.cidade}"/>  
+
+                        <h:outputLabel for="ativo" value="Ativo" />  
+                        <h:outputText id="ativo" value="#{loginBean.loggedUser.ativo eq true ? 'Sim' : 'Não'}  " />
+
+                        <h:outputLabel for="ultimo_login" value="Ultimo Login" />  
+                        <h:outputText id="ultimo_login" value="#{loginBean.loggedUser.ultimoLogin}  " />
+                        
+                    </h:panelGrid>
+                </h:form>
+
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+
+</html>

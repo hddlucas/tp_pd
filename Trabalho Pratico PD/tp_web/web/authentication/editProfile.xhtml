@@ -10,15 +10,10 @@
         <ui:composition template="/template/commonLayout.xhtml">
 
             <ui:define name="content">
-                <div class="ui-grid-col-12">
-                    <p:breadCrumb>
-                        <p:menuitem  value="" url="/" />
-                        <p:menuitem value="#{bundle.UtilizadoresTitle_vista}" outcome="index" />
-                    </p:breadCrumb>
-                </div>
+              
                 <div class="ui-grid-col-12">
                     <h1 class="page-title">
-                        #{bundle.UtilizadoresTitle_criar}
+                        #{bundle.UtilizadoresTitle_editar}
                     </h1>
                 </div>
                 <div class="ui-grid-col-12">
@@ -27,72 +22,74 @@
 
                         <h:panelGrid columns="2">
 
-                            <h:outputLabel value="Username *"
-                                           for="username" />
-                            <h:inputText id="username"
-                                         required="true"
-                                         requiredMessage="O campo username é obrigatório"
-                                         validator="#{utilizadoresBean.validateUsername}">
-                            </h:inputText>
+                            <h:outputLabel value="Username" for="username" />
+                            <h:outputText id="username" value="#{loginBean.loggedUser.username}"/>
+
                             <h:outputLabel value="Nome *"
                                            for="nome"/>
                             <h:inputText id="nome"
+                                         value="#{loginBean.loggedUser.nome}"
                                          required="true"
                                          requiredMessage="O campo Nome é obrigatório"/>
 
                             <h:outputLabel for="password" value="Password *" />  
-                            <p:password id="password"  match="password2" label="Password 1" 
+                            <p:password id="password" value="#{loginBean.loggedUser.password}" match="password2" label="Password 1" 
+                                        redisplay="true" 
                                         requiredMessage="O campo password é obrigatório"
                                         required="true"
                                         validatorMessage="As passwords não coincidem."/>
 
                             <h:outputLabel for="password2" value="Repita Password *" />  
-                            <p:password id="password2"  label="Password 2" 
-                                        requiredMessage="O campo password de confirmação é obrigatório"
+                            <p:password id="password2" value="#{loginBean.loggedUser.password}" label="Password 2"           
+                                        redisplay="true" 
+                                        requiredMessage="O campo password é obrigatório"
                                         required="true"
                                         validatorMessage="As passwords não coincidem."/>
-
+                
+                            
                             <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI *" />  
-                            <h:inputText id="bi" 
+                            <h:inputText id="bi" value="#{loginBean.loggedUser.bi}"
                                          required="true"
                                          requiredMessage="O campo BI é obrigatório"
                                          validator="#{utilizadoresBean.validateBi}"/>
 
+
                             <h:outputLabel for="nif" value="NIF *" />  
-                            <h:inputText id="nif"  
+                            <h:inputText id="nif" value="#{loginBean.loggedUser.nif}" 
                                          required="true"
                                          requiredMessage="O campo NIF é obrigatório"
                                          validator="#{utilizadoresBean.validateNif}"/>
 
                             <h:outputLabel for="morada" value="Morada " />
-                            <p:inputTextarea id="morada" rows="5" cols="30" counter="display" maxlength="100" counterTemplate="{0} caracteres disponiveis." autoResize="false" />
+                            <p:inputTextarea id="morada" value="#{loginBean.loggedUser.morada}" rows="5" cols="30" counter="display" maxlength="100" counterTemplate="{0} caracteres disponiveis." autoResize="false" />
                             <h:outputLabel  />  
                             <h:outputText id="display" />
 
                             <h:outputLabel for="contacto" value="Contacto" />  
-                            <h:inputText id="contacto"/> 
+                            <h:inputText id="contacto" value="#{loginBean.loggedUser.contacto}"/> 
 
                             <h:outputLabel for="codigo_postal" value="Código Postal" />  
-                            <h:inputText id="codigo_postal"/> 
+                            <h:inputText id="codigo_postal" value="#{loginBean.loggedUser.codigoPostal}"/> 
 
-                            <p:outputLabel for="pais" value="País " />
-                            <p:selectOneMenu id="pais"  >
+                            <h:outputLabel for="pais" value="País " />
+                            <h:selectOneMenu id="pais" value="#{loginBean.loggedUser.pais}" >
                                 <f:selectItem itemLabel="Selecione um pais" itemValue="" noSelectionOption="true" />
                                 <f:selectItems value="#{paisBean.countries}" />
-                            </p:selectOneMenu>
+                            </h:selectOneMenu>
 
                             <h:outputLabel for="cidade" value="Cidade" />  
-                            <h:inputText id="cidade"/>  
+                            <h:inputText id="cidade" value="#{loginBean.loggedUser.cidade}"/>  
 
-                            <h:outputLabel value="Ativo " />
-                            <p:selectBooleanCheckbox id="ativo"  />
+      
+                           
                         </h:panelGrid>
 
                         <br />
-                        <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Criar"  action="#{utilizadoresBean.create}" >
+
+                        <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all update-button" value="Atualizar"  action="#{loginBean.updateUserProfile(loginBean.loggedUser)}" >
                         </h:commandLink> 
 
-                        <h:button styleClass="ui-button ui-widget ui-state-default ui-corner-all cancel-button" value="Cancelar" outcome="index" >
+                        <h:button styleClass="ui-button ui-widget ui-state-default ui-corner-all cancel-button" value="Cancelar" outcome="#{loginBean.showUserInfo(loginBean.loggedUser)}" >
                         </h:button> 
                     </h:form>
                 </div>
