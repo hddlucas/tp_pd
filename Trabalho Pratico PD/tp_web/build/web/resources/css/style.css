@@ -131,10 +131,18 @@ and open the template in the editor.
     background-color: #248b8c;
 }
 
-.header .title {
-    color:#fff;
-    margin-left: 10px;
+.header .title-container{
     display: inline-block;
+    margin-top: 25px;
+}
+
+.header .title {
+   color: #fff;
+    margin-left: 10px;
+    display: inline-block !important;
+    text-decoration: none;
+    font-size: 28px;
+    
 }
 
 .header .unlogged-user{

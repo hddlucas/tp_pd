@@ -53,6 +53,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Utilizador.findByAtivo", query = "SELECT u FROM Utilizador u WHERE u.ativo = :ativo")})
 public class Utilizador implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDestinatario")
+    private Collection<Mensagem> mensagemCollection;
+
     @JoinTable(name = "utilizador_perfil", joinColumns = {
         @JoinColumn(name = "id_utilizador", referencedColumnName = "id_utilizador")}, inverseJoinColumns = {
         @JoinColumn(name = "id_perfil", referencedColumnName = "id_perfil")})
@@ -274,6 +277,15 @@ public class Utilizador implements Serializable {
 
     public void setAquisicaoPropostaCollection(Collection<AquisicaoProposta> aquisicaoPropostaCollection) {
         this.aquisicaoPropostaCollection = aquisicaoPropostaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Mensagem> getMensagemCollection() {
+        return mensagemCollection;
+    }
+
+    public void setMensagemCollection(Collection<Mensagem> mensagemCollection) {
+        this.mensagemCollection = mensagemCollection;
     }
     
 }
