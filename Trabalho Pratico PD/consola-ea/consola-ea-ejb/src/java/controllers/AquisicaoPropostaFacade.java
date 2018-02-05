@@ -5,12 +5,17 @@
  */
 package controllers;
 
+import controllers.exceptions.RollbackFailureException;
+import static java.lang.Integer.parseInt;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import models.AquisicaoProposta;
+import models.Categoria;
+import models.Produto;
 import models.Utilizador;
+import org.json.JSONObject;
 
 /**
  *
@@ -30,5 +35,4 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
 
         return proposals;
     }
-    
 }

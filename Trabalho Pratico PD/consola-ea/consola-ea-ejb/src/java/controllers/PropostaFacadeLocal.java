@@ -6,16 +6,13 @@
 package controllers;
 
 import controllers.exceptions.RollbackFailureException;
-import java.util.List;
 import javax.ejb.Local;
-import models.AquisicaoProposta;
 
 /**
  *
- * @author hddlucas
+ * @author marcosequeira
  */
 @Local
-public interface AquisicaoPropostaFacadeLocal {
-    
-    List<AquisicaoProposta> getAcquisitionProposals();
+public interface PropostaFacadeLocal {
+    void create(String fields) throws RollbackFailureException, Exception;
 }

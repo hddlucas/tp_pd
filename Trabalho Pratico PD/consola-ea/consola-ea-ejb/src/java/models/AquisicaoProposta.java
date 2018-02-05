@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author hddlucas
+ * @author marcosequeira
  */
 @Entity
 @Table(name = "aquisicao_proposta")
@@ -33,9 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "AquisicaoProposta.findAll", query = "SELECT a FROM AquisicaoProposta a")
     , @NamedQuery(name = "AquisicaoProposta.findByIdAquisicao", query = "SELECT a FROM AquisicaoProposta a WHERE a.idAquisicao = :idAquisicao")
     , @NamedQuery(name = "AquisicaoProposta.findByValorMax", query = "SELECT a FROM AquisicaoProposta a WHERE a.valorMax = :valorMax")
-    , @NamedQuery(name = "AquisicaoProposta.findByCreatedAt", query = "SELECT a FROM AquisicaoProposta a WHERE a.createdAt = :createdAt")
     , @NamedQuery(name = "AquisicaoProposta.findByObservacoes", query = "SELECT a FROM AquisicaoProposta a WHERE a.observacoes = :observacoes")
-    , @NamedQuery(name = "AquisicaoProposta.findByGanhou", query = "SELECT a FROM AquisicaoProposta a WHERE a.ganhou = :ganhou")})
+    , @NamedQuery(name = "AquisicaoProposta.findByCreatedAt", query = "SELECT a FROM AquisicaoProposta a WHERE a.createdAt = :createdAt")})
 public class AquisicaoProposta implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,18 +42,14 @@ public class AquisicaoProposta implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id_aquisicao", insertable = false , columnDefinition = "serial") 
     private Integer idAquisicao;
+    
     @Column(name = "valor_max")
     private Integer valorMax;
+    @Column(name = "observacoes")
+    private String observacoes;
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @Column(name = "observacoes")
-    private String observacoes;
-    @Column(name = "ganhou")
-    private Boolean ganhou;
-    @JoinColumn(name = "id_operador", referencedColumnName = "id_operador")
-    @ManyToOne
-    private Operador idOperador;
     @JoinColumn(name = "id_produto", referencedColumnName = "id_produto")
     @ManyToOne
     private Produto idProduto;
@@ -85,14 +80,6 @@ public class AquisicaoProposta implements Serializable {
         this.valorMax = valorMax;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public String getObservacoes() {
         return observacoes;
     }
@@ -101,20 +88,12 @@ public class AquisicaoProposta implements Serializable {
         this.observacoes = observacoes;
     }
 
-    public Boolean getGanhou() {
-        return ganhou;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setGanhou(Boolean ganhou) {
-        this.ganhou = ganhou;
-    }
-
-    public Operador getIdOperador() {
-        return idOperador;
-    }
-
-    public void setIdOperador(Operador idOperador) {
-        this.idOperador = idOperador;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Produto getIdProduto() {
@@ -155,7 +134,7 @@ public class AquisicaoProposta implements Serializable {
 
     @Override
     public String toString() {
-        return "Id da Proposta de Aquisicao: " + idAquisicao + " Proposta por : " + idUtilizador + " Id do Produto: " + idProduto + " Valor Maximo de Aquisicao: " + valorMax + " Criada em : " + createdAt + "";
+        return " idAquisicao=" + idAquisicao + " ";
     }
     
 }
