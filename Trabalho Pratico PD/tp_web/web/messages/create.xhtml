@@ -24,8 +24,22 @@
                 <div class="ui-grid-col-12">
                     <h:form styleClass="form" id="form">
                         <p:growl id="msgs" showDetail="true" />
+                        <p:inputText value="#{loginBean.loggedUser.idUtilizador}" id="id_remetente" type="hidden" />
 
                         <h:panelGrid columns="2">
+                            
+                            <h:outputLabel for="users" value="Destinatário(s)" />
+                            <p:selectCheckboxMenu id="users" 
+                                                  value="#{mensagemBean.selectedUsers}" 
+                                                  label="users" 
+                                                  multiple="true"
+                                                  filter="true" 
+                                                  required="true"
+                                                  requiredMessage="O campo Destinatário é obrigatório"
+                                                  filterMatchMode="startsWith" 
+                                                  panelStyle="width:250px">
+                                <f:selectItems value="#{mensagemBean.users}" />
+                            </p:selectCheckboxMenu>
                             
                             <h:outputLabel value="Assunto *"
                                            for="assunto"/>
@@ -34,7 +48,7 @@
                                          requiredMessage="O campo Assunto é obrigatório"/>
 
                             <h:outputLabel for="mensagem" value="Mensagem *" />
-                            <p:inputTextarea id="morada" 
+                            <p:inputTextarea id="mensagem" 
                                              rows="20" cols="30" 
                                              counter="display"
                                              maxlength="300" 
@@ -44,7 +58,6 @@
                                              autoResize="false" />
                             <h:outputLabel  />  
                             <h:outputText id="display" />
-
                             
                         </h:panelGrid>
 
@@ -54,6 +67,8 @@
 
                         <h:button styleClass="ui-button ui-widget ui-state-default ui-corner-all cancel-button" value="Cancelar" outcome="index" >
                         </h:button> 
+                        
+
                     </h:form>
                 </div>
             </ui:define>

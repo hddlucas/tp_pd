@@ -6,9 +6,11 @@
 package beans;
 
 import controllers.MensagemFacadeLocal;
+import controllers.UtilizadorFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -17,10 +19,6 @@ import javax.faces.context.FacesContext;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.servlet.http.HttpServletRequest;
@@ -36,9 +34,12 @@ import models.Utilizador;
 public class MensagemBean implements Serializable {
 
     @EJB
+    private UtilizadorFacadeLocal utilizadorFacade;
+
+    @EJB
     private MensagemFacadeLocal mensagemFacade;
+
     private Mensagem message = new Mensagem();
-    
     private Integer idMensagem;
     private int idRemetente;
     private String assunto;
@@ -49,44 +50,82 @@ public class MensagemBean implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
     private Utilizador idDestinatario;
+    private String[] selectedUsers;
+    private List<String> users;
+
     /**
      * Creates a new instance of MensagemBean
      */
-    
-    
-    
     public MensagemBean() {
     }
-    
-     public Mensagem getMessage() {
+
+    public Mensagem getMessage() {
         return this.message;
     }
 
-     public String showUserMessages(Utilizador u) {
+    public String showUserMessages(Utilizador u) {
         return "/messages/index.xhtml?faces-redirect=true?";
     }
-     
-    
-    public List<Mensagem> getUserMessages(Utilizador u) {
-        
-        return null;
-    } 
+
+    public List<Mensagem> getList(Utilizador u) {
+
+        return mensagemFacade.getUsersMessagesList(u);
+    }
+
+    public List<String> getUsers() {
+        users = new ArrayList();
+        List<Utilizador> utilizadores = utilizadorFacade.getUsersList();
+        utilizadores.forEach((k) -> {
+            users.add(k.getUsername());
+        });
+
+        return users;
+    }
+
+    public String[] getSelectedUsers() {
+        return selectedUsers;
+    }
+
+    public void setSelectedUsers(String[] selectedUsers) {
+        this.selectedUsers = selectedUsers;
+    }
+
+      public String show(Mensagem m) {
+        this.message = m;
+        if(!this.message.getLida()){
+            mensagemFacade.markAsRead(this.message.getIdMensagem());
+            this.message.setLida(true);
+        }
+        return "message.xhtml";
+    }
     
     
     public String create() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
-            JsonObjectBuilder userFields = Json.createObjectBuilder();
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String[] destinatarios = request.getParameterValues("form:users");
 
-            userFields.add("nome", request.getParameter("form:nome"));
-           
-            JsonObject fieldsObject = userFields.build();
-            //this.user = utilizadorFacade.create(fieldsObject.toString());
-            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Mensagem enviada com sucesso"));
+            for (String destinatario : destinatarios) {
+                JsonObjectBuilder messageFields = Json.createObjectBuilder();
+                messageFields.add("id_remetente", request.getParameter("form:id_remetente"));
+                messageFields.add("assunto", request.getParameter("form:assunto"));
+                messageFields.add("mensagem", request.getParameter("form:mensagem"));
+                messageFields.add("destinatario",destinatario);
+                JsonObject fieldsObject = messageFields.build();
+
+               mensagemFacade.create(fieldsObject.toString());
+            }
+            
+            if(destinatarios.length>1){
+                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação","Mensagens enviadas com sucesso"));
+            }
+            else{
+                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação","Mensagem enviada com sucesso"));
+            }
 
         } catch (Exception ex) {
-            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um erro ao enviar a mensagem"));
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", ex.getMessage()));
 
             return "index.xhtml?faces-redirect=true?";
         } finally {
@@ -97,9 +136,8 @@ public class MensagemBean implements Serializable {
         }
     }
 
-    
     //PROPRIEDADES
-     public Integer getIdMensagem() {
+    public Integer getIdMensagem() {
         return idMensagem;
     }
 

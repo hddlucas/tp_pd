@@ -301,5 +301,20 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             throw ex;
         }
     }
+    
+    @Override
+    public String getUserNameById(int userId) {
+        try {
+
+            Utilizador u = (Utilizador) dAO.getEntityManager().find(Utilizador.class, userId);
+            if(u!=null)
+                return u.getUsername();
+            return "Utilizador não encontrado";
+
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
 
 }

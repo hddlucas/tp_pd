@@ -5,7 +5,11 @@
  */
 package controllers;
 
+import java.util.List;
 import javax.ejb.Local;
+import models.Mensagem;
+import models.Utilizador;
+
 
 /**
  *
@@ -13,5 +17,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface MensagemFacadeLocal {
-    
+     public void create(String fields)throws  Exception;
+     List<Mensagem> getUsersMessagesList(Utilizador u);
+     public void markAsRead(int id);
 }

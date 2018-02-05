@@ -33,4 +33,5 @@ public interface UtilizadorFacadeLocal {
     void activeUser(int userId);
     void addUserRole(int userId, int roleId);
     void removeUserRole(int userId, int roleId);
+     public String getUserNameById(int userId);
 }
