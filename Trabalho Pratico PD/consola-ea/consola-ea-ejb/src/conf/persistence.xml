@@ -11,6 +11,7 @@
     <class>models.ProdutoProposta</class>
     <class>models.Proposta</class>
     <class>models.Utilizador</class>
+    <class>models.Mensagem</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ALL</shared-cache-mode>
     <properties>

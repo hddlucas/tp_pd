@@ -190,6 +190,10 @@ public class UtilizadoresBean implements Serializable {
         }
     }
 
+    public String getUsernameById(int id){
+        return utilizadorFacade.getUserNameById(id);
+    }
+    
     //PROPRIEDADES
     public Integer getIdUtilizador() {
         return idUtilizador;

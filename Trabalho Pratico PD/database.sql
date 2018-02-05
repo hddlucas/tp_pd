@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     21/01/2018 19:20:16                          */
+/* Created on:     04/02/2018 11:38:12                          */
 /*==============================================================*/
 
 
@@ -27,6 +27,8 @@ drop index RELATIONSHIP_8_FK;
 drop index RELATIONSHIP_5_PK;
 
 drop table COMPONENTE_PRODUTO;
+
+drop table MENSAGEM;
 
 drop table OPERADOR;
 
@@ -164,6 +166,22 @@ ID_PRODUTO
 /*==============================================================*/
 create  index RELATIONSHIP_9_FK on COMPONENTE_PRODUTO (
 ID_COMPONENTE
+);
+
+/*==============================================================*/
+/* Table: MENSAGEM                                              */
+/*==============================================================*/
+create table MENSAGEM (
+   ID_MENSAGEM          SERIAL               not null,
+   ID_DESTINATARIO      INT4                 not null,
+   ID_REMETENTE         INT4                 not null,
+   ASSUNTO              VARCHAR(255)         not null,
+   MENSAGEM             TEXT                 not null,
+   LIDA                 BOOL                 null,
+   ELIMINADA_REMETENTE  BOOL                 null,
+   ELIMINADA_DESTINATARIO BOOL                 null,
+   CREATED_AT           TIMESTAMP            null,
+   constraint PK_MENSAGEM primary key (ID_MENSAGEM)
 );
 
 /*==============================================================*/
@@ -356,6 +374,11 @@ alter table COMPONENTE_PRODUTO
       references COMPONENTE (ID_COMPONENTE)
       on delete restrict on update restrict;
 
+alter table MENSAGEM
+   add constraint FK_MENSAGEM_REFERENCE_UTILIZAD foreign key (ID_DESTINATARIO)
+      references UTILIZADOR (ID_UTILIZADOR)
+      on delete restrict on update restrict;
+
 alter table PRODUTO_PROPOSTA
    add constraint FK_PRODUTO__PRODUCTS__PRODUTO foreign key (ID_PRODUTO)
       references PRODUTO (ID_PRODUTO)
@@ -380,7 +403,6 @@ alter table UTILIZADOR_PERFIL
    add constraint FK_UTILIZAD_UTILIZADO_PERFIL foreign key (ID_PERFIL)
       references PERFIL (ID_PERFIL)
       on delete restrict on update restrict;
-
 
 
 

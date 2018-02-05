@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/commonLayout.xhtml">
+
+            <ui:define name="content">
+
+                <p:breadCrumb>
+                    <p:menuitem  value="" url="/" />
+                    <p:menuitem value="#{bundle.MensagensTitle_vista}" outcome="index" />
+                </p:breadCrumb>
+
+                <h1 class="page-title">
+                    #{mensagemBean.message.assunto} 
+                </h1>
+
+
+                <h:form styleClass="form" id="form">
+                    <p:growl id="msgs" showDetail="true" />
+
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Id" for="id"/>
+                        <h:outputText id="id" value="#{mensagemBean.message.idMensagem}"/>
+
+                        <h:outputLabel value="Enviada por" for="id_remetente"/>
+                        <h:outputText id="id_remetente" value="#{utilizadoresBean.getUsernameById(mensagemBean.message.idRemetente)}"/>
+
+                        <h:outputLabel value="Assunto" for="assunto"/>
+                        <h:outputText id="assunto" value="#{mensagemBean.message.assunto}"/>
+
+                        <h:outputLabel value="Mensagem" for="mensagem"/>
+                        <h:outputText id="mensagem" value="#{mensagemBean.message.mensagem}"/>
+
+                        <h:outputLabel value="Enviada em" for="created_at"/>
+                        <h:outputText id="created_at" value="#{mensagemBean.message.createdAt}"/>
+
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+
+</html>

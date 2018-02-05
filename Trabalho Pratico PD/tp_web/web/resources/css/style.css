@@ -13,6 +13,9 @@ and open the template in the editor.
     color: #248b8c;
     font-size: 24px;
 }
+.bold{
+    font-weight: bold!important;
+}
 
 .page-subTitle{
     color: #248b8c;
@@ -131,10 +134,18 @@ and open the template in the editor.
     background-color: #248b8c;
 }
 
-.header .title {
-    color:#fff;
-    margin-left: 10px;
+.header .title-container{
     display: inline-block;
+    margin-top: 25px;
+}
+
+.header .title {
+   color: #fff;
+    margin-left: 10px;
+    display: inline-block !important;
+    text-decoration: none;
+    font-size: 28px;
+    
 }
 
 .header .unlogged-user{
@@ -281,7 +292,7 @@ and open the template in the editor.
     font-weight: bold;
 }
 
-.registerBox .ui-widget-header .ui-inputfield, .ui-widget-content .ui-inputfield{
+.registerBox .ui-inputfield{
     width: 100%!important;
 }
 
@@ -347,7 +358,7 @@ and open the template in the editor.
     font-size: 15px;
 }
 
-.form input,textarea {
+.form input,textarea,.ui-selectcheckboxmenu{
     width: 90%!important;
     float: left;
 }
