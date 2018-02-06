@@ -35,4 +35,9 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
 
         return proposals;
     }
+    
+    @Override
+    public AquisicaoProposta findAquisicaoProposta(Integer id) {
+        return dAO.getEntityManager().find(AquisicaoProposta.class, id);
+    }
 }

@@ -5,18 +5,26 @@
  */
 package beans;
 
+import controllers.AquisicaoPropostaFacadeLocal;
 import controllers.PropostaFacadeLocal;
+import controllers.UtilizadorFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
+import models.AquisicaoProposta;
+import models.Categoria;
 import models.Proposta;
 import models.Utilizador;
 
@@ -29,7 +37,13 @@ import models.Utilizador;
 public class PropostaSolucaoBean implements Serializable {
 
     @EJB
-    private PropostaFacadeLocal propostaFacade;
+    private UtilizadorFacadeLocal utilizadorFacade;
+
+    @EJB
+    private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;
+
+    @EJB
+    private PropostaFacadeLocal propostaFacade;   
     
     private Proposta proposta = new Proposta();
     private Integer idProposta;
@@ -110,13 +124,13 @@ public class PropostaSolucaoBean implements Serializable {
             JsonObjectBuilder propostaFields = Json.createObjectBuilder();
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
+            propostaFields.add("idUtilizador", request.getParameter("form:id_utilizador"));
             propostaFields.add("valor_total", request.getParameter("form:solucao"));
-            propostaFields.add("idUtilizador", "1");
             
             JsonObject fieldsObject = propostaFields.build();
             propostaFacade.create(fieldsObject.toString());
            
-            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Categoria criada com sucesso"));
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Proposta Solução criada com sucesso"));
 
         } catch (Exception ex) {
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", ex.toString()));
@@ -126,8 +140,25 @@ public class PropostaSolucaoBean implements Serializable {
             context.getCurrentInstance()
                     .getExternalContext()
                     .getFlash().setKeepMessages(true);
-            return "category.xhtml?faces-redirect=true?";
+            return "index.xhtml?faces-redirect=true?";
         }
     }
     
+    
+        //VALIDATORS
+    public void validateSolucao(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Object oldValue = ((UIInput) component).getValue();
+
+        int id = Integer.parseInt(request.getParameter("form:idP"));
+        
+        AquisicaoProposta proposta = aquisicaoPropostaFacade.findAquisicaoProposta(id);
+
+        float valorSolucao = Float.parseFloat(request.getParameter("form:solucao"));
+
+        if(valorSolucao > proposta.getValorMax()) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "O valor introduzido não pode ser superior ao valor máximo");
+            throw new ValidatorException(msg);
+        }
+    }
 }

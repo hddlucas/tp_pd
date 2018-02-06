@@ -18,4 +18,5 @@ import models.AquisicaoProposta;
 public interface AquisicaoPropostaFacadeLocal {
     
     List<AquisicaoProposta> getAcquisitionProposals();
+    AquisicaoProposta findAquisicaoProposta(Integer id);
 }

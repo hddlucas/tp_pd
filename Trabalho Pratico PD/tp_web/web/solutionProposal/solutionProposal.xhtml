@@ -23,11 +23,9 @@
                 
                 <h:form styleClass="form" id="form">
                     <p:growl id="msgs" showDetail="true" />
-
+                    <h:inputHidden value="#{loginBean.loggedUser.idUtilizador}" id="id_utilizador" />
+                    <h:inputHidden id="idP" value="#{propostaAquisicaoBean.proposedAcquisition.idAquisicao}"/>
                     <h:panelGrid columns="2">
-                        <h:outputLabel value="Id" for="id"/>
-                        <h:outputText id="id" value="#{propostaAquisicaoBean.proposedAcquisition.idAquisicao}"/>
-                        
                         <h:outputLabel value="Produto" for="produto"/>
                         <h:outputText id="produto" value="#{propostaAquisicaoBean.proposedAcquisition.idProduto.descricao}"/>                      
                         
@@ -41,7 +39,9 @@
                         <h:outputText id="observacoes" value="#{propostaAquisicaoBean.proposedAcquisition.observacoes}"/>
                    
                         <h:outputLabel value="Proposta de Solução" for="solucao"/>
-                        <h:inputText id="solucao"/>
+                        <h:inputText id="solucao" required="true"
+                                         requiredMessage="O campo Nome é obrigatório"
+                                         validator="#{propostaSolucaoBean.validateSolucao}" />
                     
                     </h:panelGrid>
                     
