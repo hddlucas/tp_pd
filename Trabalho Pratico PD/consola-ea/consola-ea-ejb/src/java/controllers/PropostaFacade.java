@@ -7,6 +7,7 @@ package controllers;
 
 import controllers.exceptions.RollbackFailureException;
 import static java.lang.Integer.parseInt;
+import static java.lang.Math.toIntExact;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -27,28 +28,28 @@ public class PropostaFacade implements PropostaFacadeLocal {
     @EJB
     private UtilizadorFacadeLocal utilizadorFacade;
 
-    private int totalGanhas=0;
+    private int totalGanhas = 0;
+    private double totalDinheiro = 0;
 
     @EJB
     private DAOLocal dAO;
-    
+
     @Override
     public void create(String fields) throws RollbackFailureException, Exception {
         try {
 
             JSONObject proposalFields = new JSONObject(fields);
-            Utilizador u = utilizadorFacade.findUtilizador(Integer.parseInt(proposalFields.getString("idUtilizador")));            
+            Utilizador u = utilizadorFacade.findUtilizador(Integer.parseInt(proposalFields.getString("idUtilizador")));
             Proposta p = new Proposta();
             p.setValorTotal(Double.parseDouble(proposalFields.getString("valor_total")));
             p.setGanhou(Boolean.FALSE);
 
             p.setIdUtilizador(u);
-            
+
             u.getPropostaCollection().add(p);
-            
+
             dAO.getEntityManager().merge(u);
 
-            
         } catch (Exception ex) {
             throw ex;
         }
@@ -56,36 +57,30 @@ public class PropostaFacade implements PropostaFacadeLocal {
 
     @Override
     public int getTotalWin() {
+        try {
 
-         try {
-             Query q = dAO.getEntityManager().createNamedQuery("Proposta.findAll");
+            Query q = dAO.getEntityManager().createNativeQuery("SELECT COUNT(p.id_proposta) FROM proposta p where p.ganhou=true");
 
-            totalGanhas=0;
-            List<Proposta> proposals = q.getResultList();
-
-            proposals.forEach((k) -> {
-                if (k.getGanhou() == true) {
-                    totalGanhas++;
-                }
-            });
+            Long count = (Long) q.getSingleResult();
             
-            return totalGanhas;
+            return toIntExact(count);
             
         } catch (Exception ex) {
-            return 0;
+            return 1;
         }
-        
     }
 
     @Override
     public Double getTotalTransactedMoney() {
 
-        return 1.0;
+        try {
+            Query q = dAO.getEntityManager().createNativeQuery("SELECT SUM(p.valor_total) FROM proposta p where p.ganhou=true");
+
+            return (Double) q.getSingleResult();
+            
+        } catch (Exception ex) {
+            return 0.0;
+        }
     }
-    
-    
-    
-    
-    
-    
+
 }

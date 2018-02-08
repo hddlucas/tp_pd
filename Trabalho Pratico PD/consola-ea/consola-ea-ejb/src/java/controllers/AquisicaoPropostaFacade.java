@@ -7,6 +7,7 @@ package controllers;
 
 import controllers.exceptions.RollbackFailureException;
 import static java.lang.Integer.parseInt;
+import static java.lang.Math.toIntExact;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -53,7 +54,7 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             
 
-            Query q = dAO.getEntityManager().createNativeQuery("SELECT * FROM aquisicao_proposta p where p.deleted=false and date(p.created_at) = '2018-02-08");
+            Query q = dAO.getEntityManager().createNativeQuery("SELECT * FROM aquisicao_proposta p where p.deleted=false and date(p.created_at) = '2018-02-08'");
             proposals = q
                     .getResultList();
             return proposals.size();
@@ -61,10 +62,11 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
 
     @Override
     public int totalPropostas() {
-        List<AquisicaoProposta> proposals = null;
-        proposals = this.getAcquisitionProposals();
+        Query q = dAO.getEntityManager().createNativeQuery("SELECT COUNT(a.id_aquisicao) FROM aquisicao_proposta a where a.deleted=false");
 
-        return proposals.size();
+        Long count = (Long) q.getSingleResult();
+            
+        return toIntExact(count);
     }
     
     

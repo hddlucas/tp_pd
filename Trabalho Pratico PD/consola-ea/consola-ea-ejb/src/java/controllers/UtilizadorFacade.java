@@ -49,6 +49,28 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
         return utilizadores;
     }
 
+     /**
+     *
+     * @param userId
+     * @param roleId
+     */
+    @Override
+    public void addUserRole(Utilizador u, int roleId) {
+        try {
+
+            Perfil p = (Perfil) dAO.getEntityManager().find(Perfil.class, roleId);
+
+            u.getPerfilCollection().add(p);
+            p.getUtilizadorCollection().add(u);
+
+            dAO.getEntityManager().merge(u);
+            dAO.getEntityManager().merge(p);
+
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
     @Override
     public Utilizador create(String fields) throws RollbackFailureException, Exception {
         try {
@@ -90,7 +112,12 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             }
 
             dAO.getEntityManager().persist(u);
-
+           
+            
+            if (userFields.has("tipo_de_conta")) 
+                   if(userFields.getString("tipo_de_conta").equals("vendedor"))
+                       this.addUserRole(this.findUtilizadorByUsername(userFields.getString("username")).get(0), 4);
+            
             return u;
             
         } catch (Exception ex) {
@@ -265,28 +292,7 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
 
     }
 
-    /**
-     *
-     * @param userId
-     * @param roleId
-     */
-    @Override
-    public void addUserRole(int userId, int roleId) {
-        try {
-
-            Utilizador u = (Utilizador) dAO.getEntityManager().find(Utilizador.class, userId);
-            Perfil p = (Perfil) dAO.getEntityManager().find(Perfil.class, roleId);
-
-            u.getPerfilCollection().add(p);
-            p.getUtilizadorCollection().add(u);
-
-            dAO.getEntityManager().merge(u);
-            dAO.getEntityManager().merge(p);
-
-        } catch (Exception ex) {
-            throw ex;
-        }
-    }
+   
 
     @Override
     public void removeUserRole(int userId, int roleId) {

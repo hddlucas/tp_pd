@@ -108,13 +108,10 @@ public class DashboardBean implements Serializable {
     private void createDateModel()  {
         FacesContext context = FacesContext.getCurrentInstance();
 
-        
         dateModel = new LineChartModel();
         LineChartSeries series1 = new LineChartSeries();
         series1.setLabel("Series 1");
  
-      
-       
         Calendar calendar = Calendar.getInstance();
         int year = 2018;
         int month=2;
@@ -161,6 +158,8 @@ public class DashboardBean implements Serializable {
         return propostaFacade.getTotalWin();
     }
    
-
+    public double getTotalValorTransacionado()  {
+        return propostaFacade.getTotalTransactedMoney();
+    }
     
 }
