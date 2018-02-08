@@ -6,7 +6,7 @@
 package models;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hddlucas
+ * @author marcosequeira
  */
 @Entity
 @Table(name = "operador")
@@ -30,16 +30,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Operador.findAll", query = "SELECT o FROM Operador o")
     , @NamedQuery(name = "Operador.findByIdOperador", query = "SELECT o FROM Operador o WHERE o.idOperador = :idOperador")
-    , @NamedQuery(name = "Operador.findByNomeoperador", query = "SELECT o FROM Operador o WHERE o.nomeoperador = :nomeoperador")
-    , @NamedQuery(name = "Operador.findByDescricaooperador", query = "SELECT o FROM Operador o WHERE o.descricaooperador = :descricaooperador")})
+    , @NamedQuery(name = "Operador.findByNome", query = "SELECT o FROM Operador o WHERE o.nome = :nome")
+    , @NamedQuery(name = "Operador.findByDescricao", query = "SELECT o FROM Operador o WHERE o.descricao = :descricao")})
 public class Operador implements Serializable {
-
-    @Column(name = "nome")
-    private String nome;
-    @Column(name = "descricao")
-    private String descricao;
-    @OneToMany(mappedBy = "idOperador")
-    private Collection<Componente> componenteCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,12 +40,12 @@ public class Operador implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_operador")
     private Integer idOperador;
-    @Column(name = "nomeoperador")
-    private String nomeoperador;
-    @Column(name = "descricaooperador")
-    private String descricaooperador;
-    //@OneToMany(mappedBy = "idOperador")
-    private Collection<AquisicaoProposta> aquisicaoPropostaCollection;
+    @Column(name = "nome")
+    private String nome;
+    @Column(name = "descricao")
+    private String descricao;
+    @OneToMany(mappedBy = "idOperador")
+    private List<Componente> componenteList;
 
     public Operador() {
     }
@@ -69,29 +62,29 @@ public class Operador implements Serializable {
         this.idOperador = idOperador;
     }
 
-    public String getNomeoperador() {
-        return nomeoperador;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNomeoperador(String nomeoperador) {
-        this.nomeoperador = nomeoperador;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getDescricaooperador() {
-        return descricaooperador;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescricaooperador(String descricaooperador) {
-        this.descricaooperador = descricaooperador;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     @XmlTransient
-    public Collection<AquisicaoProposta> getAquisicaoPropostaCollection() {
-        return aquisicaoPropostaCollection;
+    public List<Componente> getComponenteList() {
+        return componenteList;
     }
 
-    public void setAquisicaoPropostaCollection(Collection<AquisicaoProposta> aquisicaoPropostaCollection) {
-        this.aquisicaoPropostaCollection = aquisicaoPropostaCollection;
+    public void setComponenteList(List<Componente> componenteList) {
+        this.componenteList = componenteList;
     }
 
     @Override
@@ -117,31 +110,6 @@ public class Operador implements Serializable {
     @Override
     public String toString() {
         return "models.Operador[ idOperador=" + idOperador + " ]";
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    @XmlTransient
-    public Collection<Componente> getComponenteCollection() {
-        return componenteCollection;
-    }
-
-    public void setComponenteCollection(Collection<Componente> componenteCollection) {
-        this.componenteCollection = componenteCollection;
     }
     
 }

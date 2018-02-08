@@ -15,6 +15,13 @@
                     <p:menuitem  value="" url="/" />
                     <p:menuitem value="#{bundle.ComponenteTitle_vista}" outcome="index" />
                 </p:breadCrumb>
+                
+                <p:commandButton  value="Editar" styleClass="top-edit-button" action="#{componenteBean.edit(componenteBean.componente)}"  icon="ui-icon-pencil white"    >
+                </p:commandButton> 
+                
+                <p:commandButton  value="Eliminar" styleClass="top-delete-button" onclick="if (!confirm('Tem a certeza que deseja eliminar o componente?'))
+                            return false" action="#{componenteBean.destroy(componenteBean.componente.idComponente)}"  icon="ui-icon-trash white"    >
+                </p:commandButton> 
 
                 <h1 class="page-title">
                     #{componenteBean.componente.nome}
@@ -46,5 +53,4 @@
             </ui:define>
         </ui:composition>
     </h:body>
-
 </html>
