@@ -51,7 +51,7 @@ public class Operador implements Serializable {
     private String nomeoperador;
     @Column(name = "descricaooperador")
     private String descricaooperador;
-    @OneToMany(mappedBy = "idOperador")
+    //@OneToMany(mappedBy = "idOperador")
     private Collection<AquisicaoProposta> aquisicaoPropostaCollection;
 
     public Operador() {

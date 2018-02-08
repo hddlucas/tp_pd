@@ -100,6 +100,9 @@ and open the template in the editor.
 /*****************ICONS***********/
 .ui-icon.white { background-image: url("../../faces/javax.faces.resource/images/ui-icons_ffffff_256x240.png?ln=primefaces-aristo")!important; }
 
+.ui-icon.red { background-image: url("../../faces/javax.faces.resource/images/ui-icons_cd0a0a_256x240.png?ln=primefaces-aristo")!important; }
+
+
 /*****************TABS***********/
 
 .ui-tabs .ui-tabs-nav li a{

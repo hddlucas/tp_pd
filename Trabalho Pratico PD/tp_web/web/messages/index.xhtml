@@ -20,7 +20,7 @@
                 <div class="ui-grid-col-12">
                     <h:form>
                         <p:dataTable id="messagesList" var="message" value="#{mensagemBean.getList(loginBean.loggedUser)}">
-                            <p:column headerText="Id" >
+                            <p:column headerText="Id" sortBy="#{message.idMensagem}">
                                 <h:outputText styleClass="#{message.lida ? '' : 'bold'}"  value="#{message.idMensagem}" />
                             </p:column>
                             
@@ -33,10 +33,14 @@
                                 <h:outputText styleClass="#{message.lida ? '' : 'bold'}" value="#{utilizadoresBean.getUsernameById(message.idRemetente)}" />
                             </p:column>
 
-                            <p:column headerText="Enviada em">
+                            <p:column headerText="Enviada em" sortBy="#{message.createdAt}">
                                 <h:outputText styleClass="#{message.lida ? '' : 'bold'}" value="#{message.createdAt}" />
                             </p:column>
 
+                            <p:column headerText="Lida" sortBy="#{message.lida}" style="width:35px;text-align: center!important">
+                                <h:outputText styleClass="#{message.lida ? 'ui-icon ui-icon-check' : 'ui-icon  ui-icon-notice red'}"/>
+                            </p:column>
+                            
                             <p:column style="width:80px;text-align: center">
 
                                 <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{mensagemBean.show(message)}">

@@ -12,24 +12,24 @@
             <ui:define name="content">
                 <div class="ui-grid-col-12">
                     <h1 class="page-title">
-                        #{bundle.CategoriasTitle_vista}
+                        #{bundle.PropostaAquisicaoTitle_vista}
                     </h1>
                 </div>
-                <p:button outcome="create" value="Criar Categoria"/>
 
                 <div class="ui-grid-col-12">
                     <h:form>
-                        <p:dataTable id="categoriesList" var="category" value="#{categoriasBean.list}">
-                            <p:column headerText="Id">
-                                <h:outputText value="#{category.idCategoria}" />
+                        <p:dataTable id="proposedAcquisitionList" var="proposedAcquisition" value="#{propostaAquisicaoBean.list}">
+                            <p:column headerText="Produto">
+                                <h:outputText value="#{proposedAcquisition.idProduto.descricao}" />
                             </p:column>
-                            <p:column headerText="Nome">
-                                <h:outputText value="#{category.nome}" />
+                            <p:column headerText="Utilizador">
+                                <h:outputText value="#{proposedAcquisition.idUtilizador.nome}" />
                             </p:column>
-
-
+                            <p:column headerText="Valor Máximo">
+                                <h:outputText value="#{proposedAcquisition.valorMax}" />
+                            </p:column>
                             <p:column style="width:80px;text-align: center">
-                                <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{categoriasBean.show(category)}">
+                                <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{propostaAquisicaoBean.show(proposedAcquisition)}">
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>

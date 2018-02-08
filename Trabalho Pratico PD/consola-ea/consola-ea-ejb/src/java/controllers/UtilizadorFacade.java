@@ -28,6 +28,8 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
 
     @EJB
     private DAOLocal dAO;
+    
+    private int total = 0;
 
     @Override
     public List<Utilizador> getUsersList() {
@@ -316,5 +318,24 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
         }
     }
     
+    
+     @Override
+    public int getTotalUsersPerRole(String roleName) {
+        try {
+
+            total=0;
+            List<Utilizador> allUsers = this.getUsersList();
+
+            allUsers.forEach((k) -> {
+                if (hasRole(k.getIdUtilizador(), roleName) == true) {
+                    total++;
+                }
+            });
+
+            return total;
+        } catch (Exception ex) {
+            return 0;
+        }
+    }
 
 }
