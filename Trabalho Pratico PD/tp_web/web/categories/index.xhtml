@@ -29,6 +29,11 @@
 
 
                             <p:column style="width:80px;text-align: center">
+                                  <p:commandButton onclick="if (!confirm('Tem a certeza que deseja eliminar a categoria?'))
+                                            return false" action="#{categoriasBean.destroy(category.idCategoria)}"  icon="ui-icon-trash white"  styleClass="delete-button"  >
+                                </p:commandButton> 
+
+                                
                                 <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{categoriasBean.show(category)}">
                                 </p:commandButton>
                             </p:column>

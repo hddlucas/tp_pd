@@ -49,15 +49,14 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
 
     @Override
     public int totalPropostas(Date date) {
-    
-            List<AquisicaoProposta> proposals = null;
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            
 
-            Query q = dAO.getEntityManager().createNativeQuery("SELECT * FROM aquisicao_proposta p where p.deleted=false and date(p.created_at) = '2018-02-08'");
-            proposals = q
-                    .getResultList();
-            return proposals.size();
+        List<AquisicaoProposta> proposals = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        Query q = dAO.getEntityManager().createNativeQuery("SELECT * FROM aquisicao_proposta p where p.deleted=false and date(p.created_at) = '2018-02-08'");
+        proposals = q
+                .getResultList();
+        return proposals.size();
     }
 
     @Override
@@ -65,12 +64,13 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
         Query q = dAO.getEntityManager().createNativeQuery("SELECT COUNT(a.id_aquisicao) FROM aquisicao_proposta a where a.deleted=false");
 
         Long count = (Long) q.getSingleResult();
-            
+
         return toIntExact(count);
     }
-    
-    
-    
-    
-    
+
+    @Override
+    public int totalPropostasEmaberto() {
+        return 0;
+    }
+
 }

@@ -78,7 +78,8 @@
                         <h:form >
                             <p:dataTable id="rolesList" var="role" value="#{perfisBean.list}">
                                 <p:column>
-                                    <p:selectBooleanCheckbox  value="#{utilizadoresBean.user.perfilCollection.contains(role)}" >
+                                    <p:selectBooleanCheckbox  value="#{utilizadoresBean.user.perfilCollection.contains(role)}" onchange="#{utilizadoresBean.addUserRole(utilizadoresBean.user, role.idPerfil)}">
+                                        <p:ajax  event="change" update="@form"/>
                                     </p:selectBooleanCheckbox>
                                 </p:column>
 
