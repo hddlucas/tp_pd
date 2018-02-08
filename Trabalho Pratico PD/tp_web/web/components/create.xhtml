@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/commonLayout.xhtml">
+
+            <ui:define name="content">
+                <div class="ui-grid-col-12">
+                    <p:breadCrumb>
+                        <p:menuitem  value="" url="/" />
+                        <p:menuitem value="#{bundle.ComponentesTitle_vista}" outcome="index" />
+                    </p:breadCrumb>
+                </div>
+                <div class="ui-grid-col-12">
+                    <h1 class="page-title">
+                        #{bundle.ComponentesTitle_criar}
+                    </h1>
+                </div>
+                <div class="ui-grid-col-12">
+                    <h:form styleClass="form" id="form">
+                        <p:growl id="msgs" showDetail="true" />
+
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Nome *"
+                                           for="nome"/>
+                            <h:inputText id="nome"
+                                         required="true"
+                                         requiredMessage="O campo Nome é obrigatório"
+                                         />
+                            
+                            <h:outputLabel value="Observações"
+                                           for="observacoes"/>
+                            <h:inputText id="observacoes"/>
+                            
+                            
+                            <p:selectCheckboxMenu id="categorias" 
+                                                  label="categorias" 
+                                                  multiple="false"
+                                                  filter="true" 
+                                                  required="true"
+                                                  requiredMessage="O campo Categoria é obrigatório"
+                                                  filterMatchMode="startsWith" 
+                                                  panelStyle="width:250px">
+                                <f:selectItems value="#{componenteBean.categorias}" />
+                            </p:selectCheckboxMenu>
+                            
+                        </h:panelGrid>
+                        <br />
+                        <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Criar"  action="#{componenteBean.create()}" >
+                        </h:commandLink>
+                        
+                          <h:button styleClass="ui-button ui-widget ui-state-default ui-corner-all cancel-button" value="Cancelar" outcome="index" >
+                        </h:button> 
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+
+</html>

@@ -11,28 +11,59 @@
 
         <ui:composition template="template/commonLayout.xhtml">
             <ui:define name="content">
-                <h1>
-                    Home 
-                </h1>
 
-                <div class="ui-grid-col-4">Col1</div>
-                <div class="ui-grid-col-4">Col2</div>
-                <div class="ui-grid-col-4">Col2</div>
+                <div class="dashboard-container">
+                    <h1 class="page-title">
+                        Ínicio
+                    </h1>
 
-                <div class="ui-grid-col-12">
 
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis congue neque. Phasellus molestie ligula hendrerit, pharetra purus et, ullamcorper dui. Cras quis felis laoreet, faucibus purus sed, venenatis mi. Vestibulum efficitur non sem ut mollis. Maecenas non sagittis urna. Ut mauris ex, luctus non metus consequat, porta tempor sem. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam cursus mattis suscipit.
+                    <div class="ui-g">
+                        <div class="ui-g-8">
+                            <p:chart type="line" model="#{dashboardBean.dateModel}" style="height:400px;"/>
 
-                    Duis arcu arcu, placerat eget sollicitudin non, porttitor vel purus. Nulla scelerisque mollis risus, non eleifend urna sollicitudin id. Nulla vestibulum aliquet ligula. Ut non quam congue, feugiat eros sit amet, accumsan metus. Vivamus commodo malesuada ante, maximus laoreet nibh finibus nec. Sed mattis quis sapien eget finibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non leo nisi. Donec et felis enim. Suspendisse ipsum nisi, sodales a turpis tempor, accumsan molestie nisl. Morbi nisl metus, dapibus a nisi a, rutrum tristique nisi. Curabitur eu ornare erat, sed hendrerit enim. Sed fermentum sit amet nunc vel tempus.
+                        </div>
+                        <div class="ui-g-4">
 
-                    Nunc egestas non arcu non eleifend. Nulla mattis laoreet nisl. Proin a semper diam. In ut eros sed nunc luctus egestas. Cras rutrum arcu sit amet lacinia blandit. Sed eros mi, tristique et facilisis vitae, posuere id nunc. Suspendisse posuere posuere lorem, eu convallis turpis auctor eget. Mauris rutrum massa vitae nulla porta sollicitudin. Sed scelerisque convallis felis. Aenean purus magna, consequat sed rutrum ut, iaculis vel enim. Morbi eget ultricies ex. Proin in diam augue. Sed ut convallis urna. Nunc congue eget dolor ut elementum. Vivamus nibh sapien, ullamcorper aliquet libero eget, sollicitudin eleifend neque.
+                            <h:form>
+                                <p:growl id="growl" showDetail="true" />
 
-                    Quisque in diam viverra, tristique ipsum non, imperdiet dolor. Donec finibus tortor id justo porta, non volutpat magna dignissim. Suspendisse potenti. Nulla facilisi. Curabitur semper mauris nulla, ut iaculis nunc egestas vitae. Phasellus eget pharetra dolor, at bibendum neque. Nulla ultricies magna nec enim tincidunt eleifend. Praesent auctor molestie molestie. Etiam consectetur lorem ac augue vestibulum, eu ultrices odio commodo. Nullam fringilla ut neque eu pharetra. Aenean tristique nibh at pharetra luctus. Cras consequat vitae ex vel condimentum. Phasellus a massa ac lectus feugiat tincidunt sit amet non nibh. Morbi in nibh eu augue lobortis auctor.
+                                <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                                    <p:chart type="pie" model="#{dashboardBean.pieModel1}" style="width:400px;height:300px">
+                                        <p:ajax event="itemSelect" listener="#{chartView.itemSelect}" update="growl" />
+                                    </p:chart>
 
-                    Maecenas feugiat ultricies nulla, ac ultrices urna elementum ac. Nullam mattis arcu eu felis auctor, at aliquam est semper. Ut eros justo, mattis vel leo nec, semper blandit tellus. In iaculis, arcu molestie vehicula volutpat, nisi nunc ullamcorper massa, aliquet vestibulum eros quam et velit. Aenean pharetra enim vel purus porttitor, at blandit nunc convallis. Fusce nec consectetur magna, et aliquam nunc. Duis rhoncus aliquam arcu. Cras tempor nisl in purus viverra sagittis. Duis molestie vehicula condimentum. Suspendisse id ultrices dolor. Aliquam vel laoreet tellus.
+
+                                </h:panelGrid>
+
+                            </h:form>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-8 dashboard-statistics">
+                            <h:outputText styleClass="ui-icon ui-icon-check dashboard-statistics-icon"/>
+                            <h1 class="dashboard-statistics-label">Total de Propostas:  </h1>
+                            <h:outputText styleClass="dashboard-statistics-value" value="#{dashboardBean.totalPropostas}"/>
+                        </div>
+
+                        <div class="ui-g-4">
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-8 dashboard-statistics">
+                            <h:outputText styleClass="ui-icon ui-icon-check dashboard-statistics-icon"/>
+                            <h1 class="dashboard-statistics-label">Número de Compras Efetuadas:  </h1>
+                            <h:outputText styleClass="dashboard-statistics-value" value="#{dashboardBean.totalPropostasGanhas}"/>
+                        </div>
+
+                        <div class="ui-g-4">
+                        </div>
+                    </div>
+                    
+                    
                 </div>
-
-
             </ui:define>
         </ui:composition>
 
