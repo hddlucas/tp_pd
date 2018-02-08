@@ -38,6 +38,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "AquisicaoProposta.findByCreatedAt", query = "SELECT a FROM AquisicaoProposta a WHERE a.createdAt = :createdAt")})
 public class AquisicaoProposta implements Serializable {
 
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "valor_max")
+    private Double valorMax;
+
     @Basic(optional = false)
     @Column(name = "deleted")
     private boolean deleted;
@@ -48,8 +52,6 @@ public class AquisicaoProposta implements Serializable {
     @Column(name = "id_aquisicao", insertable = false , columnDefinition = "serial") 
     private Integer idAquisicao;
     
-    @Column(name = "valor_max")
-    private Integer valorMax;
     @Column(name = "observacoes")
     private String observacoes;
     @Column(name = "created_at")
@@ -77,11 +79,11 @@ public class AquisicaoProposta implements Serializable {
         this.idAquisicao = idAquisicao;
     }
 
-    public Integer getValorMax() {
+    public Double getValorMax() {
         return valorMax;
     }
 
-    public void setValorMax(Integer valorMax) {
+    public void setValorMax(Double valorMax) {
         this.valorMax = valorMax;
     }
 
@@ -149,5 +151,7 @@ public class AquisicaoProposta implements Serializable {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
+
+ 
     
 }

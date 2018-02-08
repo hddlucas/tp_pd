@@ -39,7 +39,7 @@ public class PropostaFacade implements PropostaFacadeLocal {
             JSONObject proposalFields = new JSONObject(fields);
             Utilizador u = utilizadorFacade.findUtilizador(Integer.parseInt(proposalFields.getString("idUtilizador")));            
             Proposta p = new Proposta();
-            p.setValorTotal(Integer.parseInt(proposalFields.getString("valor_total")));
+            p.setValorTotal(Double.parseDouble(proposalFields.getString("valor_total")));
             p.setGanhou(Boolean.FALSE);
 
             p.setIdUtilizador(u);
@@ -75,6 +75,12 @@ public class PropostaFacade implements PropostaFacadeLocal {
             return 0;
         }
         
+    }
+
+    @Override
+    public Double getTotalTransactedMoney() {
+
+        return 1.0;
     }
     
     

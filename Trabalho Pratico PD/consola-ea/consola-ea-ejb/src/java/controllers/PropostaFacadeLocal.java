@@ -16,5 +16,7 @@ import javax.ejb.Local;
 public interface PropostaFacadeLocal {
     void create(String fields) throws RollbackFailureException, Exception;
     int getTotalWin();
+    Double getTotalTransactedMoney();
+
 
 }

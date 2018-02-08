@@ -52,7 +52,8 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
             List<AquisicaoProposta> proposals = null;
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             
-            Query q = dAO.getEntityManager().createNativeQuery("SELECT * FROM aquisicao_proposta p where date(p.created_at) = :createdAt");
+
+            Query q = dAO.getEntityManager().createNativeQuery("SELECT * FROM aquisicao_proposta p where p.deleted=false and date(p.created_at) = '2018-02-08");
             proposals = q
                     .getResultList();
             return proposals.size();
