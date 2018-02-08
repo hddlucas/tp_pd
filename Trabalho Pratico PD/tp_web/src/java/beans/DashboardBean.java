@@ -7,6 +7,7 @@ package beans;
 
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.year;
 import controllers.AquisicaoPropostaFacadeLocal;
+import controllers.PropostaFacadeLocal;
 import controllers.UtilizadorFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped; 
@@ -44,11 +45,15 @@ import org.primefaces.model.chart.PieChartModel;
 public class DashboardBean implements Serializable {
 
     @EJB
+    private PropostaFacadeLocal propostaFacade;
+
+    @EJB
     private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;
 
     @EJB
     private UtilizadorFacadeLocal utilizadorFacade;
 
+    
     
     /**
      * Creates a new instance of DashboardBean
@@ -137,7 +142,7 @@ public class DashboardBean implements Serializable {
  
         dateModel.addSeries(series1);
          
-        dateModel.setTitle("Total de Propostas de Aquisição -Mês Corrente");
+        dateModel.setTitle("Total de Propostas de Aquisição - Mês Corrente");
         dateModel.setZoom(true);
         dateModel.getAxis(AxisType.Y).setLabel("Total");
         DateAxis axis = new DateAxis("Datas");
@@ -150,6 +155,10 @@ public class DashboardBean implements Serializable {
     
      public int getTotalPropostas()  {
         return aquisicaoPropostaFacade.totalPropostas();
+    }
+     
+    public int getTotalPropostasGanhas()  {
+        return propostaFacade.getTotalWin();
     }
    
 

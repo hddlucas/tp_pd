@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AquisicaoProposta.findAll", query = "SELECT a FROM AquisicaoProposta a")
+    ,@NamedQuery(name = "AquisicaoProposta.findAllNotDeleted", query = "SELECT a FROM AquisicaoProposta a WHERE a.deleted = false")
     , @NamedQuery(name = "AquisicaoProposta.findByIdAquisicao", query = "SELECT a FROM AquisicaoProposta a WHERE a.idAquisicao = :idAquisicao")
     , @NamedQuery(name = "AquisicaoProposta.findByValorMax", query = "SELECT a FROM AquisicaoProposta a WHERE a.valorMax = :valorMax")
     , @NamedQuery(name = "AquisicaoProposta.findByObservacoes", query = "SELECT a FROM AquisicaoProposta a WHERE a.observacoes = :observacoes")

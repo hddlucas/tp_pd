@@ -15,4 +15,6 @@ import javax.ejb.Local;
 @Local
 public interface PropostaFacadeLocal {
     void create(String fields) throws RollbackFailureException, Exception;
+    int getTotalWin();
+
 }

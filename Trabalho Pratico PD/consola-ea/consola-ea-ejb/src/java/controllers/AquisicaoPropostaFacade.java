@@ -7,12 +7,16 @@ package controllers;
 
 import controllers.exceptions.RollbackFailureException;
 import static java.lang.Integer.parseInt;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import models.AquisicaoProposta;
 import models.Categoria;
 import models.Produto;
@@ -31,7 +35,7 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
 
     @Override
     public List<AquisicaoProposta> getAcquisitionProposals() {
-        Query q = dAO.getEntityManager().createNamedQuery("AquisicaoProposta.findAll");
+        Query q = dAO.getEntityManager().createNamedQuery("AquisicaoProposta.findAllNotDeleted");
         List<AquisicaoProposta> proposals = q.getResultList();
 
         return proposals;
@@ -44,15 +48,14 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
 
     @Override
     public int totalPropostas(Date date) {
-        List<AquisicaoProposta> proposals = null;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        Query q = dAO.getEntityManager().createNativeQuery("SELECT * FROM aquisicao_proposta p where date(p.created_at) = {d ':createdAt'}");
-        proposals = q
-                .setParameter("createdAt", 2018 - 02 - 02)
-                .getResultList();
-
-        return proposals.size();
+    
+            List<AquisicaoProposta> proposals = null;
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            
+            Query q = dAO.getEntityManager().createNativeQuery("SELECT * FROM aquisicao_proposta p where date(p.created_at) = :createdAt");
+            proposals = q
+                    .getResultList();
+            return proposals.size();
     }
 
     @Override
@@ -62,5 +65,9 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
 
         return proposals.size();
     }
-
+    
+    
+    
+    
+    
 }

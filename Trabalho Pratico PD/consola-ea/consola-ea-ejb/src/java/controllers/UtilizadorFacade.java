@@ -156,10 +156,6 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
 
             dAO.getEntityManager().merge(u);
 
-            
-            
-            
-            
         } catch (Exception ex) { 
             throw ex;
         }

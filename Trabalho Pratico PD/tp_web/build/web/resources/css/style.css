@@ -476,7 +476,11 @@ tr.linhas_pares {
 
 
 /*****************DASHBOARD***********/
-.dashboad-statistics-icon{
+.dashboard-statistics{
+    margin-bottom: -30px;
+}
+
+.dashboard-statistics-icon{
 
     display: inline-block!important;
     -ms-transform: scale(1.5); /* IE 9 */
@@ -485,7 +489,7 @@ tr.linhas_pares {
     margin-right: 20px;
 }
 
-.dashboad-statistics-label{
+.dashboard-statistics-label{
 
     display: inline-block!important;
     font-weight: bold!important;
@@ -496,7 +500,7 @@ tr.linhas_pares {
 
 }
 
-.dashboad-statistics-value{
+.dashboard-statistics-value{
 
     display: inline-block!important;
     font-size: 25px;

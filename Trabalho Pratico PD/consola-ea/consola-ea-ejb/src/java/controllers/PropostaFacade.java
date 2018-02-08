@@ -7,8 +7,10 @@ package controllers;
 
 import controllers.exceptions.RollbackFailureException;
 import static java.lang.Integer.parseInt;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import models.AquisicaoProposta;
 import models.Produto;
 import models.Proposta;
@@ -25,7 +27,7 @@ public class PropostaFacade implements PropostaFacadeLocal {
     @EJB
     private UtilizadorFacadeLocal utilizadorFacade;
 
-
+    private int totalGanhas=0;
 
     @EJB
     private DAOLocal dAO;
@@ -51,4 +53,33 @@ public class PropostaFacade implements PropostaFacadeLocal {
             throw ex;
         }
     }
+
+    @Override
+    public int getTotalWin() {
+
+         try {
+             Query q = dAO.getEntityManager().createNamedQuery("Proposta.findAll");
+
+            totalGanhas=0;
+            List<Proposta> proposals = q.getResultList();
+
+            proposals.forEach((k) -> {
+                if (k.getGanhou() == true) {
+                    totalGanhas++;
+                }
+            });
+            
+            return totalGanhas;
+            
+        } catch (Exception ex) {
+            return 0;
+        }
+        
+    }
+    
+    
+    
+    
+    
+    
 }

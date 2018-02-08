@@ -41,16 +41,28 @@
                     </div>
 
                     <div class="ui-g">
-                        <div class="ui-g-8">
-                            <h:outputText styleClass="ui-icon ui-icon-check dashboad-statistics-icon"/>
-                            <h1 class="dashboad-statistics-label">Total de Propostas:  </h1>
-                            <h:outputText styleClass="dashboad-statistics-value" value="#{dashboardBean.totalPropostas}"/>
+                        <div class="ui-g-8 dashboard-statistics">
+                            <h:outputText styleClass="ui-icon ui-icon-check dashboard-statistics-icon"/>
+                            <h1 class="dashboard-statistics-label">Total de Propostas:  </h1>
+                            <h:outputText styleClass="dashboard-statistics-value" value="#{dashboardBean.totalPropostas}"/>
                         </div>
 
                         <div class="ui-g-4">
                         </div>
                     </div>
 
+                    <div class="ui-g">
+                        <div class="ui-g-8 dashboard-statistics">
+                            <h:outputText styleClass="ui-icon ui-icon-check dashboard-statistics-icon"/>
+                            <h1 class="dashboard-statistics-label">Número de Compras Efetuadas:  </h1>
+                            <h:outputText styleClass="dashboard-statistics-value" value="#{dashboardBean.totalPropostasGanhas}"/>
+                        </div>
+
+                        <div class="ui-g-4">
+                        </div>
+                    </div>
+                    
+                    
                 </div>
             </ui:define>
         </ui:composition>
