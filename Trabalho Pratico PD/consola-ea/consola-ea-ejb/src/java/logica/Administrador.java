@@ -186,7 +186,9 @@ public class Administrador implements AdministradorRemote {
     public boolean addUserRole(int userId, int roleId) {
 
         try {
-            userFacade.addUserRole(userId,roleId);
+            
+            Utilizador u = userFacade.findUtilizador(userId);
+            userFacade.addUserRole(u,roleId);
             return true;
 
         } catch (Exception e) {

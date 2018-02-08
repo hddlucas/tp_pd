@@ -33,7 +33,7 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
 
     @Override
     public List<Utilizador> getUsersList() {
-        Query q = dAO.getEntityManager().createNamedQuery("Utilizador.findAll");
+        Query q = dAO.getEntityManager().createNamedQuery("Utilizador.findAllNotDeleted");
         List<Utilizador> utilizadores = q.getResultList();
 
         return utilizadores;
@@ -49,6 +49,28 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
         return utilizadores;
     }
 
+     /**
+     *
+     * @param userId
+     * @param roleId
+     */
+    @Override
+    public void addUserRole(Utilizador u, int roleId) {
+        try {
+
+            Perfil p = (Perfil) dAO.getEntityManager().find(Perfil.class, roleId);
+
+            u.getPerfilCollection().add(p);
+            p.getUtilizadorCollection().add(u);
+
+            dAO.getEntityManager().merge(u);
+            dAO.getEntityManager().merge(p);
+
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
     @Override
     public Utilizador create(String fields) throws RollbackFailureException, Exception {
         try {
@@ -90,7 +112,12 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             }
 
             dAO.getEntityManager().persist(u);
-
+           
+            
+            if (userFields.has("tipo_de_conta")) 
+                   if(userFields.getString("tipo_de_conta").equals("vendedor"))
+                       this.addUserRole(this.findUtilizadorByUsername(userFields.getString("username")).get(0), 4);
+            
             return u;
             
         } catch (Exception ex) {
@@ -152,7 +179,9 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
     public void destroy(Integer id) throws Exception  {
         try {
             Utilizador u = dAO.getEntityManager().find(Utilizador.class, id);
-            dAO.getEntityManager().createQuery("DELETE FROM Utilizador u WHERE u.idUtilizador = :id").setParameter("id", id).executeUpdate();
+            u.setDeleted(true);
+
+            dAO.getEntityManager().merge(u);
 
         } catch (Exception ex) { 
             throw ex;
@@ -207,7 +236,7 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
         if (utilizadores.size() > 0) {
             for (int i = 0; i < utilizadores.size(); i++) {
                 Utilizador u = utilizadores.get(i);
-                if (u.getPassword().equals(password)) {
+                if (u.getPassword().equals(password) && !u.getDeleted()) {
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                     u.setUltimoLogin(timestamp);
                     dAO.getEntityManager().merge(u);
@@ -263,28 +292,7 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
 
     }
 
-    /**
-     *
-     * @param userId
-     * @param roleId
-     */
-    @Override
-    public void addUserRole(int userId, int roleId) {
-        try {
-
-            Utilizador u = (Utilizador) dAO.getEntityManager().find(Utilizador.class, userId);
-            Perfil p = (Perfil) dAO.getEntityManager().find(Perfil.class, roleId);
-
-            u.getPerfilCollection().add(p);
-            p.getUtilizadorCollection().add(u);
-
-            dAO.getEntityManager().merge(u);
-            dAO.getEntityManager().merge(p);
-
-        } catch (Exception ex) {
-            throw ex;
-        }
-    }
+   
 
     @Override
     public void removeUserRole(int userId, int roleId) {

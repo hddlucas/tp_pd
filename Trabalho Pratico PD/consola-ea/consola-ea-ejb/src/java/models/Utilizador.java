@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Utilizador.findAll", query = "SELECT u FROM Utilizador u order by u.idUtilizador asc")
+    ,@NamedQuery(name = "Utilizador.findAllNotDeleted", query = "SELECT u FROM Utilizador u WHERE u.deleted=false order by u.idUtilizador asc")
     ,@NamedQuery(name = "Utilizador.findUsersByStatus", query = "SELECT u FROM Utilizador u WHERE u.ativo = :ativo")
     , @NamedQuery(name = "Utilizador.findByIdUtilizador", query = "SELECT u FROM Utilizador u WHERE u.idUtilizador = :idUtilizador")
     , @NamedQuery(name = "Utilizador.findByNome", query = "SELECT u FROM Utilizador u WHERE u.nome = :nome")
@@ -52,6 +53,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Utilizador.findByUltimoLogin", query = "SELECT u FROM Utilizador u WHERE u.ultimoLogin = :ultimoLogin")
     , @NamedQuery(name = "Utilizador.findByAtivo", query = "SELECT u FROM Utilizador u WHERE u.ativo = :ativo")})
 public class Utilizador implements Serializable {
+
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private boolean deleted;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDestinatario")
     private Collection<Mensagem> mensagemCollection;
@@ -286,6 +291,14 @@ public class Utilizador implements Serializable {
 
     public void setMensagemCollection(Collection<Mensagem> mensagemCollection) {
         this.mensagemCollection = mensagemCollection;
+    }
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
     
 }

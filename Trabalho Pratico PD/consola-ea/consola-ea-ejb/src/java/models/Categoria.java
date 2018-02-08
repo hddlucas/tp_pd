@@ -30,9 +30,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c")
+    ,@NamedQuery(name = "Categoria.findAllNotDeleted", query = "SELECT c FROM Categoria c where c.deleted=false")
     , @NamedQuery(name = "Categoria.findByIdCategoria", query = "SELECT c FROM Categoria c WHERE c.idCategoria = :idCategoria")
     , @NamedQuery(name = "Categoria.findByNome", query = "SELECT c FROM Categoria c WHERE c.nome = :nome")})
 public class Categoria implements Serializable {
+
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private boolean deleted;
 
     private static final long serialVersionUID = 1L;
     @Id 
@@ -100,6 +105,14 @@ public class Categoria implements Serializable {
     @Override
     public String toString() {
         return "models.Categoria[ idCategoria=" + idCategoria + " ]";
+    }
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
     
 }

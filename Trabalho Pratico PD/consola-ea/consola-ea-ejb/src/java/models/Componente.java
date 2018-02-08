@@ -40,6 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Componente.findByValor", query = "SELECT c FROM Componente c WHERE c.valor = :valor")})
 public class Componente implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private boolean deleted;
+
     @JoinColumn(name = "id_operador", referencedColumnName = "id_operador")
     @ManyToOne
     private Operador idOperador;
@@ -162,6 +166,14 @@ public class Componente implements Serializable {
 
     public void setIdOperador(Operador idOperador) {
         this.idOperador = idOperador;
+    }
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
     
 }

@@ -12,6 +12,15 @@ and open the template in the editor.
 
 .jqplot-table-legend { width: auto; }
 
+
+.text-green{
+    color:green;
+}
+
+.text-red{
+    color:red;
+}
+
 .page-title{
     color: #248b8c;
     font-size: 24px;
@@ -146,12 +155,12 @@ and open the template in the editor.
 }
 
 .header .title {
-   color: #fff;
+    color: #fff;
     margin-left: 10px;
     display: inline-block !important;
     text-decoration: none;
     font-size: 28px;
-    
+
 }
 
 .header .unlogged-user{
@@ -278,7 +287,7 @@ and open the template in the editor.
 }
 .registerBox .ui-panelgrid .ui-panelgrid-cell{
     text-align: left;
-    
+
 }
 
 .registerBox .image-container {
@@ -463,4 +472,37 @@ tr.linhas_impares {
 
 
 tr.linhas_pares {
+}
+
+
+/*****************DASHBOARD***********/
+.dashboard-statistics{
+    margin-bottom: -40px;
+}
+
+.dashboard-statistics-icon{
+
+    display: inline-block!important;
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
+    transform: scale(1.5);
+    margin-right: 20px;
+}
+
+.dashboard-statistics-label{
+
+    display: inline-block!important;
+    font-weight: bold!important;
+    margin-right: 10px;
+    font-size: 25px;
+    color:#248b8c;
+
+
+}
+
+.dashboard-statistics-value{
+
+    display: inline-block!important;
+    font-size: 25px;
+
 }

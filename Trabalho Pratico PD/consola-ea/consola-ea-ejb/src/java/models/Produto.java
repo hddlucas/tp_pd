@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Produto.findByDescricao", query = "SELECT p FROM Produto p WHERE p.descricao = :descricao")})
 public class Produto implements Serializable {
 
+    @Column(name = "deleted")
+    private Boolean deleted;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -123,6 +126,14 @@ public class Produto implements Serializable {
     @Override
     public String toString() {
         return "models.Produto[ idProduto=" + idProduto + " ]";
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
     
 }

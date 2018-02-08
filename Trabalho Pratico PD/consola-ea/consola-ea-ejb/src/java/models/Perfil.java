@@ -34,6 +34,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Perfil.findByDescricao", query = "SELECT p FROM Perfil p WHERE p.descricao = :descricao")})
 public class Perfil implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private boolean deleted;
+
     @ManyToMany(mappedBy = "perfilCollection")
     private Collection<Utilizador> utilizadorCollection;
 
@@ -117,6 +121,14 @@ public class Perfil implements Serializable {
     @Override
     public String toString() {
         return "Id do Perfil: " + idPerfil + " Perfil: " + descricao;
+    }
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
  

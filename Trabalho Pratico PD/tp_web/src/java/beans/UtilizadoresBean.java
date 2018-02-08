@@ -173,10 +173,10 @@ public class UtilizadoresBean implements Serializable {
         return utilizadorFacade.hasRole(userId, role);
     }
 
-    public void addUserRole(int idUtilizador, int roleId) {
+    public void addUserRole(Utilizador u, int roleId) {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
-            utilizadorFacade.addUserRole(idUtilizador, roleId);
+            utilizadorFacade.addUserRole(u, roleId);
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Perfil adicionado ao utilizador com sucesso"));
 
         } catch (Exception ex) {

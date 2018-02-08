@@ -29,7 +29,7 @@ public class CategoriaFacade implements CategoriaFacadeLocal {
 
     @Override
     public List<Categoria> getCategoriesList() {
-        Query q = dAO.getEntityManager().createNamedQuery("Categoria.findAll");
+        Query q = dAO.getEntityManager().createNamedQuery("Categoria.findAllNotDeleted");
         List<Categoria> categorias = q.getResultList();
 
         return categorias;
@@ -70,7 +70,8 @@ public class CategoriaFacade implements CategoriaFacadeLocal {
     public void destroy(Integer id) throws Exception  {
         try {
             Categoria c = dAO.getEntityManager().find(Categoria.class, id);
-            dAO.getEntityManager().createQuery("DELETE FROM Categoria c WHERE c.idCategoria = :id").setParameter("id", id).executeUpdate();
+            c.setDeleted(true);
+            dAO.getEntityManager().merge(c);
 
         } catch (Exception ex) { 
             throw ex;

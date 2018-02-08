@@ -41,6 +41,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Mensagem.findByCreatedAt", query = "SELECT m FROM Mensagem m WHERE m.createdAt = :createdAt")})
 public class Mensagem implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private boolean deleted;
+
     private static final long serialVersionUID = 1L;
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
@@ -177,6 +181,14 @@ public class Mensagem implements Serializable {
     @Override
     public String toString() {
         return "models.Mensagem[ idMensagem=" + idMensagem + " ]";
+    }
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
     
 }

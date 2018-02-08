@@ -154,7 +154,7 @@ public class PropostaSolucaoBean implements Serializable {
         
         AquisicaoProposta proposta = aquisicaoPropostaFacade.findAquisicaoProposta(id);
 
-        float valorSolucao = Float.parseFloat(request.getParameter("form:solucao"));
+        double valorSolucao = Double.parseDouble(request.getParameter("form:solucao"));
 
         if(valorSolucao > proposta.getValorMax()) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "O valor introduzido não pode ser superior ao valor máximo");

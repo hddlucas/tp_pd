@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     04/02/2018 11:38:12                          */
+/* Created on:     08/02/2018 15:28:02                          */
 /*==============================================================*/
 
 
@@ -73,9 +73,10 @@ create table AQUISICAO_PROPOSTA (
    ID_AQUISICAO         SERIAL               not null,
    ID_PRODUTO           INT4                 null,
    ID_UTILIZADOR        INT4                 not null,
-   VALOR_MAX            DECIMAL(8)           null,
+   VALOR_MAX            FLOAT8               null,
    OBSERVACOES          VARCHAR(1024)        null,
    CREATED_AT           TIMESTAMP            null,
+   DELETED              BOOL                 not null,
    constraint PK_AQUISICAO_PROPOSTA primary key (ID_AQUISICAO)
 );
 
@@ -99,6 +100,7 @@ ID_UTILIZADOR
 create table CATEGORIA (
    ID_CATEGORIA         SERIAL               not null,
    NOME                 VARCHAR(1024)        null,
+   DELETED              BOOL                 not null,
    constraint PK_CATEGORIA primary key (ID_CATEGORIA)
 );
 
@@ -120,6 +122,7 @@ create table COMPONENTE (
    OBSERVACOES          VARCHAR(1024)        null,
    AVALIACAO            INT4                 null,
    VALOR                DECIMAL              null,
+   DELETED              BOOL                 not null,
    constraint PK_COMPONENTE primary key (ID_COMPONENTE)
 );
 
@@ -181,6 +184,7 @@ create table MENSAGEM (
    ELIMINADA_REMETENTE  BOOL                 null,
    ELIMINADA_DESTINATARIO BOOL                 null,
    CREATED_AT           TIMESTAMP            null,
+   DELETED              BOOL                 not null,
    constraint PK_MENSAGEM primary key (ID_MENSAGEM)
 );
 
@@ -201,6 +205,7 @@ create table PERFIL (
    ID_PERFIL            SERIAL               not null,
    PERFIL               VARCHAR(1024)        null,
    DESCRICAO            VARCHAR(1024)        null,
+   DELETED              BOOL                 not null,
    constraint PK_PERFIL primary key (ID_PERFIL)
 );
 
@@ -217,6 +222,7 @@ ID_PERFIL
 create table PRODUTO (
    ID_PRODUTO           SERIAL               not null,
    DESCRICAO            TEXT                 null,
+   DELETED              BOOL                 null,
    constraint PK_PRODUTO primary key (ID_PRODUTO)
 );
 
@@ -266,9 +272,10 @@ ID_PRODUTO
 create table PROPOSTA (
    ID_PROPOSTA          SERIAL               not null,
    ID_UTILIZADOR        INT4                 not null,
-   VALOR_TOTAL          DECIMAL(8)           null,
+   VALOR_TOTAL          FLOAT8               null,
    GANHOU               BOOL                 null,
    CREATED_AT           TIMESTAMP            null,
+   DELETED              BOOL                 not null,
    constraint PK_PROPOSTA primary key (ID_PROPOSTA)
 );
 
@@ -303,6 +310,7 @@ create table UTILIZADOR (
    CODIGO_POSTAL        VARCHAR(1024)        null,
    ULTIMO_LOGIN         TIMESTAMP            null,
    ATIVO                BOOL                 not null,
+   DELETED              BOOL                 not null,
    constraint PK_UTILIZADOR primary key (ID_UTILIZADOR)
 );
 
@@ -410,16 +418,16 @@ alter table UTILIZADOR_PERFIL
 /* DEFAULT ADMIN                              			*/
 /*==============================================================*/
 
-INSERT INTO  utilizador (username,password,nome,nif,bi,ativo)
-VALUES ('admin','12345','Administrador','123456789','123456789',true);
+INSERT INTO  utilizador (username,password,nome,nif,bi,ativo,deleted)
+VALUES ('admin','12345','Administrador','123456789','123456789',true,false);
 
 
 /*==============================================================*/
 /* DEFAULT ROLES                              			*/
 /*==============================================================*/
 
-INSERT INTO  perfil (perfil,descricao)
-VALUES ('admin','Administrador'),('avaliador','Avaliador'),('agente','Agente'),('vendedor','Vendedor');
+INSERT INTO  perfil (perfil,descricao,deleted)
+VALUES ('admin','Administrador',false),('avaliador','Avaliador',false),('agente','Agente',false),('vendedor','Vendedor',false);
 
 
 /*==============================================================*/

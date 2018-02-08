@@ -6,8 +6,10 @@
 package models;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +19,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,14 +41,22 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Proposta.findByCreatedAt", query = "SELECT p FROM Proposta p WHERE p.createdAt = :createdAt")})
 public class Proposta implements Serializable {
 
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "valor_total")
+    private Double valorTotal;
+
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private boolean deleted;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proposta")
+    private Collection<ProdutoProposta> produtoPropostaCollection;
+
     private static final long serialVersionUID = 1L;
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id_proposta", insertable = false , columnDefinition = "serial") 
     private Integer idProposta;
     
-    @Column(name = "valor_total")
-    private Integer valorTotal;
     @Column(name = "ganhou")
     private Boolean ganhou;
     @Column(name = "created_at")
@@ -69,11 +81,11 @@ public class Proposta implements Serializable {
         this.idProposta = idProposta;
     }
 
-    public Integer getValorTotal() {
+    public Double getValorTotal() {
         return valorTotal;
     }
 
-    public void setValorTotal(Integer valorTotal) {
+    public void setValorTotal(Double valorTotal) {
         this.valorTotal = valorTotal;
     }
 
@@ -125,5 +137,23 @@ public class Proposta implements Serializable {
     public String toString() {
         return "models.Proposta[ idProposta=" + idProposta + " ]";
     }
-    
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    @XmlTransient
+    public Collection<ProdutoProposta> getProdutoPropostaCollection() {
+        return produtoPropostaCollection;
+    }
+
+    public void setProdutoPropostaCollection(Collection<ProdutoProposta> produtoPropostaCollection) {
+        this.produtoPropostaCollection = produtoPropostaCollection;
+    }
+
+  
 }

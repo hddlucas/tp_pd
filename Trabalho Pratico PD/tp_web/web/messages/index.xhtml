@@ -38,7 +38,7 @@
                             </p:column>
 
                             <p:column headerText="Lida" sortBy="#{message.lida}" style="width:35px;text-align: center!important">
-                                <h:outputText styleClass="#{message.lida ? 'ui-icon ui-icon-check' : 'ui-icon  ui-icon-notice red'}"/>
+                                <h:outputText styleClass="#{message.lida ? 'text-green' : 'text-red'}" value="#{message.lida ? 'Sim' : 'Não'}  "/>
                             </p:column>
                             
                             <p:column style="width:80px;text-align: center">
