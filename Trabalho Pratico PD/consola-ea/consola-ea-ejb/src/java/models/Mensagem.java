@@ -38,17 +38,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Mensagem.findByLida", query = "SELECT m FROM Mensagem m WHERE m.lida = :lida")
     , @NamedQuery(name = "Mensagem.findByEliminadaRemetente", query = "SELECT m FROM Mensagem m WHERE m.eliminadaRemetente = :eliminadaRemetente")
     , @NamedQuery(name = "Mensagem.findByEliminadaDestinatario", query = "SELECT m FROM Mensagem m WHERE m.eliminadaDestinatario = :eliminadaDestinatario")
-    , @NamedQuery(name = "Mensagem.findByCreatedAt", query = "SELECT m FROM Mensagem m WHERE m.createdAt = :createdAt")})
+    , @NamedQuery(name = "Mensagem.findByCreatedAt", query = "SELECT m FROM Mensagem m WHERE m.createdAt = :createdAt")
+    , @NamedQuery(name = "Mensagem.findByDeleted", query = "SELECT m FROM Mensagem m WHERE m.deleted = :deleted")})
 public class Mensagem implements Serializable {
 
-    @Basic(optional = false)
-    @Column(name = "deleted")
-    private boolean deleted;
-
     private static final long serialVersionUID = 1L;
-    @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    @Column(name = "id_mensagem", insertable = true , columnDefinition = "serial") 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_mensagem")
     private Integer idMensagem;
     @Basic(optional = false)
     @Column(name = "id_remetente")
@@ -68,6 +66,9 @@ public class Mensagem implements Serializable {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private boolean deleted;
     @JoinColumn(name = "id_destinatario", referencedColumnName = "id_utilizador")
     @ManyToOne(optional = false)
     private Utilizador idDestinatario;
@@ -79,11 +80,12 @@ public class Mensagem implements Serializable {
         this.idMensagem = idMensagem;
     }
 
-    public Mensagem(Integer idMensagem, int idRemetente, String assunto, String mensagem) {
+    public Mensagem(Integer idMensagem, int idRemetente, String assunto, String mensagem, boolean deleted) {
         this.idMensagem = idMensagem;
         this.idRemetente = idRemetente;
         this.assunto = assunto;
         this.mensagem = mensagem;
+        this.deleted = deleted;
     }
 
     public Integer getIdMensagem() {
@@ -150,6 +152,14 @@ public class Mensagem implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public Utilizador getIdDestinatario() {
         return idDestinatario;
     }
@@ -181,14 +191,6 @@ public class Mensagem implements Serializable {
     @Override
     public String toString() {
         return "models.Mensagem[ idMensagem=" + idMensagem + " ]";
-    }
-
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
     
 }

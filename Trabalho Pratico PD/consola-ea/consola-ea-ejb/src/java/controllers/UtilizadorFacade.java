@@ -114,9 +114,11 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             dAO.getEntityManager().persist(u);
            
             
-            if (userFields.has("tipo_de_conta")) 
-                   if(userFields.getString("tipo_de_conta").equals("vendedor"))
+            if (userFields.has("tipo_de_conta")){ 
+                   if(userFields.getString("tipo_de_conta").equals("vendedor")){
                        this.addUserRole(this.findUtilizadorByUsername(userFields.getString("username")).get(0), 4);
+                   }
+            }
             
             return u;
             

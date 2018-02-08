@@ -20,7 +20,7 @@
                     <h:form>
                         <p:dataTable id="proposedAcquisitionList" var="proposedAcquisition" value="#{propostaAquisicaoBean.list}">
                             <p:column headerText="Produto">
-                                <h:outputText value="#{proposedAcquisition.idProduto.descricao}" />
+                                <h:outputText value="#{proposedAcquisition.observacoes}" />
                             </p:column>
                             <p:column headerText="Utilizador">
                                 <h:outputText value="#{proposedAcquisition.idUtilizador.nome}" />

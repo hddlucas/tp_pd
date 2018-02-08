@@ -31,12 +31,14 @@
 
 
                             <p:column style="width:80px;text-align: center">
-                                <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{componenteBean.show(componente)}">
-                                </p:commandButton>
-                                
                                 <p:commandButton onclick="if (!confirm('Tem a certeza que deseja eliminar o componente?'))
                                             return false" action="#{componenteBean.destroy(componente.idComponente)}"  icon="ui-icon-trash white"  styleClass="delete-button"  >
                                 </p:commandButton> 
+                                
+                                <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{componenteBean.show(componente)}">
+                                </p:commandButton>
+                                
+                                
                             </p:column>
                         </p:dataTable>
 

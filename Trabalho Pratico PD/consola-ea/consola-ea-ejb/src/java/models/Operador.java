@@ -6,7 +6,7 @@
 package models;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author marcosequeira
+ * @author hddlucas
  */
 @Entity
 @Table(name = "operador")
@@ -45,7 +45,7 @@ public class Operador implements Serializable {
     @Column(name = "descricao")
     private String descricao;
     @OneToMany(mappedBy = "idOperador")
-    private List<Componente> componenteList;
+    private Collection<Componente> componenteCollection;
 
     public Operador() {
     }
@@ -79,12 +79,12 @@ public class Operador implements Serializable {
     }
 
     @XmlTransient
-    public List<Componente> getComponenteList() {
-        return componenteList;
+    public Collection<Componente> getComponenteCollection() {
+        return componenteCollection;
     }
 
-    public void setComponenteList(List<Componente> componenteList) {
-        this.componenteList = componenteList;
+    public void setComponenteCollection(Collection<Componente> componenteCollection) {
+        this.componenteCollection = componenteCollection;
     }
 
     @Override

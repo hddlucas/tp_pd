@@ -20,7 +20,6 @@ import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import models.AquisicaoProposta;
 import models.Categoria;
-import models.Produto;
 import models.Utilizador;
 import org.json.JSONObject;
 

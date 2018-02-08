@@ -30,23 +30,23 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c")
-    ,@NamedQuery(name = "Categoria.findAllNotDeleted", query = "SELECT c FROM Categoria c where c.deleted=false")
+    , @NamedQuery(name = "Categoria.findAllNotDeleted", query = "SELECT c FROM Categoria c WHERE c.deleted=false")
     , @NamedQuery(name = "Categoria.findByIdCategoria", query = "SELECT c FROM Categoria c WHERE c.idCategoria = :idCategoria")
-    , @NamedQuery(name = "Categoria.findByNome", query = "SELECT c FROM Categoria c WHERE c.nome = :nome")})
+    , @NamedQuery(name = "Categoria.findByNome", query = "SELECT c FROM Categoria c WHERE c.nome = :nome")
+    , @NamedQuery(name = "Categoria.findByDeleted", query = "SELECT c FROM Categoria c WHERE c.deleted = :deleted")})
 public class Categoria implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_categoria")
+    private Integer idCategoria;
+    @Column(name = "nome")
+    private String nome;
     @Basic(optional = false)
     @Column(name = "deleted")
     private boolean deleted;
-
-    private static final long serialVersionUID = 1L;
-    @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    @Column(name = "id_categoria", insertable = false , columnDefinition = "serial") 
-    private Integer idCategoria;
-    
-    @Column(name = "nome")
-    private String nome;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")
     private Collection<Componente> componenteCollection;
 
@@ -55,6 +55,11 @@ public class Categoria implements Serializable {
 
     public Categoria(Integer idCategoria) {
         this.idCategoria = idCategoria;
+    }
+
+    public Categoria(Integer idCategoria, boolean deleted) {
+        this.idCategoria = idCategoria;
+        this.deleted = deleted;
     }
 
     public Integer getIdCategoria() {
@@ -71,6 +76,14 @@ public class Categoria implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @XmlTransient
@@ -105,14 +118,6 @@ public class Categoria implements Serializable {
     @Override
     public String toString() {
         return "models.Categoria[ idCategoria=" + idCategoria + " ]";
-    }
-
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
     
 }

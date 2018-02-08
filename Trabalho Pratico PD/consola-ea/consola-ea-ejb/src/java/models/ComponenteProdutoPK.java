@@ -15,29 +15,29 @@ import javax.persistence.Embeddable;
  * @author hddlucas
  */
 @Embeddable
-public class ProdutoPropostaPK implements Serializable {
+public class ComponenteProdutoPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "id_proposta")
-    private int idProposta;
+    @Column(name = "id_componente")
+    private int idComponente;
     @Basic(optional = false)
     @Column(name = "id_aquisicao")
     private int idAquisicao;
 
-    public ProdutoPropostaPK() {
+    public ComponenteProdutoPK() {
     }
 
-    public ProdutoPropostaPK(int idProposta, int idAquisicao) {
-        this.idProposta = idProposta;
+    public ComponenteProdutoPK(int idComponente, int idAquisicao) {
+        this.idComponente = idComponente;
         this.idAquisicao = idAquisicao;
     }
 
-    public int getIdProposta() {
-        return idProposta;
+    public int getIdComponente() {
+        return idComponente;
     }
 
-    public void setIdProposta(int idProposta) {
-        this.idProposta = idProposta;
+    public void setIdComponente(int idComponente) {
+        this.idComponente = idComponente;
     }
 
     public int getIdAquisicao() {
@@ -51,7 +51,7 @@ public class ProdutoPropostaPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) idProposta;
+        hash += (int) idComponente;
         hash += (int) idAquisicao;
         return hash;
     }
@@ -59,11 +59,11 @@ public class ProdutoPropostaPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProdutoPropostaPK)) {
+        if (!(object instanceof ComponenteProdutoPK)) {
             return false;
         }
-        ProdutoPropostaPK other = (ProdutoPropostaPK) object;
-        if (this.idProposta != other.idProposta) {
+        ComponenteProdutoPK other = (ComponenteProdutoPK) object;
+        if (this.idComponente != other.idComponente) {
             return false;
         }
         if (this.idAquisicao != other.idAquisicao) {
@@ -74,7 +74,7 @@ public class ProdutoPropostaPK implements Serializable {
 
     @Override
     public String toString() {
-        return "models.ProdutoPropostaPK[ idProposta=" + idProposta + ", idAquisicao=" + idAquisicao + " ]";
+        return "models.ComponenteProdutoPK[ idComponente=" + idComponente + ", idAquisicao=" + idAquisicao + " ]";
     }
     
 }
