@@ -6,6 +6,7 @@
 package controllers;
 
 import controllers.exceptions.RollbackFailureException;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 import models.AquisicaoProposta;
@@ -19,4 +20,6 @@ public interface AquisicaoPropostaFacadeLocal {
     
     List<AquisicaoProposta> getAcquisitionProposals();
     AquisicaoProposta findAquisicaoProposta(Integer id);
+    int totalPropostas(Date date);
+    int totalPropostas();
 }
