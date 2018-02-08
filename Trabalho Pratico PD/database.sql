@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     08/02/2018 15:28:02                          */
+/* Created on:     08/02/2018 22:00:54                          */
 /*==============================================================*/
 
 
@@ -9,6 +9,8 @@ drop index RELATIONSHIP_7_FK;
 drop index ACQUISITION_PROPOSALS_PK;
 
 drop table AQUISICAO_PROPOSTA;
+
+drop table AVALIACAO_VENDEDOR;
 
 drop index CATEGORIES_PK;
 
@@ -95,6 +97,16 @@ ID_UTILIZADOR
 );
 
 /*==============================================================*/
+/* Table: AVALIACAO_VENDEDOR                                    */
+/*==============================================================*/
+create table AVALIACAO_VENDEDOR (
+   ID_AVALIACAO_VENDEDOR SERIAL               not null,
+   ID_UTILIZADOR        INT4                 null,
+   AVALIACAO            INT4                 not null,
+   constraint PK_AVALIACAO_VENDEDOR primary key (ID_AVALIACAO_VENDEDOR)
+);
+
+/*==============================================================*/
 /* Table: CATEGORIA                                             */
 /*==============================================================*/
 create table CATEGORIA (
@@ -120,7 +132,6 @@ create table COMPONENTE (
    ID_OPERADOR          INT4                 null,
    NOME                 VARCHAR(1024)        null,
    OBSERVACOES          VARCHAR(1024)        null,
-   AVALIACAO            INT4                 null,
    VALOR                DECIMAL              null,
    DELETED              BOOL                 not null,
    constraint PK_COMPONENTE primary key (ID_COMPONENTE)
@@ -146,6 +157,7 @@ ID_CATEGORIA
 create table COMPONENTE_PRODUTO (
    ID_PRODUTO           INT4                 not null,
    ID_COMPONENTE        INT4                 not null,
+   AVALIACAO            INT4                 null,
    constraint PK_COMPONENTE_PRODUTO primary key (ID_PRODUTO, ID_COMPONENTE)
 );
 
@@ -362,6 +374,11 @@ alter table AQUISICAO_PROPOSTA
       references UTILIZADOR (ID_UTILIZADOR)
       on delete restrict on update restrict;
 
+alter table AVALIACAO_VENDEDOR
+   add constraint FK_AVALIACA_REFERENCE_UTILIZAD foreign key (ID_UTILIZADOR)
+      references UTILIZADOR (ID_UTILIZADOR)
+      on delete restrict on update restrict;
+
 alter table COMPONENTE
    add constraint FK_COMPONEN_AQUISICAO_OPERADOR foreign key (ID_OPERADOR)
       references OPERADOR (ID_OPERADOR)
@@ -411,8 +428,6 @@ alter table UTILIZADOR_PERFIL
    add constraint FK_UTILIZAD_UTILIZADO_PERFIL foreign key (ID_PERFIL)
       references PERFIL (ID_PERFIL)
       on delete restrict on update restrict;
-
-
 
 /*==============================================================*/
 /* DEFAULT ADMIN                              			*/
