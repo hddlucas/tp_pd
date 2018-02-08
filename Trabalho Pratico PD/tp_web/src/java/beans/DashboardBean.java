@@ -137,7 +137,7 @@ public class DashboardBean implements Serializable {
  
         dateModel.addSeries(series1);
          
-        dateModel.setTitle("Total de Propostas de Aquisição -Mês Corrent");
+        dateModel.setTitle("Total de Propostas de Aquisição -Mês Corrente");
         dateModel.setZoom(true);
         dateModel.getAxis(AxisType.Y).setLabel("Total");
         DateAxis axis = new DateAxis("Datas");
