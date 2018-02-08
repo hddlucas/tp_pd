@@ -33,7 +33,7 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
 
     @Override
     public List<Utilizador> getUsersList() {
-        Query q = dAO.getEntityManager().createNamedQuery("Utilizador.findAll");
+        Query q = dAO.getEntityManager().createNamedQuery("Utilizador.findAllNotDeleted");
         List<Utilizador> utilizadores = q.getResultList();
 
         return utilizadores;
@@ -152,8 +152,14 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
     public void destroy(Integer id) throws Exception  {
         try {
             Utilizador u = dAO.getEntityManager().find(Utilizador.class, id);
-            dAO.getEntityManager().createQuery("DELETE FROM Utilizador u WHERE u.idUtilizador = :id").setParameter("id", id).executeUpdate();
+            u.setDeleted(true);
 
+            dAO.getEntityManager().merge(u);
+
+            
+            
+            
+            
         } catch (Exception ex) { 
             throw ex;
         }
@@ -207,7 +213,7 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
         if (utilizadores.size() > 0) {
             for (int i = 0; i < utilizadores.size(); i++) {
                 Utilizador u = utilizadores.get(i);
-                if (u.getPassword().equals(password)) {
+                if (u.getPassword().equals(password) && !u.getDeleted()) {
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                     u.setUltimoLogin(timestamp);
                     dAO.getEntityManager().merge(u);

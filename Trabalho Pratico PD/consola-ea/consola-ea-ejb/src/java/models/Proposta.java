@@ -6,8 +6,10 @@
 package models;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +19,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,6 +40,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Proposta.findByGanhou", query = "SELECT p FROM Proposta p WHERE p.ganhou = :ganhou")
     , @NamedQuery(name = "Proposta.findByCreatedAt", query = "SELECT p FROM Proposta p WHERE p.createdAt = :createdAt")})
 public class Proposta implements Serializable {
+
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private boolean deleted;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proposta")
+    private Collection<ProdutoProposta> produtoPropostaCollection;
 
     private static final long serialVersionUID = 1L;
     @Id 
@@ -124,6 +134,23 @@ public class Proposta implements Serializable {
     @Override
     public String toString() {
         return "models.Proposta[ idProposta=" + idProposta + " ]";
+    }
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    @XmlTransient
+    public Collection<ProdutoProposta> getProdutoPropostaCollection() {
+        return produtoPropostaCollection;
+    }
+
+    public void setProdutoPropostaCollection(Collection<ProdutoProposta> produtoPropostaCollection) {
+        this.produtoPropostaCollection = produtoPropostaCollection;
     }
     
 }
