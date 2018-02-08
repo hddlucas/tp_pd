@@ -41,34 +41,28 @@
                     </div>
 
                     <div class="ui-g">
-                        <div class="ui-g-6 dashboard-statistics">
+                        <div class="ui-g-8 dashboard-statistics">
                             <h:outputText styleClass="ui-icon ui-icon-check dashboard-statistics-icon"/>
                             <h1 class="dashboard-statistics-label">Total de Propostas:  </h1>
                             <h:outputText styleClass="dashboard-statistics-value" value="#{dashboardBean.totalPropostas}"/>
                         </div>
 
-                        <div class="ui-g-6 dashboard-statistics">
-                               <h:outputText styleClass="ui-icon ui-icon-check dashboard-statistics-icon"/>
-                            <h1 class="dashboard-statistics-label">Número de Compras Efetuadas:  </h1>
-                            <h:outputText styleClass="dashboard-statistics-value" value="#{dashboardBean.totalPropostasGanhas}"/>
+                        <div class="ui-g-4">
                         </div>
                     </div>
 
                     <div class="ui-g">
-                        <div class="ui-g-6 dashboard-statistics">
-                         <h:outputText styleClass="ui-icon ui-icon-check dashboard-statistics-icon"/>
-                            <h1 class="dashboard-statistics-label">Propostas de Aquisição em Aberto:  </h1>
-                            <h:outputText styleClass="dashboard-statistics-value" value=""/>
+                        <div class="ui-g-8 dashboard-statistics">
+                            <h:outputText styleClass="ui-icon ui-icon-check dashboard-statistics-icon"/>
+                            <h1 class="dashboard-statistics-label">Número de Compras Efetuadas:  </h1>
+                            <h:outputText styleClass="dashboard-statistics-value" value="#{dashboardBean.totalPropostasGanhas}"/>
                         </div>
 
-                        <div class="ui-g-6 dashboard-statistics">
-                            <h:outputText styleClass="ui-icon ui-icon-check dashboard-statistics-icon"/>
-                            <h1 class="dashboard-statistics-label">Valor Total Transacionado:  </h1>
-                            <h:outputText styleClass="dashboard-statistics-value" value="#{dashboardBean.totalValorTransacionado} €"/>
+                        <div class="ui-g-4">
                         </div>
                     </div>
-
-
+                    
+                    
                 </div>
             </ui:define>
         </ui:composition>
