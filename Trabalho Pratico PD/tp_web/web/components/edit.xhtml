@@ -14,13 +14,17 @@
                     <p:breadCrumb>
                         <p:menuitem  value="" url="/" />
                         <p:menuitem value="#{bundle.ComponentesTitle_vista}" outcome="index" />
+                        <p:menuitem value="#{componenteBean.nome}" url="#{componenteBean.show(componenteBean.componente)}" />
+
                     </p:breadCrumb>
                 </div>
                 <div class="ui-grid-col-12">
                     <h1 class="page-title">
-                        #{bundle.ComponentesTitle_criar}
+                        #{bundle.ComponentesTitle_editar}
                     </h1>
                 </div>
+                
+                
                 <div class="ui-grid-col-12">
                     <h:form styleClass="form" id="form">
                         <p:growl id="msgs" showDetail="true" />
@@ -29,16 +33,17 @@
                             <h:outputLabel value="Nome *"
                                            for="nome"/>
                             <h:inputText id="nome"
-                                         required="true"
+                                         required="true" 
+                                         value="#{componenteBean.componente.nome}"
                                          requiredMessage="O campo Nome é obrigatório"
                                          />
                             
                             <h:outputLabel value="Observações"
                                            for="observacoes"/>
-                            <h:inputTextarea id="observacoes"/>
+                            <h:inputTextarea id="observacoes" value="#{componenteBean.componente.observacoes}"/>
                             
                             <p:outputLabel for="categoria" value="Categoria" />
-                            <p:selectOneMenu id="categoria" value="#{componenteBean.idCategoria}" required="true"
+                            <p:selectOneMenu id="categoria" value="#{componenteBean.componente.idCategoria.idCategoria}" required="true"
                                                   requiredMessage="O campo Categoria é obrigatório"
                                                   >                              
                                 <f:selectItems value="#{componenteBean.categorias}" var="categoria" itemLabel="#{categoria.nome}" itemValue="#{categoria.idCategoria}"/>
@@ -46,10 +51,10 @@
                             
                         </h:panelGrid>
                         <br />
-                        <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Criar"  action="#{componenteBean.create()}" >
+                        <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Editar"  action="#{componenteBean.update(componenteBean.componente)}" >
                         </h:commandLink>
                         
-                          <h:button styleClass="ui-button ui-widget ui-state-default ui-corner-all cancel-button" value="Cancelar" outcome="index" >
+                        <h:button styleClass="ui-button ui-widget ui-state-default ui-corner-all cancel-button" value="Cancelar" outcome="#{componenteBean.show(componenteBean.componente)}" >
                         </h:button> 
                     </h:form>
                 </div>

@@ -10,9 +10,9 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -31,27 +31,25 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Perfil.findAll", query = "SELECT p FROM Perfil p")
     , @NamedQuery(name = "Perfil.findByIdPerfil", query = "SELECT p FROM Perfil p WHERE p.idPerfil = :idPerfil")
     , @NamedQuery(name = "Perfil.findByPerfil", query = "SELECT p FROM Perfil p WHERE p.perfil = :perfil")
-    , @NamedQuery(name = "Perfil.findByDescricao", query = "SELECT p FROM Perfil p WHERE p.descricao = :descricao")})
+    , @NamedQuery(name = "Perfil.findByDescricao", query = "SELECT p FROM Perfil p WHERE p.descricao = :descricao")
+    , @NamedQuery(name = "Perfil.findByDeleted", query = "SELECT p FROM Perfil p WHERE p.deleted = :deleted")})
 public class Perfil implements Serializable {
-
-    @Basic(optional = false)
-    @Column(name = "deleted")
-    private boolean deleted;
-
-    @ManyToMany(mappedBy = "perfilCollection")
-    private Collection<Utilizador> utilizadorCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_perfil")
     private Integer idPerfil;
-    @Basic(optional = false)
     @Column(name = "perfil")
     private String perfil;
     @Column(name = "descricao")
     private String descricao;
-
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private boolean deleted;
+    @ManyToMany(mappedBy = "perfilCollection")
+    private Collection<Utilizador> utilizadorCollection;
 
     public Perfil() {
     }
@@ -60,9 +58,9 @@ public class Perfil implements Serializable {
         this.idPerfil = idPerfil;
     }
 
-    public Perfil(Integer idPerfil, String perfil) {
+    public Perfil(Integer idPerfil, boolean deleted) {
         this.idPerfil = idPerfil;
-        this.perfil = perfil;
+        this.deleted = deleted;
     }
 
     public Integer getIdPerfil() {
@@ -87,6 +85,14 @@ public class Perfil implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @XmlTransient
@@ -120,17 +126,7 @@ public class Perfil implements Serializable {
 
     @Override
     public String toString() {
-        return "Id do Perfil: " + idPerfil + " Perfil: " + descricao;
+        return "models.Perfil[ idPerfil=" + idPerfil + " ]";
     }
-
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
- 
     
 }

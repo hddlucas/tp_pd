@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -36,9 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "utilizador")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Utilizador.findAll", query = "SELECT u FROM Utilizador u order by u.idUtilizador asc")
-    ,@NamedQuery(name = "Utilizador.findAllNotDeleted", query = "SELECT u FROM Utilizador u WHERE u.deleted=false order by u.idUtilizador asc")
-    ,@NamedQuery(name = "Utilizador.findUsersByStatus", query = "SELECT u FROM Utilizador u WHERE u.ativo = :ativo")
+    @NamedQuery(name = "Utilizador.findAll", query = "SELECT u FROM Utilizador u")
+    , @NamedQuery(name = "Utilizador.findAllNotDeleted", query = "SELECT u FROM Utilizador u where u.deleted=false")
     , @NamedQuery(name = "Utilizador.findByIdUtilizador", query = "SELECT u FROM Utilizador u WHERE u.idUtilizador = :idUtilizador")
     , @NamedQuery(name = "Utilizador.findByNome", query = "SELECT u FROM Utilizador u WHERE u.nome = :nome")
     , @NamedQuery(name = "Utilizador.findByUsername", query = "SELECT u FROM Utilizador u WHERE u.username = :username")
@@ -51,32 +49,16 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Utilizador.findByContacto", query = "SELECT u FROM Utilizador u WHERE u.contacto = :contacto")
     , @NamedQuery(name = "Utilizador.findByCodigoPostal", query = "SELECT u FROM Utilizador u WHERE u.codigoPostal = :codigoPostal")
     , @NamedQuery(name = "Utilizador.findByUltimoLogin", query = "SELECT u FROM Utilizador u WHERE u.ultimoLogin = :ultimoLogin")
-    , @NamedQuery(name = "Utilizador.findByAtivo", query = "SELECT u FROM Utilizador u WHERE u.ativo = :ativo")})
+    , @NamedQuery(name = "Utilizador.findByAtivo", query = "SELECT u FROM Utilizador u WHERE u.ativo = :ativo")
+    , @NamedQuery(name = "Utilizador.findByDeleted", query = "SELECT u FROM Utilizador u WHERE u.deleted = :deleted")})
 public class Utilizador implements Serializable {
 
-    @Basic(optional = false)
-    @Column(name = "deleted")
-    private boolean deleted;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDestinatario")
-    private Collection<Mensagem> mensagemCollection;
-
-    @JoinTable(name = "utilizador_perfil", joinColumns = {
-        @JoinColumn(name = "id_utilizador", referencedColumnName = "id_utilizador")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_perfil", referencedColumnName = "id_perfil")})
-    @ManyToMany
-    private Collection<Perfil> perfilCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUtilizador")
-    private Collection<Proposta> propostaCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUtilizador")
-    private Collection<AquisicaoProposta> aquisicaoPropostaCollection;
-
     private static final long serialVersionUID = 1L;
-    @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    @Column(name = "id_utilizador", insertable = false , columnDefinition = "serial") 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_utilizador")
     private Integer idUtilizador;
-    
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
@@ -103,12 +85,27 @@ public class Utilizador implements Serializable {
     @Column(name = "codigo_postal")
     private String codigoPostal;
     @Column(name = "ultimo_login")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date ultimoLogin;
     @Basic(optional = false)
     @Column(name = "ativo")
     private boolean ativo;
-
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private boolean deleted;
+    @JoinTable(name = "utilizador_perfil", joinColumns = {
+        @JoinColumn(name = "id_utilizador", referencedColumnName = "id_utilizador")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_perfil", referencedColumnName = "id_perfil")})
+    @ManyToMany
+    private Collection<Perfil> perfilCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUtilizador")
+    private Collection<Proposta> propostaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDestinatario")
+    private Collection<Mensagem> mensagemCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUtilizador")
+    private Collection<AquisicaoProposta> aquisicaoPropostaCollection;
+    @OneToMany(mappedBy = "idUtilizador")
+    private Collection<AvaliacaoVendedor> avaliacaoVendedorCollection;
 
     public Utilizador() {
     }
@@ -117,7 +114,7 @@ public class Utilizador implements Serializable {
         this.idUtilizador = idUtilizador;
     }
 
-    public Utilizador(Integer idUtilizador, String nome, String username, String password, String bi, String nif, boolean ativo) {
+    public Utilizador(Integer idUtilizador, String nome, String username, String password, String bi, String nif, boolean ativo, boolean deleted) {
         this.idUtilizador = idUtilizador;
         this.nome = nome;
         this.username = username;
@@ -125,6 +122,7 @@ public class Utilizador implements Serializable {
         this.bi = bi;
         this.nif = nif;
         this.ativo = ativo;
+        this.deleted = deleted;
     }
 
     public Integer getIdUtilizador() {
@@ -231,6 +229,14 @@ public class Utilizador implements Serializable {
         this.ativo = ativo;
     }
 
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     @XmlTransient
     public Collection<Perfil> getPerfilCollection() {
         return perfilCollection;
@@ -238,6 +244,42 @@ public class Utilizador implements Serializable {
 
     public void setPerfilCollection(Collection<Perfil> perfilCollection) {
         this.perfilCollection = perfilCollection;
+    }
+
+    @XmlTransient
+    public Collection<Proposta> getPropostaCollection() {
+        return propostaCollection;
+    }
+
+    public void setPropostaCollection(Collection<Proposta> propostaCollection) {
+        this.propostaCollection = propostaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Mensagem> getMensagemCollection() {
+        return mensagemCollection;
+    }
+
+    public void setMensagemCollection(Collection<Mensagem> mensagemCollection) {
+        this.mensagemCollection = mensagemCollection;
+    }
+
+    @XmlTransient
+    public Collection<AquisicaoProposta> getAquisicaoPropostaCollection() {
+        return aquisicaoPropostaCollection;
+    }
+
+    public void setAquisicaoPropostaCollection(Collection<AquisicaoProposta> aquisicaoPropostaCollection) {
+        this.aquisicaoPropostaCollection = aquisicaoPropostaCollection;
+    }
+
+    @XmlTransient
+    public Collection<AvaliacaoVendedor> getAvaliacaoVendedorCollection() {
+        return avaliacaoVendedorCollection;
+    }
+
+    public void setAvaliacaoVendedorCollection(Collection<AvaliacaoVendedor> avaliacaoVendedorCollection) {
+        this.avaliacaoVendedorCollection = avaliacaoVendedorCollection;
     }
 
     @Override
@@ -262,44 +304,7 @@ public class Utilizador implements Serializable {
 
     @Override
     public String toString() {
-        return "Id do Utilizador: " + idUtilizador + " Username: " + username + " Nome: " + nome + " BI: " + bi + " NIF: " + nif  +   " Pais: " + pais  +  " Cidade: " + cidade  +   " Codigo Postal: " + codigoPostal    +   " Contacto: " + contacto  + " Ativo: " + ativo +"" ;
-}
-
-
-    @XmlTransient
-    public Collection<Proposta> getPropostaCollection() {
-        return propostaCollection;
-    }
-
-    public void setPropostaCollection(Collection<Proposta> propostaCollection) {
-        this.propostaCollection = propostaCollection;
-    }
-
-    @XmlTransient
-    public Collection<AquisicaoProposta> getAquisicaoPropostaCollection() {
-        return aquisicaoPropostaCollection;
-    }
-
-    public void setAquisicaoPropostaCollection(Collection<AquisicaoProposta> aquisicaoPropostaCollection) {
-        this.aquisicaoPropostaCollection = aquisicaoPropostaCollection;
-    }
-
-    @XmlTransient
-    public Collection<Mensagem> getMensagemCollection() {
-        return mensagemCollection;
-    }
-
-    public void setMensagemCollection(Collection<Mensagem> mensagemCollection) {
-        this.mensagemCollection = mensagemCollection;
-    }
-
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+        return "models.Utilizador[ idUtilizador=" + idUtilizador + " ]";
     }
     
 }
-

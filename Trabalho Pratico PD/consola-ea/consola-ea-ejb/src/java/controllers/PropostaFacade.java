@@ -13,7 +13,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import models.AquisicaoProposta;
-import models.Produto;
 import models.Proposta;
 import models.Utilizador;
 import org.json.JSONObject;
@@ -76,7 +75,9 @@ public class PropostaFacade implements PropostaFacadeLocal {
         try {
             Query q = dAO.getEntityManager().createNativeQuery("SELECT SUM(p.valor_total) FROM proposta p where p.ganhou=true");
 
-            return (Double) q.getSingleResult();
+            if(q.getSingleResult()!=null)
+                return (Double) q.getSingleResult();
+            return 0.0;
             
         } catch (Exception ex) {
             return 0.0;

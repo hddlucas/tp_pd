@@ -39,7 +39,6 @@ public class PropostaAquisicaoBean implements Serializable {
     
     private AquisicaoProposta proposedAcquisition = new AquisicaoProposta();
     private Integer idAquisicao;
-    private Integer idProduto;
     private Integer idUtilizador;
     private float valorMax;
     private String observacoes;
@@ -65,16 +64,6 @@ public class PropostaAquisicaoBean implements Serializable {
     public String show(AquisicaoProposta p) {
         this.proposedAcquisition = p;
         return "solutionProposal.xhtml";
-    }
-
-
-    //PROPRIEDADES
-    public Integer getIdProduto() {
-        return idProduto;
-    }
-
-    public void setIdProduto(Integer idProduto) {
-        this.idProduto = idProduto;
     }
 
     public Integer getIdUtilizador() {

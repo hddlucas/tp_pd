@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author marcosequeira
+ * @author hddlucas
  */
 @Entity
 @Table(name = "proposta")
@@ -38,39 +38,43 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Proposta.findByIdProposta", query = "SELECT p FROM Proposta p WHERE p.idProposta = :idProposta")
     , @NamedQuery(name = "Proposta.findByValorTotal", query = "SELECT p FROM Proposta p WHERE p.valorTotal = :valorTotal")
     , @NamedQuery(name = "Proposta.findByGanhou", query = "SELECT p FROM Proposta p WHERE p.ganhou = :ganhou")
-    , @NamedQuery(name = "Proposta.findByCreatedAt", query = "SELECT p FROM Proposta p WHERE p.createdAt = :createdAt")})
+    , @NamedQuery(name = "Proposta.findByCreatedAt", query = "SELECT p FROM Proposta p WHERE p.createdAt = :createdAt")
+    , @NamedQuery(name = "Proposta.findByDeleted", query = "SELECT p FROM Proposta p WHERE p.deleted = :deleted")})
 public class Proposta implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_proposta")
+    private Integer idProposta;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valor_total")
     private Double valorTotal;
-
-    @Basic(optional = false)
-    @Column(name = "deleted")
-    private boolean deleted;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proposta")
-    private Collection<ProdutoProposta> produtoPropostaCollection;
-
-    private static final long serialVersionUID = 1L;
-    @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    @Column(name = "id_proposta", insertable = false , columnDefinition = "serial") 
-    private Integer idProposta;
-    
     @Column(name = "ganhou")
     private Boolean ganhou;
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private boolean deleted;
     @JoinColumn(name = "id_utilizador", referencedColumnName = "id_utilizador")
     @ManyToOne(optional = false)
     private Utilizador idUtilizador;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proposta")
+    private Collection<ProdutoProposta> produtoPropostaCollection;
 
     public Proposta() {
     }
 
     public Proposta(Integer idProposta) {
         this.idProposta = idProposta;
+    }
+
+    public Proposta(Integer idProposta, boolean deleted) {
+        this.idProposta = idProposta;
+        this.deleted = deleted;
     }
 
     public Integer getIdProposta() {
@@ -105,12 +109,29 @@ public class Proposta implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public Utilizador getIdUtilizador() {
         return idUtilizador;
     }
 
     public void setIdUtilizador(Utilizador idUtilizador) {
         this.idUtilizador = idUtilizador;
+    }
+
+    @XmlTransient
+    public Collection<ProdutoProposta> getProdutoPropostaCollection() {
+        return produtoPropostaCollection;
+    }
+
+    public void setProdutoPropostaCollection(Collection<ProdutoProposta> produtoPropostaCollection) {
+        this.produtoPropostaCollection = produtoPropostaCollection;
     }
 
     @Override
@@ -137,23 +158,5 @@ public class Proposta implements Serializable {
     public String toString() {
         return "models.Proposta[ idProposta=" + idProposta + " ]";
     }
-
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    @XmlTransient
-    public Collection<ProdutoProposta> getProdutoPropostaCollection() {
-        return produtoPropostaCollection;
-    }
-
-    public void setProdutoPropostaCollection(Collection<ProdutoProposta> produtoPropostaCollection) {
-        this.produtoPropostaCollection = produtoPropostaCollection;
-    }
-
-  
+    
 }

@@ -6,7 +6,6 @@
 package models;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -27,26 +26,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ProdutoProposta.findAll", query = "SELECT p FROM ProdutoProposta p")
     , @NamedQuery(name = "ProdutoProposta.findByIdProposta", query = "SELECT p FROM ProdutoProposta p WHERE p.produtoPropostaPK.idProposta = :idProposta")
-    , @NamedQuery(name = "ProdutoProposta.findByIdProduto", query = "SELECT p FROM ProdutoProposta p WHERE p.produtoPropostaPK.idProduto = :idProduto")
-    , @NamedQuery(name = "ProdutoProposta.findByValorMax", query = "SELECT p FROM ProdutoProposta p WHERE p.valorMax = :valorMax")
+    , @NamedQuery(name = "ProdutoProposta.findByIdAquisicao", query = "SELECT p FROM ProdutoProposta p WHERE p.produtoPropostaPK.idAquisicao = :idAquisicao")
     , @NamedQuery(name = "ProdutoProposta.findByObservacoes", query = "SELECT p FROM ProdutoProposta p WHERE p.observacoes = :observacoes")
     , @NamedQuery(name = "ProdutoProposta.findByAvaliacao", query = "SELECT p FROM ProdutoProposta p WHERE p.avaliacao = :avaliacao")})
 public class ProdutoProposta implements Serializable {
 
-    @Column(name = "observacoes")
-    private String observacoes;
-
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ProdutoPropostaPK produtoPropostaPK;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "valor_max")
-    private BigDecimal valorMax;
+    @Column(name = "observacoes")
+    private String observacoes;
     @Column(name = "avaliacao")
     private String avaliacao;
-    @JoinColumn(name = "id_produto", referencedColumnName = "id_produto", insertable = false, updatable = false)
+    @JoinColumn(name = "id_aquisicao", referencedColumnName = "id_aquisicao", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Produto produto;
+    private AquisicaoProposta aquisicaoProposta;
     @JoinColumn(name = "id_proposta", referencedColumnName = "id_proposta", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Proposta proposta;
@@ -58,8 +52,8 @@ public class ProdutoProposta implements Serializable {
         this.produtoPropostaPK = produtoPropostaPK;
     }
 
-    public ProdutoProposta(int idProposta, int idProduto) {
-        this.produtoPropostaPK = new ProdutoPropostaPK(idProposta, idProduto);
+    public ProdutoProposta(int idProposta, int idAquisicao) {
+        this.produtoPropostaPK = new ProdutoPropostaPK(idProposta, idAquisicao);
     }
 
     public ProdutoPropostaPK getProdutoPropostaPK() {
@@ -70,14 +64,13 @@ public class ProdutoProposta implements Serializable {
         this.produtoPropostaPK = produtoPropostaPK;
     }
 
-    public BigDecimal getValorMax() {
-        return valorMax;
+    public String getObservacoes() {
+        return observacoes;
     }
 
-    public void setValorMax(BigDecimal valorMax) {
-        this.valorMax = valorMax;
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
     }
-
 
     public String getAvaliacao() {
         return avaliacao;
@@ -87,12 +80,12 @@ public class ProdutoProposta implements Serializable {
         this.avaliacao = avaliacao;
     }
 
-    public Produto getProduto() {
-        return produto;
+    public AquisicaoProposta getAquisicaoProposta() {
+        return aquisicaoProposta;
     }
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
+    public void setAquisicaoProposta(AquisicaoProposta aquisicaoProposta) {
+        this.aquisicaoProposta = aquisicaoProposta;
     }
 
     public Proposta getProposta() {
@@ -126,14 +119,6 @@ public class ProdutoProposta implements Serializable {
     @Override
     public String toString() {
         return "models.ProdutoProposta[ produtoPropostaPK=" + produtoPropostaPK + " ]";
-    }
-
-    public String getObservacoes() {
-        return observacoes;
-    }
-
-    public void setObservacoes(String observacoes) {
-        this.observacoes = observacoes;
     }
     
 }

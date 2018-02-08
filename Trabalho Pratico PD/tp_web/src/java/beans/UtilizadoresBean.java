@@ -11,7 +11,9 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -37,6 +39,7 @@ public class UtilizadoresBean implements Serializable {
     @EJB
     private UtilizadorFacadeLocal utilizadorFacade;
     private Utilizador user = new Utilizador();
+    private Map<Integer, Boolean> checked = new HashMap<Integer, Boolean>();
     private Integer idUtilizador;
     private String nome;
     private String username;
@@ -59,15 +62,27 @@ public class UtilizadoresBean implements Serializable {
     public UtilizadoresBean() {
     }
 
-    
-       public Utilizador getUser() {
+    public Utilizador getUser() {
         return this.user;
     }
 
+    public Map<Integer, Boolean> getChecked() {
+        
+        
+        return checked;
+    }
+
+    public void setChecked(Map<Integer, Boolean> checked) {
+      
+        this.checked = checked;
+    }
+
+    
+    
     public List<Utilizador> getList() {
         return utilizadorFacade.getUsersList();
     }
-   
+
     public String create() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
@@ -104,8 +119,6 @@ public class UtilizadoresBean implements Serializable {
         }
     }
 
-   
- 
     public String show(Utilizador u) {
         this.user = u;
         return "user.xhtml";
@@ -136,7 +149,6 @@ public class UtilizadoresBean implements Serializable {
             if (request.getParameterMap().containsKey("form:ativo_input")) {
                 userFields.add("ativo", "1");
             }
-      
 
             JsonObject fieldsObject = userFields.build();
             utilizadorFacade.update(fieldsObject.toString(), this.user.getIdUtilizador());
@@ -186,14 +198,14 @@ public class UtilizadoresBean implements Serializable {
             FacesContext.getCurrentInstance()
                     .getExternalContext()
                     .getFlash().setKeepMessages(true);
-            
+
         }
     }
 
-    public String getUsernameById(int id){
+    public String getUsernameById(int id) {
         return utilizadorFacade.getUserNameById(id);
     }
-    
+
     //PROPRIEDADES
     public Integer getIdUtilizador() {
         return idUtilizador;
@@ -298,7 +310,6 @@ public class UtilizadoresBean implements Serializable {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
-    
 
     public Collection<Perfil> getPerfilCollection() {
         return perfilCollection;
@@ -307,7 +318,6 @@ public class UtilizadoresBean implements Serializable {
     public void setPerfilCollection(Collection<Perfil> perfilCollection) {
         this.perfilCollection = perfilCollection;
     }
-    
 
     //VALIDATORS
     public void validateUsername(FacesContext context, UIComponent component, Object value) throws ValidatorException {

@@ -9,17 +9,17 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -33,20 +33,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Componente.findAll", query = "SELECT c FROM Componente c")
+    ,@NamedQuery(name = "Componente.findAllNotDeleted", query = "SELECT c FROM Componente c WHERE c.deleted=false")
     , @NamedQuery(name = "Componente.findByIdComponente", query = "SELECT c FROM Componente c WHERE c.idComponente = :idComponente")
     , @NamedQuery(name = "Componente.findByNome", query = "SELECT c FROM Componente c WHERE c.nome = :nome")
     , @NamedQuery(name = "Componente.findByObservacoes", query = "SELECT c FROM Componente c WHERE c.observacoes = :observacoes")
-    , @NamedQuery(name = "Componente.findByAvaliacao", query = "SELECT c FROM Componente c WHERE c.avaliacao = :avaliacao")
-    , @NamedQuery(name = "Componente.findByValor", query = "SELECT c FROM Componente c WHERE c.valor = :valor")})
+    , @NamedQuery(name = "Componente.findByValor", query = "SELECT c FROM Componente c WHERE c.valor = :valor")
+    , @NamedQuery(name = "Componente.findByDeleted", query = "SELECT c FROM Componente c WHERE c.deleted = :deleted")})
 public class Componente implements Serializable {
-
-    @Basic(optional = false)
-    @Column(name = "deleted")
-    private boolean deleted;
-
-    @JoinColumn(name = "id_operador", referencedColumnName = "id_operador")
-    @ManyToOne
-    private Operador idOperador;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,24 +51,30 @@ public class Componente implements Serializable {
     private String nome;
     @Column(name = "observacoes")
     private String observacoes;
-    @Column(name = "avaliacao")
-    private Integer avaliacao;
     @Column(name = "valor")
     private BigInteger valor;
-    @JoinTable(name = "componente_produto", joinColumns = {
-        @JoinColumn(name = "id_componente", referencedColumnName = "id_componente")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_produto", referencedColumnName = "id_produto")})
-    @ManyToMany
-    private Collection<Produto> produtoCollection;
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private boolean deleted;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "componente")
+    private Collection<ComponenteProduto> componenteProdutoCollection;
     @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
     @ManyToOne(optional = false)
     private Categoria idCategoria;
+    @JoinColumn(name = "id_operador", referencedColumnName = "id_operador")
+    @ManyToOne
+    private Operador idOperador;
 
     public Componente() {
     }
 
     public Componente(Integer idComponente) {
         this.idComponente = idComponente;
+    }
+
+    public Componente(Integer idComponente, boolean deleted) {
+        this.idComponente = idComponente;
+        this.deleted = deleted;
     }
 
     public Integer getIdComponente() {
@@ -102,14 +101,6 @@ public class Componente implements Serializable {
         this.observacoes = observacoes;
     }
 
-    public Integer getAvaliacao() {
-        return avaliacao;
-    }
-
-    public void setAvaliacao(Integer avaliacao) {
-        this.avaliacao = avaliacao;
-    }
-
     public BigInteger getValor() {
         return valor;
     }
@@ -118,13 +109,21 @@ public class Componente implements Serializable {
         this.valor = valor;
     }
 
-    @XmlTransient
-    public Collection<Produto> getProdutoCollection() {
-        return produtoCollection;
+    public boolean getDeleted() {
+        return deleted;
     }
 
-    public void setProdutoCollection(Collection<Produto> produtoCollection) {
-        this.produtoCollection = produtoCollection;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    @XmlTransient
+    public Collection<ComponenteProduto> getComponenteProdutoCollection() {
+        return componenteProdutoCollection;
+    }
+
+    public void setComponenteProdutoCollection(Collection<ComponenteProduto> componenteProdutoCollection) {
+        this.componenteProdutoCollection = componenteProdutoCollection;
     }
 
     public Categoria getIdCategoria() {
@@ -133,6 +132,14 @@ public class Componente implements Serializable {
 
     public void setIdCategoria(Categoria idCategoria) {
         this.idCategoria = idCategoria;
+    }
+
+    public Operador getIdOperador() {
+        return idOperador;
+    }
+
+    public void setIdOperador(Operador idOperador) {
+        this.idOperador = idOperador;
     }
 
     @Override
@@ -158,22 +165,6 @@ public class Componente implements Serializable {
     @Override
     public String toString() {
         return "models.Componente[ idComponente=" + idComponente + " ]";
-    }
-
-    public Operador getIdOperador() {
-        return idOperador;
-    }
-
-    public void setIdOperador(Operador idOperador) {
-        this.idOperador = idOperador;
-    }
-
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
     
 }
