@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     08/02/2018 12:19:22                          */
+/* Created on:     08/02/2018 15:28:02                          */
 /*==============================================================*/
 
 
@@ -73,7 +73,7 @@ create table AQUISICAO_PROPOSTA (
    ID_AQUISICAO         SERIAL               not null,
    ID_PRODUTO           INT4                 null,
    ID_UTILIZADOR        INT4                 not null,
-   VALOR_MAX            DECIMAL(8)           null,
+   VALOR_MAX            FLOAT8               null,
    OBSERVACOES          VARCHAR(1024)        null,
    CREATED_AT           TIMESTAMP            null,
    DELETED              BOOL                 not null,
@@ -272,7 +272,7 @@ ID_PRODUTO
 create table PROPOSTA (
    ID_PROPOSTA          SERIAL               not null,
    ID_UTILIZADOR        INT4                 not null,
-   VALOR_TOTAL          DECIMAL(8)           null,
+   VALOR_TOTAL          FLOAT8               null,
    GANHOU               BOOL                 null,
    CREATED_AT           TIMESTAMP            null,
    DELETED              BOOL                 not null,
