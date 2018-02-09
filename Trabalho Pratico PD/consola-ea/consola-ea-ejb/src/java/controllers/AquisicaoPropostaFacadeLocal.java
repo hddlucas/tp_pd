@@ -20,7 +20,7 @@ public interface AquisicaoPropostaFacadeLocal {
     
     List<AquisicaoProposta> getAcquisitionProposals();
     AquisicaoProposta findAquisicaoProposta(Integer id);
-    int totalPropostas(Date date);
+    int totalPropostasCurrentDate(Date date);
     int totalPropostas();
     int totalPropostasEmAberto();
 

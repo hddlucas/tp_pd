@@ -47,12 +47,13 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
     }
 
     @Override
-    public int totalPropostas(Date date) {
+    public int totalPropostasCurrentDate(Date date) {
 
         List<AquisicaoProposta> proposals = null;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        Query q = dAO.getEntityManager().createNativeQuery("SELECT * FROM aquisicao_proposta p where p.deleted=false and date(p.created_at) = '2018-02-08'");
+        String data=formatter.format(date);
+        Query q = dAO.getEntityManager().createNativeQuery("SELECT * FROM aquisicao_proposta p where p.deleted=false and date(p.created_at) = ' " + data + "';");
         proposals = q
                 .getResultList();
         return proposals.size();

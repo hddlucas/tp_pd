@@ -126,7 +126,7 @@ public class DashboardBean implements Serializable {
             dateAsString = String.format("%d-%02d-%02d", year, month, day);
             try {
                 date=formatter.parse(dateAsString);
-                series1.set(dateAsString, aquisicaoPropostaFacade.totalPropostas(date));
+                series1.set(dateAsString, aquisicaoPropostaFacade.totalPropostasCurrentDate(date));
                 //context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", date.toString()));
             } catch (Exception ex) {
                 series1.set(dateAsString, 0);
