@@ -504,5 +504,15 @@ tr.linhas_pares {
 
     display: inline-block!important;
     font-size: 25px;
+    font-weight: 600;
 
+}
+
+
+/*****************DASHBOARD***********/
+.jqplot-title{
+    font-weight: bold;
+}
+.pieModel1 .jqplot-title{
+    font-size: 20px;
 }

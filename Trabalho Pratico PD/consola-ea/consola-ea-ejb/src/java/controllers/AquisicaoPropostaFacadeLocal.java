@@ -22,6 +22,6 @@ public interface AquisicaoPropostaFacadeLocal {
     AquisicaoProposta findAquisicaoProposta(Integer id);
     int totalPropostas(Date date);
     int totalPropostas();
-    int totalPropostasEmaberto();
+    int totalPropostasEmAberto();
 
 }

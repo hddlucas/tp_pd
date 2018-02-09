@@ -113,11 +113,9 @@ public class DashboardBean implements Serializable {
         series1.setLabel("Series 1");
  
         Calendar calendar = Calendar.getInstance();
-        int year = 2018;
-        int month=2;
-        
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month-1); // since 0 = January
+        int year = calendar.get(Calendar.YEAR);
+        int month=calendar.get(Calendar.MONTH)+1;
+
         int maxDaysInMonth = calendar.getActualMaximum(Calendar.DATE);
         String dateAsString="";   
         Date date ; 
@@ -142,7 +140,7 @@ public class DashboardBean implements Serializable {
         dateModel.setTitle("Total de Propostas de Aquisição - Mês Corrente");
         dateModel.setZoom(true);
         dateModel.getAxis(AxisType.Y).setLabel("Total");
-        DateAxis axis = new DateAxis("Datas");
+        DateAxis axis = new DateAxis();
         axis.setTickAngle(-50);
         axis.setMax(dateAsString);
         axis.setTickFormat("%b %#d, %y");
@@ -162,4 +160,7 @@ public class DashboardBean implements Serializable {
         return propostaFacade.getTotalTransactedMoney();
     }
     
+     public int getTotalPropostasEmAberto()  {
+        return aquisicaoPropostaFacade.totalPropostasEmAberto();
+    }
 }
