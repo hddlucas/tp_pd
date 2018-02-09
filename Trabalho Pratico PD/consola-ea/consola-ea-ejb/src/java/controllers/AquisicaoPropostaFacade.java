@@ -71,13 +71,13 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
     public int totalPropostasEmAberto() {
         
         //encontras as que foram ganhas
-        Query q = dAO.getEntityManager().createNativeQuery("SELECT count(a.id_aquisicao) FROM aquisicao_proposta a, produto_proposta pp, proposta p where a.id_aquisicao = pp.id_aquisicao and pp.id_proposta = p.id_proposta AND ganhou=false");
+        Query q = dAO.getEntityManager().createNativeQuery("SELECT count(a.id_aquisicao) FROM aquisicao_proposta a, produto_proposta pp, proposta p where a.id_aquisicao = pp.id_aquisicao and pp.id_proposta = p.id_proposta AND ganhou=true");
         Long count = (Long) q.getSingleResult();
 
         List<AquisicaoProposta> proposals=this.getAcquisitionProposals();
         int total = proposals!=null ? proposals.size() : 0;
         
-        return total -toIntExact(count);
+        return total - toIntExact(count);
         
     }
 
