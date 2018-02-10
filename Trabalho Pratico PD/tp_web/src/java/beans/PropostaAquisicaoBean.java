@@ -13,13 +13,19 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.faces.validator.ValidatorException;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.servlet.http.HttpServletRequest;
 import models.AquisicaoProposta;
 import models.Categoria;
 import models.Componente;
@@ -83,7 +89,35 @@ public class PropostaAquisicaoBean implements Serializable {
     public PropostaAquisicaoBean() {
     }
 
+     public String create() throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            
+            JsonObjectBuilder messageFields = Json.createObjectBuilder();
+            messageFields.add("id_utilizador", request.getParameter("form:id_utilizador"));
+            messageFields.add("valor_max", request.getParameter("form:max_value_input"));
+            messageFields.add("observacoes", request.getParameter("form:observacoes"));
 
+            JsonObject fieldsObject = messageFields.build();
+
+            aquisicaoPropostaFacade.create(fieldsObject.toString(),items);
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", "Proposta Criada com sucesso"));
+
+
+        } catch (Exception ex) {
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", ex.getMessage()));
+
+            return "index.xhtml?faces-redirect=true?";
+        } finally {
+            context.getCurrentInstance()
+                    .getExternalContext()
+                    .getFlash().setKeepMessages(true);
+            return "index.xhtml?faces-redirect=true?";
+        }
+    }
+    
+    
     public List<models.AquisicaoProposta> getList() {
         return aquisicaoPropostaFacade.getAcquisitionProposals();
     }

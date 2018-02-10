@@ -24,12 +24,12 @@
                 <div class="ui-grid-col-12">
                     <h:form styleClass="form" id="form">
                         <p:growl id="msgs" showDetail="true" />
-                        <p:inputText value="#{loginBean.loggedUser.idUtilizador}" id="id_remetente" type="hidden" />
+                        <p:inputText value="#{loginBean.loggedUser.idUtilizador}" id="id_utilizador" type="hidden" />
 
                         <p:panelGrid columns="2">
 
-                            <h:outputLabel for="descricao" value="Descriçao *" />
-                            <p:inputTextarea id="mensagem" 
+                            <h:outputLabel for="observacoes" value="Descriçao *" />
+                            <p:inputTextarea id="observacoes" 
                                              rows="10" cols="30" 
                                              counter="display"
                                              maxlength="600" 
@@ -44,11 +44,15 @@
                                            for="max_value"/>
                             <p:inputNumber id="max_value"
                                            required="true"
+                                           minValue="1"
+                                           maxValue="1000000"
+                                           decimalSeparator="," 
+                                           thousandSeparator="."
                                            requiredMessage="O campo Valor Máximo é obrigatório"/>
 
                         </p:panelGrid>
 
-                        <h3>Componentes</h3>
+                        <h3>Lista de Componentes do Produto</h3>
 
 
                         <p:commandButton value="Adicionar Componente" action="#{propostaAquisicaoBean.add}" update="@form" />
@@ -64,15 +68,15 @@
                                     <f:selectItems value="#{propostaAquisicaoBean.componentes}" var="componente" itemLabel="#{componente.nome}" itemValue="#{componente.idComponente}"/>
                                 </p:selectOneMenu>
                                 
-                                <p:outputLabel  for="operador" value="Operador #{item.operador}" />
-                                    <p:selectOneMenu id="operador" value="#{componenteBean.idCategoria}" >   
+                                <p:outputLabel  for="operador" value="Operador" />
+                                <p:selectOneMenu id="operador" value="#{item.operador}" >   
                                     <f:selectItem itemLabel="Selecione um operador"/>
                                     <f:selectItems value="#{propostaAquisicaoBean.operadores}" var="operador" itemLabel="#{operador.descricao}" itemValue="#{operador.idOperador}"/>
                                 </p:selectOneMenu>
 
-                                  <h:outputLabel value=#{item.valor}
+                                  <h:outputLabel value="Valor"
                                            for="value"/>
-                                  <p:inputText id="value"/>
+                                  <p:inputText id="value" value="#{item.valor}"/>
                                 
                                 <p:commandButton  class="delete-button" icon="ui-icon-closethick white" action="#{propostaAquisicaoBean.remove(item)}" update="@form" />
 
@@ -82,7 +86,7 @@
 
 
                         <br />
-                        <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Criar"  action="#{mensagemBean.create}" >
+                        <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Criar"  action="#{propostaAquisicaoBean.create}" >
                         </h:commandLink> 
 
                         <h:button styleClass="ui-button ui-widget ui-state-default ui-corner-all cancel-button" value="Cancelar" outcome="index" >

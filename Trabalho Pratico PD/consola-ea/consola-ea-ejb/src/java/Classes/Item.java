@@ -14,7 +14,24 @@ public class Item {
     private String label;
     private String value;
     private int componente;
-    private int valor;
+    private int operador;
+
+    public int getOperador() {
+        return operador;
+    }
+
+    public void setOperador(int operador) {
+        this.operador = operador;
+    }
+    private String valor;
+
+    public String getValor() {
+        return valor;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
 
     public int getComponente() {
         return componente;

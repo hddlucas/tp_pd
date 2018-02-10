@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import Classes.Item;
 import controllers.exceptions.RollbackFailureException;
 import java.util.Date;
 import java.util.List;
@@ -21,10 +22,12 @@ public interface AquisicaoPropostaFacadeLocal {
     
     List<AquisicaoProposta> getAcquisitionProposals();
     List<AquisicaoProposta> getUserAcquisitionProposals(Utilizador u);
+    void create(String fields,List<Item> i)throws RollbackFailureException, Exception;
     AquisicaoProposta findAquisicaoProposta(Integer id);
     int totalPropostasCurrentDate(Date date);
     int totalPropostas();
     int totalPropostasEmAberto();
     int getTotalPropostasRecebidas(AquisicaoProposta a);
     public boolean propostaAdjudicada(AquisicaoProposta a);
+    
 }

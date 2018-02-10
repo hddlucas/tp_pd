@@ -522,10 +522,16 @@ tr.linhas_pares {
     margin-right: 45px;
 }
 
-.aquisitionProposal-components input,.ui-selectonemenu{
+.aquisitionProposal-components .ui-selectonemenu{
     display: inline-block;
     width: 200px!important;
     margin-right: 45px;
+}
+
+.aquisitionProposal-components input{
+    width: 480px!important;
+    margin-right: 45px;
+    display: inline-block;
 }
 
 .aquisitionProposal-components hr{

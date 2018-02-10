@@ -5,9 +5,11 @@
  */
 package controllers;
 
+import Classes.Item;
 import controllers.exceptions.RollbackFailureException;
 import static java.lang.Integer.parseInt;
 import static java.lang.Math.toIntExact;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,8 +22,10 @@ import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import models.AquisicaoProposta;
 import models.Categoria;
+import models.Mensagem;
 import models.Utilizador;
 import org.json.JSONObject;
+import sun.management.resources.agent;
 
 /**
  *
@@ -29,6 +33,9 @@ import org.json.JSONObject;
  */
 @Stateless
 public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
+
+    @EJB
+    private UtilizadorFacadeLocal utilizadorFacade;
 
     @EJB
     private DAOLocal dAO;
@@ -48,6 +55,30 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
         proposals.removeIf(p -> p.getDeleted() != false);
 
         return proposals;
+    }
+
+    @Override
+    public void create(String fields, List<Item> i) throws RollbackFailureException, Exception {
+        try {
+            
+            JSONObject proposalFields = new JSONObject(fields);
+            Utilizador u = utilizadorFacade.findUtilizador(Integer.parseInt(proposalFields.getString("id_utilizador")));
+
+            AquisicaoProposta a = new AquisicaoProposta();
+            a.setValorMax(Double.parseDouble(proposalFields.getString("valor_max")));
+            a.setObservacoes(proposalFields.getString("observacoes"));
+            a.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            a.setIdUtilizador(u);
+            u.getAquisicaoPropostaCollection().add(a);
+
+            dAO.getEntityManager().merge(u);
+            
+            
+
+        } catch (Exception ex) {
+            throw ex;
+        }
+
     }
 
     @Override
@@ -89,27 +120,24 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
 
         return total - toIntExact(count);
     }
-    
+
     @Override
-    public int getTotalPropostasRecebidas(AquisicaoProposta a){
+    public int getTotalPropostasRecebidas(AquisicaoProposta a) {
         Query q = dAO.getEntityManager().createNativeQuery("SELECT count(p.id_proposta) FROM  produto_proposta pp, proposta p where pp.id_proposta = p.id_proposta AND p.deleted=false AND pp.id_aquisicao= #idAquisicao");
-        Long count = (Long) 
-                 q.setParameter("idAquisicao", a.getIdAquisicao())
+        Long count = (Long) q.setParameter("idAquisicao", a.getIdAquisicao())
                 .getSingleResult();
-        
-        return  toIntExact(count);
+
+        return toIntExact(count);
 
     }
-    
+
     @Override
-    public boolean propostaAdjudicada(AquisicaoProposta a){
+    public boolean propostaAdjudicada(AquisicaoProposta a) {
         Query q = dAO.getEntityManager().createNativeQuery("SELECT count(p.id_proposta) FROM  produto_proposta pp, proposta p where pp.id_proposta = p.id_proposta AND p.deleted=false AND p.ganhou=true AND pp.id_aquisicao= #idAquisicao ");
-        Long count = (Long) 
-                 q.setParameter("idAquisicao", a.getIdAquisicao())
+        Long count = (Long) q.setParameter("idAquisicao", a.getIdAquisicao())
                 .getSingleResult();
-        
-        return count>0;
+
+        return count > 0;
     }
-    
 
 }
