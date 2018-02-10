@@ -45,7 +45,7 @@ public class Operador implements Serializable {
     @Column(name = "descricao")
     private String descricao;
     @OneToMany(mappedBy = "idOperador")
-    private Collection<Componente> componenteCollection;
+    private Collection<ComponenteProduto> componenteProdutoCollection;
 
     public Operador() {
     }
@@ -79,12 +79,12 @@ public class Operador implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Componente> getComponenteCollection() {
-        return componenteCollection;
+    public Collection<ComponenteProduto> getComponenteProdutoCollection() {
+        return componenteProdutoCollection;
     }
 
-    public void setComponenteCollection(Collection<Componente> componenteCollection) {
-        this.componenteCollection = componenteCollection;
+    public void setComponenteProdutoCollection(Collection<ComponenteProduto> componenteProdutoCollection) {
+        this.componenteProdutoCollection = componenteProdutoCollection;
     }
 
     @Override

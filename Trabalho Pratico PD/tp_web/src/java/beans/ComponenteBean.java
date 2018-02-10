@@ -44,7 +44,6 @@ public class ComponenteBean implements Serializable {
     private Integer idCategoria;
     private String nome;
     private String observacoes;
-    private BigInteger valor;
     private List<Categoria> categorias;
     
     /**
@@ -165,10 +164,6 @@ public class ComponenteBean implements Serializable {
 
     public String getObservacoes() {
         return observacoes;
-    }
-
-    public BigInteger getValor() {
-        return valor;
     }
 
     public Integer getIdCategoria() {
