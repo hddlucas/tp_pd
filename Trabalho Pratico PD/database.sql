@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     08/02/2018 22:00:54                          */
+/* Created on:     10/02/2018 10:52:39                          */
 /*==============================================================*/
 
 
@@ -24,8 +24,6 @@ drop table COMPONENTE;
 
 drop index RELATIONSHIP_9_FK;
 
-drop index RELATIONSHIP_8_FK;
-
 drop index RELATIONSHIP_5_PK;
 
 drop table COMPONENTE_PRODUTO;
@@ -37,12 +35,6 @@ drop table OPERADOR;
 drop index PROFILES_PK;
 
 drop table PERFIL;
-
-drop index PRODUCTS_PK;
-
-drop table PRODUTO;
-
-drop index RELATIONSHIP_4_FK;
 
 drop index RELATIONSHIP_3_FK;
 
@@ -73,7 +65,6 @@ drop table UTILIZADOR_PERFIL;
 /*==============================================================*/
 create table AQUISICAO_PROPOSTA (
    ID_AQUISICAO         SERIAL               not null,
-   ID_PRODUTO           INT4                 null,
    ID_UTILIZADOR        INT4                 not null,
    VALOR_MAX            FLOAT8               null,
    OBSERVACOES          VARCHAR(1024)        null,
@@ -129,10 +120,8 @@ ID_CATEGORIA
 create table COMPONENTE (
    ID_COMPONENTE        SERIAL               not null,
    ID_CATEGORIA         INT4                 not null,
-   ID_OPERADOR          INT4                 null,
    NOME                 VARCHAR(1024)        null,
    OBSERVACOES          VARCHAR(1024)        null,
-   VALOR                DECIMAL              null,
    DELETED              BOOL                 not null,
    constraint PK_COMPONENTE primary key (ID_COMPONENTE)
 );
@@ -155,25 +144,20 @@ ID_CATEGORIA
 /* Table: COMPONENTE_PRODUTO                                    */
 /*==============================================================*/
 create table COMPONENTE_PRODUTO (
-   ID_PRODUTO           INT4                 not null,
    ID_COMPONENTE        INT4                 not null,
+   ID_AQUISICAO         INT4                 not null,
+   ID_OPERADOR          INT4                 null,
    AVALIACAO            INT4                 null,
-   constraint PK_COMPONENTE_PRODUTO primary key (ID_PRODUTO, ID_COMPONENTE)
+   VALOR                INT4                 null,
+   constraint PK_COMPONENTE_PRODUTO primary key (ID_COMPONENTE, ID_AQUISICAO)
 );
 
 /*==============================================================*/
 /* Index: RELATIONSHIP_5_PK                                     */
 /*==============================================================*/
 create unique index RELATIONSHIP_5_PK on COMPONENTE_PRODUTO (
-ID_PRODUTO,
-ID_COMPONENTE
-);
-
-/*==============================================================*/
-/* Index: RELATIONSHIP_8_FK                                     */
-/*==============================================================*/
-create  index RELATIONSHIP_8_FK on COMPONENTE_PRODUTO (
-ID_PRODUTO
+ID_COMPONENTE,
+ID_AQUISICAO
 );
 
 /*==============================================================*/
@@ -229,31 +213,14 @@ ID_PERFIL
 );
 
 /*==============================================================*/
-/* Table: PRODUTO                                               */
-/*==============================================================*/
-create table PRODUTO (
-   ID_PRODUTO           SERIAL               not null,
-   DESCRICAO            TEXT                 null,
-   DELETED              BOOL                 null,
-   constraint PK_PRODUTO primary key (ID_PRODUTO)
-);
-
-/*==============================================================*/
-/* Index: PRODUCTS_PK                                           */
-/*==============================================================*/
-create unique index PRODUCTS_PK on PRODUTO (
-ID_PRODUTO
-);
-
-/*==============================================================*/
 /* Table: PRODUTO_PROPOSTA                                      */
 /*==============================================================*/
 create table PRODUTO_PROPOSTA (
    ID_PROPOSTA          INT4                 not null,
-   ID_PRODUTO           INT4                 not null,
+   ID_AQUISICAO         INT4                 not null,
    OBSERVACOES          TEXT                 null,
    AVALIACAO            VARCHAR(1024)        null,
-   constraint PK_PRODUTO_PROPOSTA primary key (ID_PROPOSTA, ID_PRODUTO)
+   constraint PK_PRODUTO_PROPOSTA primary key (ID_PROPOSTA, ID_AQUISICAO)
 );
 
 /*==============================================================*/
@@ -261,7 +228,7 @@ create table PRODUTO_PROPOSTA (
 /*==============================================================*/
 create unique index RELATIONSHIP_2_PK on PRODUTO_PROPOSTA (
 ID_PROPOSTA,
-ID_PRODUTO
+ID_AQUISICAO
 );
 
 /*==============================================================*/
@@ -269,13 +236,6 @@ ID_PRODUTO
 /*==============================================================*/
 create  index RELATIONSHIP_3_FK on PRODUTO_PROPOSTA (
 ID_PROPOSTA
-);
-
-/*==============================================================*/
-/* Index: RELATIONSHIP_4_FK                                     */
-/*==============================================================*/
-create  index RELATIONSHIP_4_FK on PRODUTO_PROPOSTA (
-ID_PRODUTO
 );
 
 /*==============================================================*/
@@ -365,11 +325,6 @@ ID_UTILIZADOR
 );
 
 alter table AQUISICAO_PROPOSTA
-   add constraint FK_AQUISICA_ACQUISITI_PRODUTO foreign key (ID_PRODUTO)
-      references PRODUTO (ID_PRODUTO)
-      on delete restrict on update restrict;
-
-alter table AQUISICAO_PROPOSTA
    add constraint FK_AQUISICA_AQUISICAO_UTILIZAD foreign key (ID_UTILIZADOR)
       references UTILIZADOR (ID_UTILIZADOR)
       on delete restrict on update restrict;
@@ -380,23 +335,23 @@ alter table AVALIACAO_VENDEDOR
       on delete restrict on update restrict;
 
 alter table COMPONENTE
-   add constraint FK_COMPONEN_AQUISICAO_OPERADOR foreign key (ID_OPERADOR)
-      references OPERADOR (ID_OPERADOR)
-      on delete restrict on update restrict;
-
-alter table COMPONENTE
    add constraint FK_COMPONEN_RELATIONS_CATEGORI foreign key (ID_CATEGORIA)
       references CATEGORIA (ID_CATEGORIA)
       on delete restrict on update restrict;
 
 alter table COMPONENTE_PRODUTO
-   add constraint FK_COMPONEN_COMPONENT_PRODUTO foreign key (ID_PRODUTO)
-      references PRODUTO (ID_PRODUTO)
+   add constraint FK_COMPONEN_COMPONENT_COMPONEN foreign key (ID_COMPONENTE)
+      references COMPONENTE (ID_COMPONENTE)
       on delete restrict on update restrict;
 
 alter table COMPONENTE_PRODUTO
-   add constraint FK_COMPONEN_COMPONENT_COMPONEN foreign key (ID_COMPONENTE)
-      references COMPONENTE (ID_COMPONENTE)
+   add constraint FK_COMPONEN_REFERENCE_AQUISICA foreign key (ID_AQUISICAO)
+      references AQUISICAO_PROPOSTA (ID_AQUISICAO)
+      on delete restrict on update restrict;
+
+alter table COMPONENTE_PRODUTO
+   add constraint FK_COMPONEN_REFERENCE_OPERADOR foreign key (ID_OPERADOR)
+      references OPERADOR (ID_OPERADOR)
       on delete restrict on update restrict;
 
 alter table MENSAGEM
@@ -405,13 +360,13 @@ alter table MENSAGEM
       on delete restrict on update restrict;
 
 alter table PRODUTO_PROPOSTA
-   add constraint FK_PRODUTO__PRODUCTS__PRODUTO foreign key (ID_PRODUTO)
-      references PRODUTO (ID_PRODUTO)
+   add constraint FK_PRODUTO__PRODUTO_P_PROPOSTA foreign key (ID_PROPOSTA)
+      references PROPOSTA (ID_PROPOSTA)
       on delete restrict on update restrict;
 
 alter table PRODUTO_PROPOSTA
-   add constraint FK_PRODUTO__PRODUTO_P_PROPOSTA foreign key (ID_PROPOSTA)
-      references PROPOSTA (ID_PROPOSTA)
+   add constraint FK_PRODUTO__REFERENCE_AQUISICA foreign key (ID_AQUISICAO)
+      references AQUISICAO_PROPOSTA (ID_AQUISICAO)
       on delete restrict on update restrict;
 
 alter table PROPOSTA
@@ -429,12 +384,14 @@ alter table UTILIZADOR_PERFIL
       references PERFIL (ID_PERFIL)
       on delete restrict on update restrict;
 
+
+
 /*==============================================================*/
 /* DEFAULT ADMIN                              			*/
 /*==============================================================*/
 
 INSERT INTO  utilizador (username,password,nome,nif,bi,ativo,deleted)
-VALUES ('admin','12345','Administrador','123456789','123456789',true,false);
+VALUES ('admin','12345','Administrador','123456789','123456789',true,false),('vendedor','12345','Vendedor','123456789','123456789',true,false),('avaliador','12345','Avaliador','123456789','123456789',true,false),('agente','12345','Agente','123456789','123456789',true,false);
 
 
 /*==============================================================*/
@@ -459,5 +416,5 @@ VALUES ('=','Igual a'),('<','Menor que'),('>','Maior que'),('!','Diferente de'),
 /*==============================================================*/
 
 INSERT INTO  utilizador_perfil (id_perfil,id_utilizador)
-VALUES (1,1);
+VALUES (1,1),(4,2),(2,3),(3,4);
 
