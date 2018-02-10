@@ -97,7 +97,6 @@ public class ComponenteBean implements Serializable {
     
     public List<Categoria> getCategorias() {
         this.categorias = categoriaFacade.getCategoriesList();
-
         return categorias;
     }
     

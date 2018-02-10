@@ -21,7 +21,7 @@
                 <h:form styleClass="form" id="form">
                     <p:growl id="msgs" showDetail="true" />
 
-                    <h:panelGrid columns="2">
+                    <p:panelGrid columns="2">
 
                         <h:outputLabel value="Username" for="username" />
                         <h:outputText id="username" value="#{loginBean.loggedUser.username}"/>
@@ -56,7 +56,7 @@
                         <h:outputLabel for="ultimo_login" value="Ultimo Login" />  
                         <h:outputText id="ultimo_login" value="#{loginBean.loggedUser.ultimoLogin}  " />
                         
-                    </h:panelGrid>
+                    </p:panelGrid>
                 </h:form>
 
 

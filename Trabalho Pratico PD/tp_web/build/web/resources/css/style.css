@@ -374,7 +374,7 @@ and open the template in the editor.
 }
 
 .form input,textarea,.ui-selectcheckboxmenu{
-    width: 90%!important;
+    width: 100%!important;
     float: left;
 }
 
@@ -515,4 +515,28 @@ tr.linhas_pares {
 }
 .pieModel1 .jqplot-title{
     font-size: 20px;
+}
+
+/*****************AQUISITION PROPOSAL COMPONENT***********/
+.aquisitionProposal-components label{
+    margin-right: 45px;
+}
+
+.aquisitionProposal-components input,.ui-selectonemenu{
+    display: inline-block;
+    width: 200px!important;
+    margin-right: 45px;
+}
+
+.aquisitionProposal-components hr{
+    margin-bottom: 20px;
+    margin-top: -10px;
+}
+
+.aquisitionProposal-components hr:last-of-type{
+    display: none;
+}
+
+.aquisitionProposal-components .delete-button{
+    background-color: red!important;
 }

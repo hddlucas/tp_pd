@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 import models.AquisicaoProposta;
+import models.Utilizador;
 
 /**
  *
@@ -19,9 +20,11 @@ import models.AquisicaoProposta;
 public interface AquisicaoPropostaFacadeLocal {
     
     List<AquisicaoProposta> getAcquisitionProposals();
+    List<AquisicaoProposta> getUserAcquisitionProposals(Utilizador u);
     AquisicaoProposta findAquisicaoProposta(Integer id);
     int totalPropostasCurrentDate(Date date);
     int totalPropostas();
     int totalPropostasEmAberto();
-
+    int getTotalPropostasRecebidas(AquisicaoProposta a);
+    public boolean propostaAdjudicada(AquisicaoProposta a);
 }

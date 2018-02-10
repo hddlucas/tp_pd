@@ -25,7 +25,7 @@
                     <h:form styleClass="form" id="form">
                         <p:growl id="msgs" showDetail="true" />
 
-                        <h:panelGrid columns="2">
+                        <p:panelGrid columns="2">
                             <h:outputLabel value="Nome *"
                                            for="nome"/>
                             <h:inputText id="nome"
@@ -33,7 +33,7 @@
                                          requiredMessage="O campo Nome é obrigatório"
                                          validator="#{categoriasBean.validateNome}" 
                                          />
-                            </h:panelGrid>
+                            </p:panelGrid>
                         <br />
                         <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Criar"  action="#{categoriasBean.create}" >
                         </h:commandLink> 

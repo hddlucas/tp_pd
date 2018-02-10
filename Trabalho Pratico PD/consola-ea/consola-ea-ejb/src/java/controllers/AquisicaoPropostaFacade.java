@@ -42,6 +42,15 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
     }
 
     @Override
+    public List<AquisicaoProposta> getUserAcquisitionProposals(Utilizador u) {
+
+        List<AquisicaoProposta> proposals = (List<AquisicaoProposta>) u.getAquisicaoPropostaCollection();
+        proposals.removeIf(p -> p.getDeleted() != false);
+
+        return proposals;
+    }
+
+    @Override
     public AquisicaoProposta findAquisicaoProposta(Integer id) {
         return dAO.getEntityManager().find(AquisicaoProposta.class, id);
     }
@@ -52,7 +61,7 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
         List<AquisicaoProposta> proposals = null;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        String data=formatter.format(date);
+        String data = formatter.format(date);
         Query q = dAO.getEntityManager().createNativeQuery("SELECT * FROM aquisicao_proposta p where p.deleted=false and date(p.created_at) = ' " + data + "';");
         proposals = q
                 .getResultList();
@@ -70,16 +79,37 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
 
     @Override
     public int totalPropostasEmAberto() {
-        
+
         //encontras as que foram ganhas
-        Query q = dAO.getEntityManager().createNativeQuery("SELECT count(a.id_aquisicao) FROM aquisicao_proposta a, produto_proposta pp, proposta p where a.id_aquisicao = pp.id_aquisicao and pp.id_proposta = p.id_proposta AND ganhou=true");
+        Query q = dAO.getEntityManager().createNativeQuery("SELECT count(a.id_aquisicao) FROM aquisicao_proposta a, produto_proposta pp, proposta p where a.id_aquisicao = pp.id_aquisicao and pp.id_proposta = p.id_proposta AND p.ganhou=true");
         Long count = (Long) q.getSingleResult();
 
-        List<AquisicaoProposta> proposals=this.getAcquisitionProposals();
-        int total = proposals!=null ? proposals.size() : 0;
-        
+        List<AquisicaoProposta> proposals = this.getAcquisitionProposals();
+        int total = proposals != null ? proposals.size() : 0;
+
         return total - toIntExact(count);
-        
     }
+    
+    @Override
+    public int getTotalPropostasRecebidas(AquisicaoProposta a){
+        Query q = dAO.getEntityManager().createNativeQuery("SELECT count(p.id_proposta) FROM  produto_proposta pp, proposta p where pp.id_proposta = p.id_proposta AND p.deleted=false AND pp.id_aquisicao= #idAquisicao");
+        Long count = (Long) 
+                 q.setParameter("idAquisicao", a.getIdAquisicao())
+                .getSingleResult();
+        
+        return  toIntExact(count);
+
+    }
+    
+    @Override
+    public boolean propostaAdjudicada(AquisicaoProposta a){
+        Query q = dAO.getEntityManager().createNativeQuery("SELECT count(p.id_proposta) FROM  produto_proposta pp, proposta p where pp.id_proposta = p.id_proposta AND p.deleted=false AND p.ganhou=true AND pp.id_aquisicao= #idAquisicao ");
+        Long count = (Long) 
+                 q.setParameter("idAquisicao", a.getIdAquisicao())
+                .getSingleResult();
+        
+        return count>0;
+    }
+    
 
 }

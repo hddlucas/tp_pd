@@ -25,7 +25,7 @@
                     <h:form styleClass="form" id="form">
                         <p:growl id="msgs" showDetail="true" />
 
-                        <h:panelGrid columns="2">
+                        <p:panelGrid columns="2">
 
                             <h:outputLabel value="Username *"
                                            for="username" />
@@ -86,7 +86,7 @@
 
                             <h:outputLabel value="Ativo " />
                             <p:selectBooleanCheckbox id="ativo"  />
-                        </h:panelGrid>
+                        </p:panelGrid>
 
                         <br />
                         <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Criar"  action="#{utilizadoresBean.create}" >

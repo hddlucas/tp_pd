@@ -5,31 +5,21 @@
  */
 package beans;
 
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.year;
 import controllers.AquisicaoPropostaFacadeLocal;
 import controllers.PropostaFacadeLocal;
 import controllers.UtilizadorFacadeLocal;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped; 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
@@ -41,7 +31,7 @@ import org.primefaces.model.chart.PieChartModel;
  * @author hddlucas
  */
 @Named(value = "dashboardBean")
-@SessionScoped
+@ViewScoped
 public class DashboardBean implements Serializable {
 
     @EJB

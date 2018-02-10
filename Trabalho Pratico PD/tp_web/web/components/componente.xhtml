@@ -13,7 +13,7 @@
 
                 <p:breadCrumb>
                     <p:menuitem  value="" url="/" />
-                    <p:menuitem value="#{bundle.ComponenteTitle_vista}" outcome="index" />
+                    <p:menuitem value="#{bundle.ComponentesTitle_vista}" outcome="index" />
                 </p:breadCrumb>
                 
                 <p:commandButton  value="Editar" styleClass="top-edit-button" action="#{componenteBean.edit(componenteBean.componente)}"  icon="ui-icon-pencil white"    >
@@ -30,7 +30,7 @@
                 <h:form styleClass="form" id="form">
                     <p:growl id="msgs" showDetail="true" />
 
-                    <h:panelGrid columns="2">
+                    <p:panelGrid columns="2">
                         <h:outputLabel value="Nome" for="nome"/>
                         <h:outputText id="nome" value="#{componenteBean.componente.nome}"/>
                         
@@ -38,14 +38,10 @@
                         <h:outputText id="categoria" value="#{componenteBean.componente.idCategoria.nome}"/>
                         
                         <h:outputLabel value="Observações" for="observacoes"/>
-                        <h:outputText id="observacoes" value="#{componenteBean.componente.observacoes}"/>
-                                                
-                        <h:outputLabel value="Valor" for="valor"/>
-                        <h:outputText id="valor" value="#{componenteBean.componente.valor}"/>
-                        
-                        <h:outputLabel value="Operador" for="operador"/>
-                        <h:outputText id="operador" value="#{componenteBean.componente.idOperador.nome}"/>
-                    </h:panelGrid>
+                        <h:outputText id="observacoes" value="#{componenteBean.componente.observacoes}"/>                                        
+             
+                    </p:panelGrid>
+                    
                 </h:form>
             </ui:define>
         </ui:composition>
