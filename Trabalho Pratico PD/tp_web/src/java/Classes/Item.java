@@ -13,6 +13,16 @@ package Classes;
 public class Item {
     private String label;
     private String value;
+    private int componente;
+    private int valor;
+
+    public int getComponente() {
+        return componente;
+    }
+
+    public void setComponente(int componente) {
+        this.componente = componente;
+    }
 
     public String getLabel() {
         return label;

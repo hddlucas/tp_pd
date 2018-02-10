@@ -375,7 +375,7 @@ and open the template in the editor.
 
 .form input,textarea,.ui-selectcheckboxmenu{
     width: 100%!important;
-    float: left;
+
 }
 
 .form .ui-widget-content a{

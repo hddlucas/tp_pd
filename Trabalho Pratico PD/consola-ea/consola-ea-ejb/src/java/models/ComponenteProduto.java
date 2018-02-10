@@ -37,7 +37,7 @@ public class ComponenteProduto implements Serializable {
     @Column(name = "avaliacao")
     private Integer avaliacao;
     @Column(name = "valor")
-    private Integer valor;
+    private String valor;
     @JoinColumn(name = "id_aquisicao", referencedColumnName = "id_aquisicao", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private AquisicaoProposta aquisicaoProposta;
@@ -75,11 +75,11 @@ public class ComponenteProduto implements Serializable {
         this.avaliacao = avaliacao;
     }
 
-    public Integer getValor() {
+    public String getValor() {
         return valor;
     }
 
-    public void setValor(Integer valor) {
+    public void setValor(String valor) {
         this.valor = valor;
     }
 

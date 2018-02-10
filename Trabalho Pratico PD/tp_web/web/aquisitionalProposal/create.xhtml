@@ -58,19 +58,19 @@
                             <ui:repeat value="#{propostaAquisicaoBean.items}" var="item">
                                 <p:outputLabel  for="componente" value="Componente #{item.label}" />
                                 
-                                <p:selectOneMenu id="componente" value="#{componenteBean.idCategoria}" required="true"
+                                <p:selectOneMenu id="componente" value="#{item.componente}" required="true"
                                                  requiredMessage="O campo Componente é obrigatório"
                                                  >                              
                                     <f:selectItems value="#{propostaAquisicaoBean.componentes}" var="componente" itemLabel="#{componente.nome}" itemValue="#{componente.idComponente}"/>
                                 </p:selectOneMenu>
                                 
-                                <p:outputLabel  for="operador" value="Operador #{item.label}" />
+                                <p:outputLabel  for="operador" value="Operador #{item.operador}" />
                                     <p:selectOneMenu id="operador" value="#{componenteBean.idCategoria}" >   
                                     <f:selectItem itemLabel="Selecione um operador"/>
                                     <f:selectItems value="#{propostaAquisicaoBean.operadores}" var="operador" itemLabel="#{operador.descricao}" itemValue="#{operador.idOperador}"/>
                                 </p:selectOneMenu>
 
-                                  <h:outputLabel value="Valor"
+                                  <h:outputLabel value=#{item.valor}
                                            for="value"/>
                                   <p:inputText id="value"/>
                                 
@@ -79,8 +79,6 @@
                                 <p:separator/>
                             </ui:repeat>
                         </div>
-
-
 
 
                         <br />
