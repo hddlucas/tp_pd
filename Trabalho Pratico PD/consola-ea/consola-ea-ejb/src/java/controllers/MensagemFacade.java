@@ -30,11 +30,10 @@ public class MensagemFacade implements MensagemFacadeLocal {
     private DAOLocal dAO;
     
     @Override
-    public List<Mensagem> getUsersMessagesList(Utilizador u) {
-        Utilizador user = utilizadorFacade.findUtilizador(u.getIdUtilizador());
+    public List<Mensagem> getUsersMessagesList(int userId) {
         
-        return (List<Mensagem>) u.getMensagemCollection();
-       
+        Utilizador user = utilizadorFacade.findUtilizador(userId);
+        return (List<Mensagem>) user.getMensagemCollection();
     }
     
     

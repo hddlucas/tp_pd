@@ -59,8 +59,10 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
     }
 
     @Override
-    public List<AquisicaoProposta> getUserAcquisitionProposals(Utilizador u) {
-
+    public List<AquisicaoProposta> getUserAcquisitionProposals(int userId) {
+            
+        Utilizador u =utilizadorFacade.findUtilizador(userId);
+        
         List<AquisicaoProposta> proposals = (List<AquisicaoProposta>) u.getAquisicaoPropostaCollection();
         proposals.removeIf(p -> p.getDeleted() != false);
 

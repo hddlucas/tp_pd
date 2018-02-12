@@ -18,6 +18,6 @@ import models.Utilizador;
 @Local
 public interface MensagemFacadeLocal {
      public void create(String fields)throws  Exception;
-     List<Mensagem> getUsersMessagesList(Utilizador u);
+     List<Mensagem> getUsersMessagesList(int userId);
      public void markAsRead(int id);
 }

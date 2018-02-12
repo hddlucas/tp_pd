@@ -68,7 +68,7 @@ public class MensagemBean implements Serializable {
     }
 
     public List<Mensagem> getList(Utilizador u) {
-        return mensagemFacade.getUsersMessagesList(u);
+        return mensagemFacade.getUsersMessagesList(u.getIdUtilizador());
     }
 
     public List<String> getUsers() {

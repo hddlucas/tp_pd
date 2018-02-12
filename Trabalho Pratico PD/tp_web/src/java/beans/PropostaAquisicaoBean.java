@@ -46,10 +46,9 @@ public class PropostaAquisicaoBean implements Serializable {
     @EJB
     private ComponenteFacadeLocal componenteFacade;
 
+    
     @EJB
     private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;  
-    
-    
     
     private AquisicaoProposta proposedAcquisition = new AquisicaoProposta();
     private Integer idAquisicao;
@@ -118,12 +117,12 @@ public class PropostaAquisicaoBean implements Serializable {
     }
     
     
-    public List<models.AquisicaoProposta> getList() {
+    public List<AquisicaoProposta> getList() {
         return aquisicaoPropostaFacade.getAcquisitionProposals();
     }
 
-    public List<models.AquisicaoProposta> getUserProposalsList(Utilizador u) {
-        return aquisicaoPropostaFacade.getUserAcquisitionProposals(u);
+    public List<AquisicaoProposta> getUserProposalsList(Utilizador u) {
+        return aquisicaoPropostaFacade.getUserAcquisitionProposals(u.getIdUtilizador());
     }
 
     public int getTotalOfReceivedProposals(AquisicaoProposta a) {

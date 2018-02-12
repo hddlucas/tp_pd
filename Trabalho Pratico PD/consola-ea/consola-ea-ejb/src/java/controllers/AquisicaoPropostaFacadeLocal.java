@@ -21,7 +21,7 @@ import models.Utilizador;
 public interface AquisicaoPropostaFacadeLocal {
     
     List<AquisicaoProposta> getAcquisitionProposals();
-    List<AquisicaoProposta> getUserAcquisitionProposals(Utilizador u);
+    List<AquisicaoProposta> getUserAcquisitionProposals(int userId);
     String create(String fields,List<Item> i)throws RollbackFailureException, Exception;
     AquisicaoProposta findAquisicaoProposta(Integer id);
     int totalPropostasCurrentDate(Date date);
