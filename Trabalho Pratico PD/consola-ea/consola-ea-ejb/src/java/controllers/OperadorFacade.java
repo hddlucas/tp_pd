@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
+import models.AquisicaoProposta;
 import models.Categoria;
 import models.Operador;
 
@@ -28,6 +29,11 @@ public class OperadorFacade implements OperadorFacadeLocal {
         List<Operador> operadores = q.getResultList();
 
         return operadores;
+    }
+
+    @Override
+    public Operador findOperador(Integer id) {
+        return dAO.getEntityManager().find(Operador.class, id);
     }
     
 }

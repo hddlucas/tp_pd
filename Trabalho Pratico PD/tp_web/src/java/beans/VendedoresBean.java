@@ -45,7 +45,8 @@ public class VendedoresBean implements Serializable {
 
     public List<Utilizador> getList() {
         List<Utilizador> allUsers = utilizadorFacade.getUsersList();
-
+       
+        
         utilizadorFacade.getUsersList().forEach((k) -> {
             if (hasRole(k.getIdUtilizador(), "vendedor") == false) {
                 allUsers.remove(k);

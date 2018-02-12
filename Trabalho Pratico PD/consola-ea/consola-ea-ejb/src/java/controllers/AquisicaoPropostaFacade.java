@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +23,10 @@ import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import models.AquisicaoProposta;
 import models.Categoria;
+import models.Componente;
+import models.ComponenteProduto;
 import models.Mensagem;
+import models.Operador;
 import models.Utilizador;
 import org.json.JSONObject;
 import sun.management.resources.agent;
@@ -33,6 +37,12 @@ import sun.management.resources.agent;
  */
 @Stateless
 public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
+
+    @EJB
+    private OperadorFacadeLocal operadorFacade;
+
+    @EJB
+    private ComponenteFacadeLocal componenteFacade;
 
     @EJB
     private UtilizadorFacadeLocal utilizadorFacade;
@@ -58,9 +68,14 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
     }
 
     @Override
-    public void create(String fields, List<Item> i) throws RollbackFailureException, Exception {
+    public AquisicaoProposta findAquisicaoProposta(Integer id) {
+        return dAO.getEntityManager().find(AquisicaoProposta.class, id);
+    }
+
+    @Override
+    public String create(String fields, List<Item> i) throws RollbackFailureException, Exception {
         try {
-            
+
             JSONObject proposalFields = new JSONObject(fields);
             Utilizador u = utilizadorFacade.findUtilizador(Integer.parseInt(proposalFields.getString("id_utilizador")));
 
@@ -72,18 +87,40 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
             u.getAquisicaoPropostaCollection().add(a);
 
             dAO.getEntityManager().merge(u);
-            
-            
 
+//            
+//            i.forEach((x) -> {
+//                ComponenteProduto p = new ComponenteProduto();
+//                Componente c = componenteFacade.findComponente(x.getComponente());
+//                Operador op = operadorFacade.findOperador(x.getOperador());
+//
+//                p.setAquisicaoProposta(a);
+//                p.setComponente(c);
+//
+//                p.setValor(x.getValor());
+//                
+//                p.setAquisicaoProposta(a);
+//                p.setComponente(c);
+//
+//                
+//
+//                a.getComponenteProdutoCollection().add(p);
+//                c.getComponenteProdutoCollection().add(p);
+//                
+                //dAO.getEntityManager().persist(p);
+
+//
+//                 dAO.getEntityManager().merge(c);  
+//                dAO.getEntityManager().merge(a);  
+//            });
+
+            return a.toString();
+
+            //return p.getValor();
         } catch (Exception ex) {
-            throw ex;
+            return ex.getMessage();
         }
 
-    }
-
-    @Override
-    public AquisicaoProposta findAquisicaoProposta(Integer id) {
-        return dAO.getEntityManager().find(AquisicaoProposta.class, id);
     }
 
     @Override

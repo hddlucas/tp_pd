@@ -16,4 +16,6 @@ import models.Operador;
 @Local
 public interface OperadorFacadeLocal {
    List<Operador> getOperadorList();
+   Operador findOperador(Integer id);
+
 }

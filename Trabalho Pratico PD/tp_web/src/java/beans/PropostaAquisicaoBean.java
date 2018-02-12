@@ -101,8 +101,8 @@ public class PropostaAquisicaoBean implements Serializable {
 
             JsonObject fieldsObject = messageFields.build();
 
-            aquisicaoPropostaFacade.create(fieldsObject.toString(),items);
-            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", "Proposta Criada com sucesso"));
+            String x  = aquisicaoPropostaFacade.create(fieldsObject.toString(),items);
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", x));
 
 
         } catch (Exception ex) {

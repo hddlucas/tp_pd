@@ -22,7 +22,7 @@ public interface AquisicaoPropostaFacadeLocal {
     
     List<AquisicaoProposta> getAcquisitionProposals();
     List<AquisicaoProposta> getUserAcquisitionProposals(Utilizador u);
-    void create(String fields,List<Item> i)throws RollbackFailureException, Exception;
+    String create(String fields,List<Item> i)throws RollbackFailureException, Exception;
     AquisicaoProposta findAquisicaoProposta(Integer id);
     int totalPropostasCurrentDate(Date date);
     int totalPropostas();
