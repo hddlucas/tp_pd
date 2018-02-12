@@ -297,10 +297,9 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
     }
 
     @Override
-    public void removeUserRole(int userId, int roleId) {
+    public void removeUserRole(Utilizador u, int roleId) {
         try {
 
-            Utilizador u = (Utilizador) dAO.getEntityManager().find(Utilizador.class, userId);
             Perfil p = (Perfil) dAO.getEntityManager().find(Perfil.class, roleId);
 
             u.getPerfilCollection().remove(p);

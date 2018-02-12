@@ -8,7 +8,6 @@ package beans;
 import controllers.PerfilFacadeLocal;
 import controllers.UtilizadorFacadeLocal;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -16,8 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
@@ -34,7 +33,7 @@ import models.Utilizador;
  * @author hddlucas
  */
 @Named(value = "utilizadoresBean")
-@ApplicationScoped
+@SessionScoped
 public class UtilizadoresBean implements Serializable {
 
     @EJB
@@ -198,11 +197,9 @@ public class UtilizadoresBean implements Serializable {
         try {
             if(!this.hasRole(u.getIdUtilizador(),p.getPerfil())){
                 utilizadorFacade.addUserRole(u, p.getIdPerfil());
-                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Perfil adicionado ao utilizador com sucesso"));
             }
             else{
-                utilizadorFacade.removeUserRole(u.getIdUtilizador(), p.getIdPerfil());
-
+                utilizadorFacade.removeUserRole(u, p.getIdPerfil());
             }
 
         } catch (Exception ex) {
