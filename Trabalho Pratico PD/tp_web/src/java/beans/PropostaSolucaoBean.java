@@ -103,8 +103,14 @@ public class PropostaSolucaoBean implements Serializable {
     
     public String showSolution(Proposta ps) {
         this.proposta = ps;
-        return "aquisitionalProposal/solutionProposal.xhtml";
+        return "/aquisitionalProposal/solutionProposal.xhtml?faces-redirect=true";
     }
+    
+    public void response(Proposta ps, boolean response){
+        
+    }
+    
+    
     
     //VALIDATORS
     public void validateSolucao(FacesContext context, UIComponent component, Object value) throws ValidatorException {

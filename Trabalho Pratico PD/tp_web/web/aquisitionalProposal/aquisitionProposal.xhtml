@@ -43,6 +43,9 @@
 
                                 <h:outputLabel for="observations" value="Observações"/>
                                 <h:outputText  id="observations"   value="#{propostaAquisicaoBean.proposedAcquisition.observacoes}"/>
+                                
+                                <h:outputLabel for="created_at" value="Criada em"/>
+                                <h:outputText  id="created_at"   value="#{propostaAquisicaoBean.proposedAcquisition.createdAt}"/>
 
                             </p:panelGrid>
                         </h:form>
@@ -57,8 +60,8 @@
                                     <h:outputText value="#{solution.idProposta}" />
                                 </p:column>
 
-                                <p:column headerText="Criada por">
-                                    <h:outputText value="#{solution.idUtilizador.username}" />
+                                <p:column headerText="Vendedor">
+                                    <h:outputText value="#{solution.idUtilizador.nome}" />
                                 </p:column>
 
                                 <p:column headerText="Criada em">

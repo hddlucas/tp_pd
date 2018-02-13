@@ -102,7 +102,7 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
                 dAO.getEntityManager().persist(p);
 
 
-                 dAO.getEntityManager().merge(c);  
+                dAO.getEntityManager().merge(c);  
                 dAO.getEntityManager().merge(a);  
             });
 

@@ -12,16 +12,14 @@
             <ui:define name="content">
                 <div class="ui-grid-col-12">
                     <h1 class="page-title">
-                        #{bundle.PropostaAquisicaoTitle_vista}
+                        #{bundle.ProccessesTitle_vista}
                     </h1>
                 </div>
                 
-                <p:button outcome="create" value="#{bundle.PropostaAquisicaoTitle_criar}"/>
-
 
                 <div class="ui-grid-col-12">
                     <h:form>
-                        <p:dataTable id="proposedAcquisitionList" var="proposedAcquisition" value="#{propostaAquisicaoBean.getUserProposalsList(loginBean.loggedUser)}">
+                        <p:dataTable id="proposedAcquisitionList" var="proposedAcquisition" value="#{propostaAquisicaoBean.list}">
                             
                             <p:column headerText="Id">
                                 <h:outputText value="#{proposedAcquisition.idAquisicao}" />
@@ -36,23 +34,18 @@
                                 <h:outputText value="#{proposedAcquisition.valorMax} €" />
                             </p:column>
                             
-                        
                          
                              <p:column headerText="Total Propostas Recebidas">
                                  <h:outputText value="#{propostaAquisicaoBean.getTotalOfReceivedProposals(proposedAcquisition)}" />
                             </p:column>
                             
                             <p:column headerText="Estado">
-                                 <h:outputText styleClass="#{propostaAquisicaoBean.proposalAdjudicated(proposedAcquisition) ? 'text-green' : 'text-red'}" value="#{propostaAquisicaoBean.proposalAdjudicated(proposedAcquisition) ? 'Encerrada' : 'Pendente'}  "/>
+                                 <h:outputText styleClass="#{propostaAquisicaoBean.proposalAdjudicated(proposedAcquisition) ? 'text-green' : 'text-red'}" value="#{propostaAquisicaoBean.proposalAdjudicated(proposedAcquisition) ? 'Adjudicada' : 'Pendente'}  "/>
                             </p:column>
                             
                             
                             <p:column style="width:80px;text-align: center">
-                                <p:commandButton rendered="#{!propostaAquisicaoBean.proposalAdjudicated(proposedAcquisition)}" onclick="if (!confirm('Tem a certeza que deseja eliminar a proposta de aquisição?'))
-                                    return false" action="#{propostaAquisicaoBean.destroy(proposedAcquisition.idAquisicao)}"  icon="ui-icon-trash white"  styleClass="delete-button"  >
-                                </p:commandButton> 
-
-                                <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{propostaAquisicaoBean.showProposal(proposedAcquisition)}">
+                                <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{propostaAquisicaoBean.showProccess(proposedAcquisition)}">
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>

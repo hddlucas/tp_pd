@@ -180,6 +180,13 @@ public class PropostaAquisicaoBean implements Serializable {
         this.proposedAcquisition = p;
         return "aquisitionProposal.xhtml";
     }
+    
+     public String showProccess(AquisicaoProposta p) {
+        this.proposedAcquisition = p;
+        return "/processes/proccess.xhtml";
+    }
+    
+    
      
     public List<AquisicaoProposta> getOpenProposals() {
         return aquisicaoPropostaFacade.getOpenList();
