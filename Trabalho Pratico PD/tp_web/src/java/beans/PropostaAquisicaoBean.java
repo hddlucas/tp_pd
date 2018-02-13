@@ -65,6 +65,7 @@ public class PropostaAquisicaoBean implements Serializable {
     private List<Componente> componentes;
     private List<Operador> operadores;
 
+  
     
     private List<Item> items;
 
@@ -180,8 +181,17 @@ public class PropostaAquisicaoBean implements Serializable {
         this.proposedAcquisition = p;
         return "aquisitionProposal.xhtml";
     }
+    
+     public String showProccess(AquisicaoProposta p) {
+        this.proposedAcquisition = p;
+        return "/processes/proccess.xhtml";
+    }
+    
+    
      
-   
+    public List<AquisicaoProposta> getOpenProposals() {
+        return aquisicaoPropostaFacade.getOpenList();
+    }
      
     public String editProposal(AquisicaoProposta p) {
         this.proposedAcquisition = p;
@@ -233,5 +243,5 @@ public class PropostaAquisicaoBean implements Serializable {
         this.createdAt = createdAt;
     }
     
-  
+    
 }

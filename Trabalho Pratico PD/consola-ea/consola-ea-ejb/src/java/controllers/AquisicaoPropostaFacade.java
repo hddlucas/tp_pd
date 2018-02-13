@@ -102,7 +102,7 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
                 dAO.getEntityManager().persist(p);
 
 
-                 dAO.getEntityManager().merge(c);  
+                dAO.getEntityManager().merge(c);  
                 dAO.getEntityManager().merge(a);  
             });
 
@@ -180,6 +180,23 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
         } catch (Exception ex) { 
             throw ex;
         }
+    }
+    
+    
+    @Override
+    public List<AquisicaoProposta> getOpenList() {
+        Query q = dAO.getEntityManager().createNamedQuery("AquisicaoProposta.findAll");
+        List<AquisicaoProposta> proposals = q.getResultList();
+        
+        List<AquisicaoProposta> toReturn = q.getResultList();
+        
+        proposals.forEach((k) -> {
+            if (propostaAdjudicada(k) == true) {
+                toReturn.remove(k);
+            }
+        });
+               
+        return toReturn;
     }
     
 }

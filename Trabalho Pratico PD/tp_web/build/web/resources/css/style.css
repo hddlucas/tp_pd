@@ -76,6 +76,11 @@ and open the template in the editor.
     top: 30px!important;
 }
 
+.ui-button.create-button.modal-button{
+    margin: 0!important;
+    float: none!important;
+}
+
 .ui-button.create-button{
     float: right;
     margin-right: 130px!important;
@@ -83,6 +88,7 @@ and open the template in the editor.
     line-height: 32px!important;
     padding-bottom: 0!important;
 }
+
 
 .ui-button.cancel-button{
     float: right;

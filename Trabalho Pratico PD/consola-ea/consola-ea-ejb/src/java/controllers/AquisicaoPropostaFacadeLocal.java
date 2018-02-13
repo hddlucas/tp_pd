@@ -23,6 +23,7 @@ public interface AquisicaoPropostaFacadeLocal {
     
     List<AquisicaoProposta> getAcquisitionProposals();
     List<AquisicaoProposta> getUserAcquisitionProposals(int userId);
+    List<AquisicaoProposta> getOpenList();
     String create(String fields,List<Item> i)throws RollbackFailureException, Exception;
     AquisicaoProposta findAquisicaoProposta(Integer id);
     int totalPropostasCurrentDate(Date date);
@@ -31,5 +32,4 @@ public interface AquisicaoPropostaFacadeLocal {
     int getTotalPropostasRecebidas(AquisicaoProposta a);
     public boolean propostaAdjudicada(AquisicaoProposta a);
     void destroy(Integer id)throws Exception;
-    
 }

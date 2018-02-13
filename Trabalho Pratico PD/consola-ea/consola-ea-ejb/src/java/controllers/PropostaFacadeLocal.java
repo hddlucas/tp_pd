@@ -17,10 +17,11 @@ import models.Proposta;
  */
 @Local
 public interface PropostaFacadeLocal {
-    void create(String fields) throws RollbackFailureException, Exception;
+    String create(String fields) throws RollbackFailureException, Exception;
     int getTotalWin();
     Double getTotalTransactedMoney();
     List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a);
-
+    String acceptProposal(String aceptFields) throws RollbackFailureException, Exception;
+    Proposta findProposta(Integer id);
 
 }

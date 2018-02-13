@@ -39,12 +39,11 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Proposta.findByValorTotal", query = "SELECT p FROM Proposta p WHERE p.valorTotal = :valorTotal")
     , @NamedQuery(name = "Proposta.findByGanhou", query = "SELECT p FROM Proposta p WHERE p.ganhou = :ganhou")
     , @NamedQuery(name = "Proposta.findByCreatedAt", query = "SELECT p FROM Proposta p WHERE p.createdAt = :createdAt")
-    , @NamedQuery(name = "Proposta.findPropostasSolucaoByPropostaAquisicao", query = "SELECT p FROM ProdutoProposta pp, Proposta p JOIN pp.proposta x, AquisicaoProposta a JOIN pp.aquisicaoProposta pa  WHERE p.deleted=false AND pa.idAquisicao=:idAquisicao GROUP BY p ")
-
-        
-        
+    , @NamedQuery(name = "Proposta.findPropostasSolucaoByPropostaAquisicao", query = "SELECT x FROM ProdutoProposta pp, Proposta p JOIN pp.proposta x, AquisicaoProposta a JOIN pp.aquisicaoProposta pa  WHERE p.deleted=false AND pa.idAquisicao=:idAquisicao GROUP BY x")
     , @NamedQuery(name = "Proposta.findByDeleted", query = "SELECT p FROM Proposta p WHERE p.deleted = :deleted")})
 public class Proposta implements Serializable {
+
+
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -63,6 +62,8 @@ public class Proposta implements Serializable {
     @Basic(optional = false)
     @Column(name = "deleted")
     private boolean deleted;
+    @Column(name = "descricao")
+    private String descricao;
     @JoinColumn(name = "id_utilizador", referencedColumnName = "id_utilizador")
     @ManyToOne(optional = false)
     private Utilizador idUtilizador;
@@ -161,6 +162,14 @@ public class Proposta implements Serializable {
     @Override
     public String toString() {
         return "models.Proposta[ idProposta=" + idProposta +  idUtilizador.getNome()+" ]";
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
     
 }
