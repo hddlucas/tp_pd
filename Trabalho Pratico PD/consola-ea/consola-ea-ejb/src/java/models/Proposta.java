@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Proposta.findByValorTotal", query = "SELECT p FROM Proposta p WHERE p.valorTotal = :valorTotal")
     , @NamedQuery(name = "Proposta.findByGanhou", query = "SELECT p FROM Proposta p WHERE p.ganhou = :ganhou")
     , @NamedQuery(name = "Proposta.findByCreatedAt", query = "SELECT p FROM Proposta p WHERE p.createdAt = :createdAt")
-    , @NamedQuery(name = "Proposta.findPropostasSolucaoByPropostaAquisicao", query = "SELECT p FROM ProdutoProposta pp, Proposta p JOIN pp.proposta x, AquisicaoProposta a JOIN pp.aquisicaoProposta pa  WHERE pa.idAquisicao=:idAquisicao GROUP BY p ")
+    , @NamedQuery(name = "Proposta.findPropostasSolucaoByPropostaAquisicao", query = "SELECT p FROM ProdutoProposta pp, Proposta p JOIN pp.proposta x, AquisicaoProposta a JOIN pp.aquisicaoProposta pa  WHERE p.deleted=false AND pa.idAquisicao=:idAquisicao GROUP BY p ")
 
         
         

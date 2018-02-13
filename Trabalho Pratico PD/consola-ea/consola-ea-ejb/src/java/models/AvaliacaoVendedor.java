@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "AvaliacaoVendedor.findAll", query = "SELECT a FROM AvaliacaoVendedor a")
     , @NamedQuery(name = "AvaliacaoVendedor.findByIdAvaliacaoVendedor", query = "SELECT a FROM AvaliacaoVendedor a WHERE a.idAvaliacaoVendedor = :idAvaliacaoVendedor")
+    , @NamedQuery(name = "AvaliacaoVendedor.findByIdAvaliador", query = "SELECT a FROM AvaliacaoVendedor a WHERE a.idAvaliador = :idAvaliador")
     , @NamedQuery(name = "AvaliacaoVendedor.findByAvaliacao", query = "SELECT a FROM AvaliacaoVendedor a WHERE a.avaliacao = :avaliacao")})
 public class AvaliacaoVendedor implements Serializable {
 
@@ -38,6 +39,8 @@ public class AvaliacaoVendedor implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_avaliacao_vendedor")
     private Integer idAvaliacaoVendedor;
+    @Column(name = "id_avaliador")
+    private Integer idAvaliador;
     @Basic(optional = false)
     @Column(name = "avaliacao")
     private int avaliacao;
@@ -63,6 +66,14 @@ public class AvaliacaoVendedor implements Serializable {
 
     public void setIdAvaliacaoVendedor(Integer idAvaliacaoVendedor) {
         this.idAvaliacaoVendedor = idAvaliacaoVendedor;
+    }
+
+    public Integer getIdAvaliador() {
+        return idAvaliador;
+    }
+
+    public void setIdAvaliador(Integer idAvaliador) {
+        this.idAvaliador = idAvaliador;
     }
 
     public int getAvaliacao() {

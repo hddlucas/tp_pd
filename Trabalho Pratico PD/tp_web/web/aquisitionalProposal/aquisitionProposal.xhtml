@@ -17,14 +17,14 @@
                 </p:breadCrumb>
 
                 <h1 class="page-title">
-                   #{bundle.PropostaAquisicaoTitle_vista}
+                    #{bundle.PropostaAquisicaoTitle_vista}
                 </h1>
-                
+
                 <p:commandButton  value="Eliminar" styleClass="top-delete-button" onclick="if (!confirm('Tem a certeza que deseja eliminar a proposta de aquisição?'))
                             return false" action="#{propostaAquisicaoBean.destroy(propostaAquisicaoBean.proposedAcquisition.idAquisicao)}"  icon="ui-icon-trash white"    >
                 </p:commandButton> 
 
-              
+
                 <p:commandButton  value="Editar" styleClass="top-edit-button" action="#{propostaAquisicaoBean.editProposal(propostaAquisicaoBean.proposedAcquisition)}"  icon="ui-icon-pencil white"    >
                 </p:commandButton> 
 
@@ -41,29 +41,38 @@
                                 <h:outputLabel for="max_value" value="Valor máximo"/>
                                 <h:outputText  id="max_value"   value="#{propostaAquisicaoBean.proposedAcquisition.valorMax} €"/>
 
-                                 <h:outputLabel for="observations" value="Observações"/>
-                                 <h:outputText  id="observations"   value="#{propostaAquisicaoBean.proposedAcquisition.observacoes}"/>
-                                
+                                <h:outputLabel for="observations" value="Observações"/>
+                                <h:outputText  id="observations"   value="#{propostaAquisicaoBean.proposedAcquisition.observacoes}"/>
+
                             </p:panelGrid>
                         </h:form>
                     </p:tab>
 
                     <p:tab title="#{bundle.PropostaAquisicaoTitle_recebidas}">
-                        
-                         <h:form id="solution-proposals-form">
-                             <p:dataTable id="solutionsProposalsList" var="solution" value="#{propostaAquisicaoBean.getProposalSolutionsList(propostaAquisicaoBean.proposedAcquisition)}">
-                            
-                            <p:column headerText="Id">
-                                <h:outputText value="#{solution.idProposta}" />
-                            </p:column>
-                                 
-                             <p:column headerText="Criada por">
-                                 <h:outputText value="#{solution.idUtilizador.username}" />
-                            </p:column>
-                                 
-                            <p:column headerText="Criada em">
-                                <h:outputText value="#{solution.createdAt}" />
-                            </p:column>
+
+                        <h:form id="solution-proposals-form">
+                            <p:dataTable id="solutionsProposalsList" var="solution" value="#{propostaAquisicaoBean.getProposalSolutionsList(propostaAquisicaoBean.proposedAcquisition)}">
+
+                                <p:column headerText="Id">
+                                    <h:outputText value="#{solution.idProposta}" />
+                                </p:column>
+
+                                <p:column headerText="Criada por">
+                                    <h:outputText value="#{solution.idUtilizador.username}" />
+                                </p:column>
+
+                                <p:column headerText="Criada em">
+                                    <h:outputText value="#{solution.createdAt}" />
+                                </p:column>
+
+                                <p:column headerText="Estado">
+                                    <h:outputText styleClass="#{solution.ganhou ? 'text-green' : 'text-red'}" value="#{solution.ganhou ? 'Ganhou' : 'Pendente'}  "/>
+                                </p:column>
+
+                                <p:column style="width:80px;text-align: center">
+                                    <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{propostaSolucaoBean.showSolution(solution)}">
+                                    </p:commandButton>
+                                </p:column>
 
                             </p:dataTable>
                         </h:form>

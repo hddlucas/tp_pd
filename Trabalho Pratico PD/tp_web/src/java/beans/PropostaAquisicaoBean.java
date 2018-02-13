@@ -56,6 +56,7 @@ public class PropostaAquisicaoBean implements Serializable {
     private PropostaFacadeLocal propostaFacade; 
     
     private AquisicaoProposta proposedAcquisition = new AquisicaoProposta();
+
     private Integer idAquisicao;
     private Integer idUtilizador;
     private float valorMax;
@@ -92,15 +93,11 @@ public class PropostaAquisicaoBean implements Serializable {
      */
     public PropostaAquisicaoBean() {
     }
-
     
-    
-     public AquisicaoProposta getProposedAcquisition() {
+    public AquisicaoProposta getProposedAcquisition() {
         return this.proposedAcquisition;
     }
 
-    
-    
     public String create() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
@@ -184,6 +181,7 @@ public class PropostaAquisicaoBean implements Serializable {
         return "aquisitionProposal.xhtml";
     }
      
+   
      
     public String editProposal(AquisicaoProposta p) {
         this.proposedAcquisition = p;

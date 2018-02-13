@@ -98,6 +98,10 @@ public class PropostaSolucaoBean implements Serializable {
         }
     }
     
+     public String showSolution(Proposta ps) {
+        this.proposta = ps;
+        return "/aquisitionalProposal/solutionProposal.xhtml";
+    }
     
         //VALIDATORS
     public void validateSolucao(FacesContext context, UIComponent component, Object value) throws ValidatorException {
