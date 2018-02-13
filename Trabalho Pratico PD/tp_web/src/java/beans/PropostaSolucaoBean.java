@@ -45,7 +45,7 @@ public class PropostaSolucaoBean implements Serializable {
     private Boolean ganhou;
     private Date createdAt;
     private Utilizador idUtilizador;
-    private Integer produtoRating;
+    private Integer produtoRating=0;
 
     public PropostaSolucaoBean(PropostaFacadeLocal propostaFacade, Integer idProposta, Integer valorTotal, Boolean ganhou, Date createdAt, Utilizador idUtilizador) {
         this.propostaFacade = propostaFacade;
@@ -107,8 +107,33 @@ public class PropostaSolucaoBean implements Serializable {
         return "/aquisitionalProposal/solutionProposal.xhtml?faces-redirect=true";
     }
     
-    public void response(Proposta ps, boolean response){
+    public String acceptProposal(int idPropostaSolucao){
+        FacesContext context = FacesContext.getCurrentInstance();
+        try{
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        JsonObjectBuilder aceptFields = Json.createObjectBuilder();
+
+        aceptFields.add("rating", Integer.toString(this.produtoRating));
+        aceptFields.add("idSolucao", Integer.toString(idPropostaSolucao));
+        aceptFields.add("observacoes", request.getParameter("form:observacoes"));
         
+        JsonObject fieldsObject = aceptFields.build();
+
+        String x= propostaFacade.acceptProposal(fieldsObject.toString());
+        
+        context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", x));
+
+         } catch (Exception ex) {
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação","Ocorreu um erro ao aceitar a proposta de solução"));
+            return "/aquisitionalProposal/aquisitionProposal.xhtml?faces-redirect=true";
+
+        } finally {
+            context.getCurrentInstance()
+                    .getExternalContext()
+                    .getFlash().setKeepMessages(true);
+            return "/aquisitionalProposal/aquisitionProposal.xhtml?faces-redirect=true";
+
+        }
     }
     
     

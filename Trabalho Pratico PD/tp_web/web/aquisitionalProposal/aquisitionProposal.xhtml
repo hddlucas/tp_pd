@@ -46,7 +46,11 @@
                                 
                                 <h:outputLabel for="created_at" value="Criada em"/>
                                 <h:outputText  id="created_at"   value="#{propostaAquisicaoBean.proposedAcquisition.createdAt}"/>
+                                
+                                <h:outputLabel for="status" value="Estado"/>
+                                <h:outputText id="status" styleClass="#{propostaAquisicaoBean.proposalAdjudicated(propostaAquisicaoBean.proposedAcquisition) ? 'text-green' : 'text-red'}" value="#{propostaAquisicaoBean.proposalAdjudicated(propostaAquisicaoBean.proposedAcquisition) ? 'Encerrada' : 'Pendente'}  "/>
 
+                                
                             </p:panelGrid>
                         </h:form>
                     </p:tab>

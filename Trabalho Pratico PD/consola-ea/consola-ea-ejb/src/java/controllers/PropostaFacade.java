@@ -5,9 +5,7 @@
  */
 package controllers;
 
-import com.sun.org.glassfish.external.probe.provider.annotations.Probe;
 import controllers.exceptions.RollbackFailureException;
-import static java.lang.Integer.parseInt;
 import static java.lang.Math.toIntExact;
 import java.sql.Timestamp;
 import java.util.List;
@@ -26,6 +24,9 @@ import org.json.JSONObject;
  */
 @Stateless
 public class PropostaFacade implements PropostaFacadeLocal {
+
+    @EJB
+    private ProdutoPropostaControllerLocal produtoPropostaControllerL;
 
     @EJB
     private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;
@@ -48,29 +49,31 @@ public class PropostaFacade implements PropostaFacadeLocal {
             JSONObject proposalFields = new JSONObject(fields);
             Utilizador u = utilizadorFacade.findUtilizador(Integer.parseInt(proposalFields.getString("idUtilizador")));
             AquisicaoProposta a = aquisicaoPropostaFacade.findAquisicaoProposta(Integer.parseInt(proposalFields.getString("idAquisicao")));
-            
-            
+
             Proposta p = new Proposta();
             p.setValorTotal(Double.parseDouble(proposalFields.getString("valor")));
             p.setDescricao(proposalFields.getString("observacoes"));
             p.setGanhou(Boolean.FALSE);
             p.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-            
+
             p.setIdUtilizador(u);
             u.getPropostaCollection().add(p);
-            
-            dAO.getEntityManager().merge(u);
-            
-//            
 
+            dAO.getEntityManager().merge(u);
+
+//            
             return "1";
-            
-            
+
         } catch (Exception ex) {
             throw ex;
         }
     }
 
+    @Override
+    public Proposta findProposta(Integer id) {
+        return dAO.getEntityManager().find(Proposta.class, id);
+    }
+    
     @Override
     public int getTotalWin() {
         try {
@@ -78,9 +81,9 @@ public class PropostaFacade implements PropostaFacadeLocal {
             Query q = dAO.getEntityManager().createNativeQuery("SELECT COUNT(p.id_proposta) FROM proposta p where p.ganhou=true");
 
             Long count = (Long) q.getSingleResult();
-            
+
             return toIntExact(count);
-            
+
         } catch (Exception ex) {
             return 1;
         }
@@ -92,22 +95,50 @@ public class PropostaFacade implements PropostaFacadeLocal {
         try {
             Query q = dAO.getEntityManager().createNativeQuery("SELECT SUM(p.valor_total) FROM proposta p where p.ganhou=true");
 
-            if(q.getSingleResult()!=null)
+            if (q.getSingleResult() != null) {
                 return (Double) q.getSingleResult();
+            }
             return 0.0;
-            
+
         } catch (Exception ex) {
             return 0.0;
         }
     }
-    
+
     @Override
-    public List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a){
-        
+    public List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a) {
+
         Query q = dAO.getEntityManager().createNamedQuery("Proposta.findPropostasSolucaoByPropostaAquisicao");
         List<Proposta> propostasSolucao = q.setParameter("idAquisicao", a.getIdAquisicao()).getResultList();
 
         return propostasSolucao;
+    }
+
+    @Override
+    public String acceptProposal(String aceptFields) throws RollbackFailureException, Exception {
+
+        try {
+            
+            JSONObject acceptJsonFields = new JSONObject(aceptFields);
+            Proposta p = this.findProposta(Integer.parseInt(acceptJsonFields.getString("idSolucao")));
+            p.setGanhou(true);
+
+            Query q =  dAO.getEntityManager().createNamedQuery("ProdutoProposta.findByIdProposta");
+            ProdutoProposta pp = (ProdutoProposta) q.setParameter("idProposta", p.getIdProposta()).getSingleResult();
+            
+            pp.setAvaliacao(acceptJsonFields.getString("rating"));
+            pp.setObservacoes(acceptJsonFields.getString("observacoes"));
+            
+            
+            dAO.getEntityManager().merge(pp);
+            dAO.getEntityManager().merge(p);
+
+            return "1";
+            
+        } catch (Exception ex) {
+            throw ex;
+        }
+
     }
 
 }

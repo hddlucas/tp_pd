@@ -18,7 +18,7 @@
                 </p:breadCrumb>
 
                 <h1 class="page-title">
-                    #{bundle.PropostaAquisicaoTitle_show}
+                    #{bundle.PropostaSolucaoTitle_show}
                 </h1>
                 <h:form styleClass="form">
                     <p:growl id="msgs" showDetail="true" />
@@ -37,6 +37,10 @@
 
                         <h:outputLabel for="created_at" value="Criada em"/>
                         <h:outputText  id="created_at"   value="#{propostaSolucaoBean.propostaSolucao.createdAt}"/>
+                        
+                        <h:outputLabel for="status" value="Estado"/>
+                        <h:outputText  id="status"   styleClass="#{propostaSolucaoBean.propostaSolucao.ganhou==true ? 'text-green' : 'text-red'}" value="#{propostaSolucaoBean.propostaSolucao.ganhou==true ? 'Aceite' : 'Pendente'}"/>
+                        
                     </p:panelGrid>
 
                 </h:form>
@@ -59,7 +63,7 @@
                             <h:inputTextarea id="observacoes"  rows="12"/>
                             <f:facet name="footer">
 
-                                <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button modal-button"  value="Aceitar"  action="#{propostaSolucaoBean.response(propostaSolucaoBean.propostaSolucao,false)}" >
+                                <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button modal-button"  value="Aceitar"  action="#{propostaSolucaoBean.acceptProposal(propostaSolucaoBean.propostaSolucao.idProposta)}" >
                                 </h:commandLink> 
 
 
