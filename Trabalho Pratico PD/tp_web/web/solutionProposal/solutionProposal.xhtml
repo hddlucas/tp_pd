@@ -29,6 +29,9 @@
                         <h:outputLabel value="Criada por" for="utilizador"/>
                         <h:outputText id="utilizador" value="#{propostaAquisicaoBean.proposedAcquisition.idUtilizador.nome}"/>
 
+                        <h:outputLabel value="Criada em" for="created_at"/>
+                        <h:outputText id="created_at" value="#{propostaAquisicaoBean.createdAt}"/>
+                        
                         <h:outputLabel value="Valor Máximo" for="valor_max"/>
                         <h:outputText id="valor_max" value="#{propostaAquisicaoBean.proposedAcquisition.valorMax} €"/>
                     </p:panelGrid>
@@ -47,10 +50,20 @@
 
                     <p:dialog header="Proposta de Solução" widgetVar="dlg" resizable="false">
                         <h:panelGrid columns="2" cellpadding="5">
-                            <h:outputLabel value="Proposta de Solução" for="solucao"/>
-                            <h:inputText id="solucao" required="true"
-                                         requiredMessage="O campo Valor é obrigatório"
-                                         validator="#{propostaSolucaoBean.validateSolucao}" />
+                            
+                            <h:outputLabel value="Valor" for="valor"/>
+                            <p:inputNumber id="valor"
+                                           required="true"
+                                           minValue="1"
+                                           maxValue="1000000"
+                                           decimalSeparator="," 
+                                           thousandSeparator="."
+                                           requiredMessage="O campo Valor Máximo é obrigatório"
+                                           validator="#{propostaSolucaoBean.validateSolucao}"
+                                           />
+                         
+                            <h:outputLabel value="Descricao" for="observacoes"/>
+                            <h:inputTextarea id="observacoes" />
 
                             <f:facet name="footer">
                                 <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Criar"  action="#{propostaSolucaoBean.create()}" >

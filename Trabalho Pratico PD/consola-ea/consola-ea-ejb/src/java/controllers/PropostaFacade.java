@@ -5,14 +5,17 @@
  */
 package controllers;
 
+import com.sun.org.glassfish.external.probe.provider.annotations.Probe;
 import controllers.exceptions.RollbackFailureException;
 import static java.lang.Integer.parseInt;
 import static java.lang.Math.toIntExact;
+import java.sql.Timestamp;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import models.AquisicaoProposta;
+import models.ProdutoProposta;
 import models.Proposta;
 import models.Utilizador;
 import org.json.JSONObject;
@@ -25,8 +28,13 @@ import org.json.JSONObject;
 public class PropostaFacade implements PropostaFacadeLocal {
 
     @EJB
+    private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;
+
+    @EJB
     private UtilizadorFacadeLocal utilizadorFacade;
 
+    
+    
     private int totalGanhas = 0;
     private double totalDinheiro = 0;
 
@@ -34,21 +42,30 @@ public class PropostaFacade implements PropostaFacadeLocal {
     private DAOLocal dAO;
 
     @Override
-    public void create(String fields) throws RollbackFailureException, Exception {
+    public String create(String fields) throws RollbackFailureException, Exception {
         try {
 
             JSONObject proposalFields = new JSONObject(fields);
             Utilizador u = utilizadorFacade.findUtilizador(Integer.parseInt(proposalFields.getString("idUtilizador")));
+            AquisicaoProposta a = aquisicaoPropostaFacade.findAquisicaoProposta(Integer.parseInt(proposalFields.getString("idAquisicao")));
+            
+            
             Proposta p = new Proposta();
-            p.setValorTotal(Double.parseDouble(proposalFields.getString("valor_total")));
+            p.setValorTotal(Double.parseDouble(proposalFields.getString("valor")));
+            p.setDescricao(proposalFields.getString("observacoes"));
             p.setGanhou(Boolean.FALSE);
-
+            p.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            
             p.setIdUtilizador(u);
-
             u.getPropostaCollection().add(p);
-
+            
             dAO.getEntityManager().merge(u);
+            
+//            
 
+            return "1";
+            
+            
         } catch (Exception ex) {
             throw ex;
         }
