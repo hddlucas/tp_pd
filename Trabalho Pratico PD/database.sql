@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     10/02/2018 17:30:49                          */
+/* Created on:     13/02/2018 13:02:08                          */
 /*==============================================================*/
 
 
@@ -93,6 +93,7 @@ ID_UTILIZADOR
 create table AVALIACAO_VENDEDOR (
    ID_AVALIACAO_VENDEDOR SERIAL               not null,
    ID_UTILIZADOR        INT4                 null,
+   ID_AVALIADOR         INT4                 null,
    AVALIACAO            INT4                 not null,
    constraint PK_AVALIACAO_VENDEDOR primary key (ID_AVALIACAO_VENDEDOR)
 );
@@ -383,6 +384,7 @@ alter table UTILIZADOR_PERFIL
    add constraint FK_UTILIZAD_UTILIZADO_PERFIL foreign key (ID_PERFIL)
       references PERFIL (ID_PERFIL)
       on delete restrict on update restrict;
+
 
 
 
