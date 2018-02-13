@@ -65,6 +65,7 @@ public class PropostaAquisicaoBean implements Serializable {
     private List<Componente> componentes;
     private List<Operador> operadores;
 
+  
     
     private List<Item> items;
 
@@ -242,5 +243,5 @@ public class PropostaAquisicaoBean implements Serializable {
         this.createdAt = createdAt;
     }
     
-  
+    
 }

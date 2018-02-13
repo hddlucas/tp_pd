@@ -22,12 +22,19 @@
                             <p:column headerText="Produto">
                                 <h:outputText value="#{proposedAcquisition.observacoes}" />
                             </p:column>
-                            <p:column headerText="Utilizador">
-                                <h:outputText value="#{proposedAcquisition.idUtilizador.nome}" />
-                            </p:column>
+                         
                             <p:column headerText="Valor Máximo">
                                 <h:outputText value="#{proposedAcquisition.valorMax}" />
                             </p:column>
+                            
+                            <p:column headerText="Criada por">
+                                <h:outputText value="#{proposedAcquisition.idUtilizador.nome}" />
+                            </p:column>
+                            
+                            <p:column headerText="Criada em">
+                                <h:outputText value="#{proposedAcquisition.createdAt}" />
+                            </p:column>
+                            
                             <p:column style="width:80px;text-align: center">
                                 <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{propostaAquisicaoBean.show(proposedAcquisition)}">
                                 </p:commandButton>
