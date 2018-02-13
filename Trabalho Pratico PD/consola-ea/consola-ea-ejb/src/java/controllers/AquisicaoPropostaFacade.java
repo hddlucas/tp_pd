@@ -7,29 +7,21 @@ package controllers;
 
 import Classes.Item;
 import controllers.exceptions.RollbackFailureException;
-import static java.lang.Integer.parseInt;
 import static java.lang.Math.toIntExact;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
-import javax.persistence.TemporalType;
 import models.AquisicaoProposta;
 import models.Categoria;
 import models.Componente;
 import models.ComponenteProduto;
-import models.Mensagem;
 import models.Operador;
 import models.Utilizador;
 import org.json.JSONObject;
-import sun.management.resources.agent;
 
 /**
  *
@@ -90,31 +82,29 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
 
             dAO.getEntityManager().merge(u);
 
-//            
-//            i.forEach((x) -> {
-//                ComponenteProduto p = new ComponenteProduto();
-//                Componente c = componenteFacade.findComponente(x.getComponente());
-//                Operador op = operadorFacade.findOperador(x.getOperador());
-//
-//                p.setAquisicaoProposta(a);
-//                p.setComponente(c);
-//
-//                p.setValor(x.getValor());
-//                
-//                p.setAquisicaoProposta(a);
-//                p.setComponente(c);
-//
-//                
-//
-//                a.getComponenteProdutoCollection().add(p);
-//                c.getComponenteProdutoCollection().add(p);
-//                
-                //dAO.getEntityManager().persist(p);
+            
+            i.forEach((x) -> {
+                ComponenteProduto p = new ComponenteProduto();
+                Componente c = componenteFacade.findComponente(x.getComponente());
+                Operador op = operadorFacade.findOperador(x.getOperador());
 
-//
-//                 dAO.getEntityManager().merge(c);  
-//                dAO.getEntityManager().merge(a);  
-//            });
+                p.setAquisicaoProposta(a);
+                p.setComponente(c);
+
+                p.setValor(x.getValor());
+                
+                p.setAquisicaoProposta(a);
+                p.setComponente(c);
+
+                a.getComponenteProdutoCollection().add(p);
+                c.getComponenteProdutoCollection().add(p);
+                
+                dAO.getEntityManager().persist(p);
+
+
+                 dAO.getEntityManager().merge(c);  
+                dAO.getEntityManager().merge(a);  
+            });
 
             return a.toString();
 
@@ -179,4 +169,17 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
         return count > 0;
     }
 
+    
+    @Override
+    public void destroy(Integer id) throws Exception  {
+        try {
+            AquisicaoProposta a = dAO.getEntityManager().find(AquisicaoProposta.class, id);
+            a.setDeleted(true);
+            dAO.getEntityManager().merge(a);
+
+        } catch (Exception ex) { 
+            throw ex;
+        }
+    }
+    
 }

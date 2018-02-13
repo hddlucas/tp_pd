@@ -7,12 +7,10 @@ package beans;
 
 import controllers.AquisicaoPropostaFacadeLocal;
 import controllers.PropostaFacadeLocal;
-import controllers.UtilizadorFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -24,7 +22,6 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
 import models.AquisicaoProposta;
-import models.Categoria;
 import models.Proposta;
 import models.Utilizador;
 
@@ -35,9 +32,6 @@ import models.Utilizador;
 @Named(value = "propostaSolucaoBean")
 @SessionScoped
 public class PropostaSolucaoBean implements Serializable {
-
-    @EJB
-    private UtilizadorFacadeLocal utilizadorFacade;
 
     @EJB
     private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;
@@ -65,58 +59,18 @@ public class PropostaSolucaoBean implements Serializable {
         this.idProposta = idProposta;
     }
 
-    public Proposta getPropostaSolucao() {
-        return this.proposta;
-    }
-
-    
-    public Integer getIdProposta() {
-        return idProposta;
-    }
-
-    public void setIdProposta(Integer idProposta) {
-        this.idProposta = idProposta;
-    }
-
-    public Integer getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(Integer valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
-    public Boolean getGanhou() {
-        return ganhou;
-    }
-
-    public void setGanhou(Boolean ganhou) {
-        this.ganhou = ganhou;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Utilizador getIdUtilizador() {
-        return idUtilizador;
-    }
-
-    public void setIdUtilizador(Utilizador idUtilizador) {
-        this.idUtilizador = idUtilizador;
-    }
-
-    /**
+      /**
      * Creates a new instance of PropostaSolucaoBean
      */
     public PropostaSolucaoBean() {
     }
     
     
+    
+    public Proposta getPropostaSolucao() {
+        return this.proposta;
+    }
+
     public String create() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
@@ -161,4 +115,47 @@ public class PropostaSolucaoBean implements Serializable {
             throw new ValidatorException(msg);
         }
     }
+    
+    //PROPRIEDADES
+     public Integer getIdProposta() {
+        return idProposta;
+    }
+
+    public void setIdProposta(Integer idProposta) {
+        this.idProposta = idProposta;
+    }
+
+    public Integer getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(Integer valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public Boolean getGanhou() {
+        return ganhou;
+    }
+
+    public void setGanhou(Boolean ganhou) {
+        this.ganhou = ganhou;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Utilizador getIdUtilizador() {
+        return idUtilizador;
+    }
+
+    public void setIdUtilizador(Utilizador idUtilizador) {
+        this.idUtilizador = idUtilizador;
+    }
+
+    
 }

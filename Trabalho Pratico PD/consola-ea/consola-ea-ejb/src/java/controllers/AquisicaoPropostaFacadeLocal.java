@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 import models.AquisicaoProposta;
+import models.Proposta;
 import models.Utilizador;
 
 /**
@@ -29,5 +30,6 @@ public interface AquisicaoPropostaFacadeLocal {
     int totalPropostasEmAberto();
     int getTotalPropostasRecebidas(AquisicaoProposta a);
     public boolean propostaAdjudicada(AquisicaoProposta a);
+    void destroy(Integer id)throws Exception;
     
 }

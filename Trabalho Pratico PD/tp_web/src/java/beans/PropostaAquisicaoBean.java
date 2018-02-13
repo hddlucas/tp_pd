@@ -9,6 +9,7 @@ import Classes.Item;
 import controllers.AquisicaoPropostaFacadeLocal;
 import controllers.ComponenteFacadeLocal;
 import controllers.OperadorFacadeLocal;
+import controllers.PropostaFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -30,6 +31,7 @@ import models.AquisicaoProposta;
 import models.Categoria;
 import models.Componente;
 import models.Operador;
+import models.Proposta;
 import models.Utilizador;
 
 /**
@@ -37,7 +39,7 @@ import models.Utilizador;
  * @author hddlucas
  */
 @Named(value = "propostaAquisicaoBean")
-@ViewScoped
+@SessionScoped
 public class PropostaAquisicaoBean implements Serializable {
 
     @EJB
@@ -49,6 +51,9 @@ public class PropostaAquisicaoBean implements Serializable {
     
     @EJB
     private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;  
+    
+    @EJB
+    private PropostaFacadeLocal propostaFacade; 
     
     private AquisicaoProposta proposedAcquisition = new AquisicaoProposta();
     private Integer idAquisicao;
@@ -88,7 +93,15 @@ public class PropostaAquisicaoBean implements Serializable {
     public PropostaAquisicaoBean() {
     }
 
-     public String create() throws Exception {
+    
+    
+     public AquisicaoProposta getProposedAcquisition() {
+        return this.proposedAcquisition;
+    }
+
+    
+    
+    public String create() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -116,7 +129,24 @@ public class PropostaAquisicaoBean implements Serializable {
         }
     }
     
-    
+   
+    public String destroy(int id) throws Exception {
+      FacesContext context = FacesContext.getCurrentInstance();
+      try {
+          aquisicaoPropostaFacade.destroy(id);
+          context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Proposta de Aquisição Removida com sucesso"));
+
+      } catch (Exception ex) {
+          context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um problema ao eliminar a Proposta de Aquisição"));
+
+      } finally {
+          FacesContext.getCurrentInstance()
+                  .getExternalContext()
+                  .getFlash().setKeepMessages(true);
+          return "index.xhtml?faces-redirect=true";
+      }
+    }
+
     public List<AquisicaoProposta> getList() {
         return aquisicaoPropostaFacade.getAcquisitionProposals();
     }
@@ -134,9 +164,6 @@ public class PropostaAquisicaoBean implements Serializable {
     }
 
     
-    public AquisicaoProposta getProposedAcquisition() {
-        return this.proposedAcquisition;
-    }
 
     public List<Componente> getComponentes() {
         this.componentes = componenteFacade.getComponentsList();
@@ -147,7 +174,22 @@ public class PropostaAquisicaoBean implements Serializable {
         this.operadores = operadorFacade.getOperadorList();
         return operadores;
     }
-    
+     
+    public List<Proposta>getProposalSolutionsList(AquisicaoProposta a){
+        return propostaFacade.findPropostasSolucaoByPropostaAquisicao(a);
+    }
+     
+    public String showProposal(AquisicaoProposta p) {
+        this.proposedAcquisition = p;
+        return "aquisitionProposal.xhtml";
+    }
+     
+     
+    public String editProposal(AquisicaoProposta p) {
+        this.proposedAcquisition = p;
+        return "edit.xhtml";
+    }
+     
     public String show(AquisicaoProposta p) {
         this.proposedAcquisition = p;
         return "solutionProposal.xhtml";

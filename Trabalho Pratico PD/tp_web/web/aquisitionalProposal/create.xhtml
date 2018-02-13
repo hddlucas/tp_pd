@@ -54,7 +54,6 @@
 
                         <h3>Lista de Componentes do Produto</h3>
 
-
                         <p:commandButton value="Adicionar Componente" action="#{propostaAquisicaoBean.add}" update="@form" />
                         <br/>
 
@@ -84,15 +83,12 @@
                             </ui:repeat>
                         </div>
 
-
                         <br />
                         <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Criar"  action="#{propostaAquisicaoBean.create()}" >
                         </h:commandLink> 
 
                         <h:button styleClass="ui-button ui-widget ui-state-default ui-corner-all cancel-button" value="Cancelar" outcome="index" >
                         </h:button> 
-
-
 
                     </h:form>
                 </div>
