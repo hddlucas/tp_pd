@@ -24,7 +24,7 @@
                 <h:form styleClass="form" id="form">
                     <p:growl id="msgs" showDetail="true" />
 
-                    <h:panelGrid columns="2">
+                    <p:panelGrid columns="2">
                         <h:outputLabel value="Id" for="id"/>
                         <h:outputText id="id" value="#{mensagemBean.message.idMensagem}"/>
 
@@ -40,7 +40,7 @@
                         <h:outputLabel value="Enviada em" for="created_at"/>
                         <h:outputText id="created_at" value="#{mensagemBean.message.createdAt}"/>
 
-                    </h:panelGrid>
+                    </p:panelGrid>
                 </h:form>
             </ui:define>
         </ui:composition>

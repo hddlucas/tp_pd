@@ -7,12 +7,10 @@ package beans;
 
 import controllers.AquisicaoPropostaFacadeLocal;
 import controllers.PropostaFacadeLocal;
-import controllers.UtilizadorFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -24,7 +22,6 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
 import models.AquisicaoProposta;
-import models.Categoria;
 import models.Proposta;
 import models.Utilizador;
 
@@ -35,9 +32,6 @@ import models.Utilizador;
 @Named(value = "propostaSolucaoBean")
 @SessionScoped
 public class PropostaSolucaoBean implements Serializable {
-
-    @EJB
-    private UtilizadorFacadeLocal utilizadorFacade;
 
     @EJB
     private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;
@@ -65,12 +59,69 @@ public class PropostaSolucaoBean implements Serializable {
         this.idProposta = idProposta;
     }
 
+      /**
+     * Creates a new instance of PropostaSolucaoBean
+     */
+    public PropostaSolucaoBean() {
+    }
+    
+    
+    
     public Proposta getPropostaSolucao() {
         return this.proposta;
     }
 
+    public String create() throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            
+            JsonObjectBuilder propostaFields = Json.createObjectBuilder();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+            propostaFields.add("idUtilizador", request.getParameter("form:id_utilizador"));
+            propostaFields.add("valor_total", request.getParameter("form:solucao"));
+            
+            JsonObject fieldsObject = propostaFields.build();
+            propostaFacade.create(fieldsObject.toString());
+           
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Proposta Solução criada com sucesso"));
+
+        } catch (Exception ex) {
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", ex.toString()));
+
+            return "create.xhtml?faces-redirect=true?";
+        } finally {
+            context.getCurrentInstance()
+                    .getExternalContext()
+                    .getFlash().setKeepMessages(true);
+            return "index.xhtml?faces-redirect=true?";
+        }
+    }
     
-    public Integer getIdProposta() {
+     public String showSolution(Proposta ps) {
+        this.proposta = ps;
+        return "/aquisitionalProposal/solutionProposal.xhtml";
+    }
+    
+        //VALIDATORS
+    public void validateSolucao(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Object oldValue = ((UIInput) component).getValue();
+
+        int id = Integer.parseInt(request.getParameter("form:idP"));
+        
+        AquisicaoProposta proposta = aquisicaoPropostaFacade.findAquisicaoProposta(id);
+
+        double valorSolucao = Double.parseDouble(request.getParameter("form:solucao"));
+
+        if(valorSolucao > proposta.getValorMax()) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "O valor introduzido não pode ser superior ao valor máximo");
+            throw new ValidatorException(msg);
+        }
+    }
+    
+    //PROPRIEDADES
+     public Integer getIdProposta() {
         return idProposta;
     }
 
@@ -110,55 +161,5 @@ public class PropostaSolucaoBean implements Serializable {
         this.idUtilizador = idUtilizador;
     }
 
-    /**
-     * Creates a new instance of PropostaSolucaoBean
-     */
-    public PropostaSolucaoBean() {
-    }
     
-    
-    public String create() throws Exception {
-        FacesContext context = FacesContext.getCurrentInstance();
-        try {
-            
-            JsonObjectBuilder propostaFields = Json.createObjectBuilder();
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-
-            propostaFields.add("idUtilizador", request.getParameter("form:id_utilizador"));
-            propostaFields.add("valor_total", request.getParameter("form:solucao"));
-            
-            JsonObject fieldsObject = propostaFields.build();
-            propostaFacade.create(fieldsObject.toString());
-           
-            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Proposta Solução criada com sucesso"));
-
-        } catch (Exception ex) {
-            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", ex.toString()));
-
-            return "create.xhtml?faces-redirect=true?";
-        } finally {
-            context.getCurrentInstance()
-                    .getExternalContext()
-                    .getFlash().setKeepMessages(true);
-            return "index.xhtml?faces-redirect=true?";
-        }
-    }
-    
-    
-        //VALIDATORS
-    public void validateSolucao(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Object oldValue = ((UIInput) component).getValue();
-
-        int id = Integer.parseInt(request.getParameter("form:idP"));
-        
-        AquisicaoProposta proposta = aquisicaoPropostaFacade.findAquisicaoProposta(id);
-
-        double valorSolucao = Double.parseDouble(request.getParameter("form:solucao"));
-
-        if(valorSolucao > proposta.getValorMax()) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "O valor introduzido não pode ser superior ao valor máximo");
-            throw new ValidatorException(msg);
-        }
-    }
 }

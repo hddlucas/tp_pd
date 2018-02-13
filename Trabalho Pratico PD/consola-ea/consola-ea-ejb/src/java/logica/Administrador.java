@@ -198,7 +198,8 @@ public class Administrador implements AdministradorRemote {
     
     public boolean removeUserRole(int userId,int roleId) {
          try {
-            userFacade.removeUserRole(userId,roleId);
+            Utilizador u = userFacade.findUtilizador(userId);
+            userFacade.removeUserRole(u,roleId);
             return true;
 
         } catch (Exception e) {

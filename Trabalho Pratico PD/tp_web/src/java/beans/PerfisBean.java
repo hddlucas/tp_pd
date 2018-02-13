@@ -11,17 +11,15 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.persistence.Basic;
-import javax.persistence.Column;
+import javax.faces.view.ViewScoped;
 import models.Perfil;
-import models.Utilizador;
 
 /**
  *
  * @author hddlucas
  */
 @Named(value = "perfisBean")
-@SessionScoped
+@ViewScoped
 public class PerfisBean implements Serializable {
 
     @EJB

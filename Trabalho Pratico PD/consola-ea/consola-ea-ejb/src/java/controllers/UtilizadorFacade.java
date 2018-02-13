@@ -28,7 +28,7 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
 
     @EJB
     private DAOLocal dAO;
-    
+
     private int total = 0;
 
     @Override
@@ -49,9 +49,9 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
         return utilizadores;
     }
 
-     /**
+    /**
      *
-     * @param userId
+     * @param u
      * @param roleId
      */
     @Override
@@ -59,6 +59,11 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
         try {
 
             Perfil p = (Perfil) dAO.getEntityManager().find(Perfil.class, roleId);
+            if (u.getPerfilCollection().size() > 0 && roleId == 4 || this.hasRole(u.getIdUtilizador(), "vendedor"))  {
+                return;
+            }
+            
+       
 
             u.getPerfilCollection().add(p);
             p.getUtilizadorCollection().add(u);
@@ -70,7 +75,7 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             throw ex;
         }
     }
-    
+
     @Override
     public Utilizador create(String fields) throws RollbackFailureException, Exception {
         try {
@@ -82,46 +87,44 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             u.setPassword(userFields.getString("password"));
             u.setBi(userFields.getString("bi"));
             u.setNif(userFields.getString("nif"));
-            
-            if(userFields.has("morada")){
+
+            if (userFields.has("morada")) {
                 u.setMorada(userFields.getString("morada"));
             }
-            if(userFields.has("contacto")){
+            if (userFields.has("contacto")) {
                 u.setContacto(userFields.getString("contacto"));
             }
-            if(userFields.has("codigo_postal")){
+            if (userFields.has("codigo_postal")) {
                 u.setCodigoPostal(userFields.getString("codigo_postal"));
             }
-            if(userFields.has("pais")){
+            if (userFields.has("pais")) {
                 u.setPais(userFields.getString("pais"));
             }
-            if(userFields.has("cidade")){
+            if (userFields.has("cidade")) {
                 u.setCidade(userFields.getString("cidade"));
             }
-            if(userFields.has("ativo")){
+            if (userFields.has("ativo")) {
                 u.setAtivo(true);
-            }
-            else if (userFields.has("tipo_de_conta")) {
-                   if(userFields.getString("tipo_de_conta").equals("vendedor"))
-                        u.setAtivo(false);
-                   else
-                        u.setAtivo(true);
-            }
-            else{
+            } else if (userFields.has("tipo_de_conta")) {
+                if (userFields.getString("tipo_de_conta").equals("vendedor")) {
+                    u.setAtivo(false);
+                } else {
+                    u.setAtivo(true);
+                }
+            } else {
                 u.setAtivo(true);
             }
 
             dAO.getEntityManager().persist(u);
-           
-            
-            if (userFields.has("tipo_de_conta")){ 
-                   if(userFields.getString("tipo_de_conta").equals("vendedor")){
-                       this.addUserRole(this.findUtilizadorByUsername(userFields.getString("username")).get(0), 4);
-                   }
+
+            if (userFields.has("tipo_de_conta")) {
+                if (userFields.getString("tipo_de_conta").equals("vendedor")) {
+                    this.addUserRole(this.findUtilizadorByUsername(userFields.getString("username")).get(0), 4);
+                }
             }
-            
+
             return u;
-            
+
         } catch (Exception ex) {
             throw ex;
         }
@@ -134,40 +137,39 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             Utilizador u = (Utilizador) dAO.getEntityManager().find(Utilizador.class, userId);
             JSONObject userFields = new JSONObject(fields);
 
-            if(userFields.has("nome")){
+            if (userFields.has("nome")) {
                 u.setNome(userFields.getString("nome"));
             }
-            if(userFields.has("password")){
+            if (userFields.has("password")) {
                 u.setPassword(userFields.getString("password"));
             }
-            if(userFields.has("nif")){
+            if (userFields.has("nif")) {
                 u.setNif(userFields.getString("nif"));
             }
-            if(userFields.has("bi")){
+            if (userFields.has("bi")) {
                 u.setBi(userFields.getString("bi"));
             }
-            
-            if(userFields.has("codigo_postal")){
+
+            if (userFields.has("codigo_postal")) {
                 u.setCodigoPostal(userFields.getString("codigo_postal"));
             }
-            
-             if(userFields.has("morada")){
+
+            if (userFields.has("morada")) {
                 u.setMorada(userFields.getString("morada"));
             }
-            
-            if(userFields.has("contacto")){
+
+            if (userFields.has("contacto")) {
                 u.setContacto(userFields.getString("contacto"));
             }
-            if(userFields.has("pais")){
+            if (userFields.has("pais")) {
                 u.setPais(userFields.getString("pais"));
             }
-            if(userFields.has("cidade")){
+            if (userFields.has("cidade")) {
                 u.setCidade(userFields.getString("cidade"));
             }
-            if(userFields.has("ativo")){
+            if (userFields.has("ativo")) {
                 u.setAtivo(true);
-            }
-            else{
+            } else {
                 u.setAtivo(false);
             }
             dAO.getEntityManager().merge(u);
@@ -178,14 +180,14 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
     }
 
     @Override
-    public void destroy(Integer id) throws Exception  {
+    public void destroy(Integer id) throws Exception {
         try {
             Utilizador u = dAO.getEntityManager().find(Utilizador.class, id);
             u.setDeleted(true);
 
             dAO.getEntityManager().merge(u);
 
-        } catch (Exception ex) { 
+        } catch (Exception ex) {
             throw ex;
         }
     }
@@ -294,13 +296,10 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
 
     }
 
-   
-
     @Override
-    public void removeUserRole(int userId, int roleId) {
+    public void removeUserRole(Utilizador u, int roleId) {
         try {
 
-            Utilizador u = (Utilizador) dAO.getEntityManager().find(Utilizador.class, userId);
             Perfil p = (Perfil) dAO.getEntityManager().find(Perfil.class, roleId);
 
             u.getPerfilCollection().remove(p);
@@ -313,27 +312,27 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
             throw ex;
         }
     }
-    
+
     @Override
     public String getUserNameById(int userId) {
         try {
 
             Utilizador u = (Utilizador) dAO.getEntityManager().find(Utilizador.class, userId);
-            if(u!=null)
+            if (u != null) {
                 return u.getUsername();
+            }
             return "Utilizador não encontrado";
 
         } catch (Exception ex) {
             throw ex;
         }
     }
-    
-    
-     @Override
+
+    @Override
     public int getTotalUsersPerRole(String roleName) {
         try {
 
-            total=0;
+            total = 0;
             List<Utilizador> allUsers = this.getUsersList();
 
             allUsers.forEach((k) -> {

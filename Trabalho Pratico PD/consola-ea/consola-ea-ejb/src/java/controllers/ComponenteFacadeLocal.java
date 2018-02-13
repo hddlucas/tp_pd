@@ -20,4 +20,6 @@ public interface ComponenteFacadeLocal {
     Componente create(String fields) throws RollbackFailureException, Exception;
     void update(String fields, int componenteId) throws Exception;
     void destroy(Integer id) throws Exception;
+    Componente findComponente(Integer id);
+
 }

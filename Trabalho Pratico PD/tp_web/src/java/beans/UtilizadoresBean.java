@@ -5,9 +5,9 @@
  */
 package beans;
 
+import controllers.PerfilFacadeLocal;
 import controllers.UtilizadorFacadeLocal;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
@@ -24,7 +25,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.annotation.XmlTransient;
 import models.Perfil;
 import models.Utilizador;
 
@@ -37,9 +37,14 @@ import models.Utilizador;
 public class UtilizadoresBean implements Serializable {
 
     @EJB
+    private PerfilFacadeLocal perfilFacade;
+
+    @EJB
     private UtilizadorFacadeLocal utilizadorFacade;
-    private Utilizador user = new Utilizador();
+    
+    
     private Map<Integer, Boolean> checked = new HashMap<Integer, Boolean>();
+    private Utilizador user = new Utilizador();
     private Integer idUtilizador;
     private String nome;
     private String username;
@@ -67,13 +72,15 @@ public class UtilizadoresBean implements Serializable {
     }
 
     public Map<Integer, Boolean> getChecked() {
-        
+        checked = new HashMap<Integer, Boolean>();
+        perfilFacade.getRolesList().forEach((k) -> {
+            checked.put(k.getIdPerfil(), this.hasRole(this.user.getIdUtilizador(), k.getPerfil()));
+        });
         
         return checked;
     }
 
     public void setChecked(Map<Integer, Boolean> checked) {
-      
         this.checked = checked;
     }
 
@@ -109,7 +116,7 @@ public class UtilizadoresBean implements Serializable {
 
         } catch (Exception ex) {
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um erro ao criar o utilizador"));
-
+            
             return "create.xhtml?faces-redirect=true?";
         } finally {
             context.getCurrentInstance()
@@ -185,11 +192,15 @@ public class UtilizadoresBean implements Serializable {
         return utilizadorFacade.hasRole(userId, role);
     }
 
-    public void addUserRole(Utilizador u, int roleId) {
+    public void addUserRole(Utilizador u, Perfil p) {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
-            utilizadorFacade.addUserRole(u, roleId);
-            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Perfil adicionado ao utilizador com sucesso"));
+            if(!this.hasRole(u.getIdUtilizador(),p.getPerfil())){
+                utilizadorFacade.addUserRole(u, p.getIdPerfil());
+            }
+            else{
+                utilizadorFacade.removeUserRole(u, p.getIdPerfil());
+            }
 
         } catch (Exception ex) {
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um problema ao adicionar o perfil ao utilizador"));
@@ -198,7 +209,6 @@ public class UtilizadoresBean implements Serializable {
             FacesContext.getCurrentInstance()
                     .getExternalContext()
                     .getFlash().setKeepMessages(true);
-
         }
     }
 

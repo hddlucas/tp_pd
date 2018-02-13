@@ -32,7 +32,7 @@ public interface UtilizadorFacadeLocal {
     List<Perfil> getUserRolesByUserId(int userId);
     void activeUser(int userId);
     void addUserRole(Utilizador u, int roleId);
-    void removeUserRole(int userId, int roleId);
+    void removeUserRole(Utilizador u, int roleId);
     public String getUserNameById(int userId);
     public int getTotalUsersPerRole(String  roleName);
 }

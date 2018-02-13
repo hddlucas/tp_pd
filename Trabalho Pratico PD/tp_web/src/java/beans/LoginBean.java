@@ -55,7 +55,7 @@ public class LoginBean implements Serializable {
     }
 
     public Utilizador getLoggedUser() {
-        return this.logedUser;
+        return logedUser;
     }
 
     public String login() {

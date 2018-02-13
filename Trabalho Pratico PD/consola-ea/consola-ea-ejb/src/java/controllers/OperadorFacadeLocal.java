@@ -7,17 +7,15 @@ package controllers;
 
 import java.util.List;
 import javax.ejb.Local;
-import models.Mensagem;
-import models.Utilizador;
-
+import models.Operador;
 
 /**
  *
  * @author hddlucas
  */
 @Local
-public interface MensagemFacadeLocal {
-     public void create(String fields)throws  Exception;
-     List<Mensagem> getUsersMessagesList(int userId);
-     public void markAsRead(int id);
+public interface OperadorFacadeLocal {
+   List<Operador> getOperadorList();
+   Operador findOperador(Integer id);
+
 }

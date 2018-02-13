@@ -31,7 +31,7 @@
                         <h:form styleClass="form" id="form">
                             <p:growl id="msgs" showDetail="true" />
 
-                            <h:panelGrid columns="2">
+                            <p:panelGrid columns="2">
 
                                 <h:outputLabel value="Username" for="username" />
                                 <h:outputText id="username" value="#{utilizadoresBean.user.username}"/>
@@ -65,21 +65,19 @@
 
                                 <h:outputLabel for="ultimo_login" value="Ultimo Login" />  
                                 <h:outputText id="ultimo_login" value="#{utilizadoresBean.user.ultimoLogin}  " />
-                            </h:panelGrid>
+                            </p:panelGrid>
                         </h:form>
                     </p:tab>
 
                     <p:tab title="#{bundle.UtilizadoresTitle_permissoes}">
-
                         <h2 class="page-subTitle">
                             #{bundle.PerfisTitle_lista}
                         </h2>
-
-                        <h:form >
+                        <h:form id="user-roles-form">
                             <p:dataTable id="rolesList" var="role" value="#{perfisBean.list}">
                                 <p:column>
-                                    <p:selectBooleanCheckbox  value="#{utilizadoresBean.user.perfilCollection.contains(role)}">
-                                        <p:ajax  event="change" update="@form"/>
+                                    <p:selectBooleanCheckbox  value="#{utilizadoresBean.checked[role.idPerfil]}" >
+                                        <p:ajax event="change"   listener="#{utilizadoresBean.addUserRole(utilizadoresBean.user,role)}"  update="@this"/>
                                     </p:selectBooleanCheckbox>
                                 </p:column>
 

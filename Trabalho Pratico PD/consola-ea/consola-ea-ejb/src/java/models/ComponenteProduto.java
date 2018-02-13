@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ComponenteProduto.findAll", query = "SELECT c FROM ComponenteProduto c")
     , @NamedQuery(name = "ComponenteProduto.findByIdComponente", query = "SELECT c FROM ComponenteProduto c WHERE c.componenteProdutoPK.idComponente = :idComponente")
     , @NamedQuery(name = "ComponenteProduto.findByIdAquisicao", query = "SELECT c FROM ComponenteProduto c WHERE c.componenteProdutoPK.idAquisicao = :idAquisicao")
-    , @NamedQuery(name = "ComponenteProduto.findByAvaliacao", query = "SELECT c FROM ComponenteProduto c WHERE c.avaliacao = :avaliacao")})
+    , @NamedQuery(name = "ComponenteProduto.findByAvaliacao", query = "SELECT c FROM ComponenteProduto c WHERE c.avaliacao = :avaliacao")
+    , @NamedQuery(name = "ComponenteProduto.findByValor", query = "SELECT c FROM ComponenteProduto c WHERE c.valor = :valor")})
 public class ComponenteProduto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,12 +36,17 @@ public class ComponenteProduto implements Serializable {
     protected ComponenteProdutoPK componenteProdutoPK;
     @Column(name = "avaliacao")
     private Integer avaliacao;
+    @Column(name = "valor")
+    private String valor;
     @JoinColumn(name = "id_aquisicao", referencedColumnName = "id_aquisicao", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private AquisicaoProposta aquisicaoProposta;
     @JoinColumn(name = "id_componente", referencedColumnName = "id_componente", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Componente componente;
+    @JoinColumn(name = "id_operador", referencedColumnName = "id_operador")
+    @ManyToOne
+    private Operador idOperador;
 
     public ComponenteProduto() {
     }
@@ -69,6 +75,14 @@ public class ComponenteProduto implements Serializable {
         this.avaliacao = avaliacao;
     }
 
+    public String getValor() {
+        return valor;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+
     public AquisicaoProposta getAquisicaoProposta() {
         return aquisicaoProposta;
     }
@@ -83,6 +97,14 @@ public class ComponenteProduto implements Serializable {
 
     public void setComponente(Componente componente) {
         this.componente = componente;
+    }
+
+    public Operador getIdOperador() {
+        return idOperador;
+    }
+
+    public void setIdOperador(Operador idOperador) {
+        this.idOperador = idOperador;
     }
 
     @Override

@@ -6,7 +6,10 @@
 package controllers;
 
 import controllers.exceptions.RollbackFailureException;
+import java.util.List;
 import javax.ejb.Local;
+import models.AquisicaoProposta;
+import models.Proposta;
 
 /**
  *
@@ -17,6 +20,7 @@ public interface PropostaFacadeLocal {
     void create(String fields) throws RollbackFailureException, Exception;
     int getTotalWin();
     Double getTotalTransactedMoney();
+    List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a);
 
 
 }

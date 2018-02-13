@@ -25,7 +25,7 @@
                     <p:growl id="msgs" showDetail="true" />
                     <h:inputHidden value="#{loginBean.loggedUser.idUtilizador}" id="id_utilizador" />
                     <h:inputHidden id="idP" value="#{propostaAquisicaoBean.proposedAcquisition.idAquisicao}"/>
-                    <h:panelGrid columns="2">
+                    <p:panelGrid columns="2">
                         <h:outputLabel value="Produto" for="produto"/>
                         <h:outputText id="produto" value="#{propostaAquisicaoBean.proposedAcquisition.idProduto.descricao}"/>                      
                         
@@ -43,7 +43,7 @@
                                          requiredMessage="O campo Nome é obrigatório"
                                          validator="#{propostaSolucaoBean.validateSolucao}" />
                     
-                    </h:panelGrid>
+                    </p:panelGrid>
                     
                     <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Criar"  action="#{propostaSolucaoBean.create}" >
                         </h:commandLink>

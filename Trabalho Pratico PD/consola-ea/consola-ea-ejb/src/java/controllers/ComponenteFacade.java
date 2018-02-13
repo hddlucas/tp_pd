@@ -100,4 +100,9 @@ public class ComponenteFacade implements ComponenteFacadeLocal {
             throw ex;
         }
     }
+
+    @Override
+    public Componente findComponente(Integer id) {
+        return dAO.getEntityManager().find(Componente.class, id);
+    }
 }

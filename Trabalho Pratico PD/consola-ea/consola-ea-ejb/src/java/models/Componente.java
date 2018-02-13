@@ -6,7 +6,6 @@
 package models;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -33,11 +32,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Componente.findAll", query = "SELECT c FROM Componente c")
-    ,@NamedQuery(name = "Componente.findAllNotDeleted", query = "SELECT c FROM Componente c WHERE c.deleted=false")
+    , @NamedQuery(name = "Componente.findAllNotDeleted", query = "SELECT c FROM Componente c where c.deleted=false")
     , @NamedQuery(name = "Componente.findByIdComponente", query = "SELECT c FROM Componente c WHERE c.idComponente = :idComponente")
     , @NamedQuery(name = "Componente.findByNome", query = "SELECT c FROM Componente c WHERE c.nome = :nome")
     , @NamedQuery(name = "Componente.findByObservacoes", query = "SELECT c FROM Componente c WHERE c.observacoes = :observacoes")
-    , @NamedQuery(name = "Componente.findByValor", query = "SELECT c FROM Componente c WHERE c.valor = :valor")
     , @NamedQuery(name = "Componente.findByDeleted", query = "SELECT c FROM Componente c WHERE c.deleted = :deleted")})
 public class Componente implements Serializable {
 
@@ -51,8 +49,6 @@ public class Componente implements Serializable {
     private String nome;
     @Column(name = "observacoes")
     private String observacoes;
-    @Column(name = "valor")
-    private BigInteger valor;
     @Basic(optional = false)
     @Column(name = "deleted")
     private boolean deleted;
@@ -61,9 +57,6 @@ public class Componente implements Serializable {
     @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
     @ManyToOne(optional = false)
     private Categoria idCategoria;
-    @JoinColumn(name = "id_operador", referencedColumnName = "id_operador")
-    @ManyToOne
-    private Operador idOperador;
 
     public Componente() {
     }
@@ -101,14 +94,6 @@ public class Componente implements Serializable {
         this.observacoes = observacoes;
     }
 
-    public BigInteger getValor() {
-        return valor;
-    }
-
-    public void setValor(BigInteger valor) {
-        this.valor = valor;
-    }
-
     public boolean getDeleted() {
         return deleted;
     }
@@ -132,14 +117,6 @@ public class Componente implements Serializable {
 
     public void setIdCategoria(Categoria idCategoria) {
         this.idCategoria = idCategoria;
-    }
-
-    public Operador getIdOperador() {
-        return idOperador;
-    }
-
-    public void setIdOperador(Operador idOperador) {
-        this.idOperador = idOperador;
     }
 
     @Override

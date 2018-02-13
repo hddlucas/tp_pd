@@ -5,11 +5,14 @@
  */
 package controllers;
 
+import Classes.Item;
 import controllers.exceptions.RollbackFailureException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 import models.AquisicaoProposta;
+import models.Proposta;
+import models.Utilizador;
 
 /**
  *
@@ -19,9 +22,14 @@ import models.AquisicaoProposta;
 public interface AquisicaoPropostaFacadeLocal {
     
     List<AquisicaoProposta> getAcquisitionProposals();
+    List<AquisicaoProposta> getUserAcquisitionProposals(int userId);
+    String create(String fields,List<Item> i)throws RollbackFailureException, Exception;
     AquisicaoProposta findAquisicaoProposta(Integer id);
-    int totalPropostas(Date date);
+    int totalPropostasCurrentDate(Date date);
     int totalPropostas();
-    int totalPropostasEmaberto();
-
+    int totalPropostasEmAberto();
+    int getTotalPropostasRecebidas(AquisicaoProposta a);
+    public boolean propostaAdjudicada(AquisicaoProposta a);
+    void destroy(Integer id)throws Exception;
+    
 }

@@ -5,31 +5,21 @@
  */
 package beans;
 
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.year;
 import controllers.AquisicaoPropostaFacadeLocal;
 import controllers.PropostaFacadeLocal;
 import controllers.UtilizadorFacadeLocal;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped; 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
@@ -41,7 +31,7 @@ import org.primefaces.model.chart.PieChartModel;
  * @author hddlucas
  */
 @Named(value = "dashboardBean")
-@SessionScoped
+@ViewScoped
 public class DashboardBean implements Serializable {
 
     @EJB
@@ -113,11 +103,9 @@ public class DashboardBean implements Serializable {
         series1.setLabel("Series 1");
  
         Calendar calendar = Calendar.getInstance();
-        int year = 2018;
-        int month=2;
-        
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month-1); // since 0 = January
+        int year = calendar.get(Calendar.YEAR);
+        int month=calendar.get(Calendar.MONTH)+1;
+
         int maxDaysInMonth = calendar.getActualMaximum(Calendar.DATE);
         String dateAsString="";   
         Date date ; 
@@ -128,7 +116,7 @@ public class DashboardBean implements Serializable {
             dateAsString = String.format("%d-%02d-%02d", year, month, day);
             try {
                 date=formatter.parse(dateAsString);
-                series1.set(dateAsString, aquisicaoPropostaFacade.totalPropostas(date));
+                series1.set(dateAsString, aquisicaoPropostaFacade.totalPropostasCurrentDate(date));
                 //context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", date.toString()));
             } catch (Exception ex) {
                 series1.set(dateAsString, 0);
@@ -142,7 +130,7 @@ public class DashboardBean implements Serializable {
         dateModel.setTitle("Total de Propostas de Aquisição - Mês Corrente");
         dateModel.setZoom(true);
         dateModel.getAxis(AxisType.Y).setLabel("Total");
-        DateAxis axis = new DateAxis("Datas");
+        DateAxis axis = new DateAxis();
         axis.setTickAngle(-50);
         axis.setMax(dateAsString);
         axis.setTickFormat("%b %#d, %y");
@@ -162,4 +150,7 @@ public class DashboardBean implements Serializable {
         return propostaFacade.getTotalTransactedMoney();
     }
     
+     public int getTotalPropostasEmAberto()  {
+        return aquisicaoPropostaFacade.totalPropostasEmAberto();
+    }
 }
