@@ -182,4 +182,21 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
         }
     }
     
+    
+    @Override
+    public List<AquisicaoProposta> getOpenList() {
+        Query q = dAO.getEntityManager().createNamedQuery("AquisicaoProposta.findAll");
+        List<AquisicaoProposta> proposals = q.getResultList();
+        
+        List<AquisicaoProposta> toReturn = q.getResultList();
+        
+        proposals.forEach((k) -> {
+            if (propostaAdjudicada(k) == true) {
+                toReturn.remove(k);
+            }
+        });
+               
+        return toReturn;
+    }
+    
 }

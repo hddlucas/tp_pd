@@ -74,7 +74,6 @@ public class PropostaSolucaoBean implements Serializable {
     public String create() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
-            
             JsonObjectBuilder propostaFields = Json.createObjectBuilder();
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
@@ -82,6 +81,7 @@ public class PropostaSolucaoBean implements Serializable {
             propostaFields.add("valor_total", request.getParameter("form:solucao"));
             
             JsonObject fieldsObject = propostaFields.build();
+
             propostaFacade.create(fieldsObject.toString());
            
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Proposta Solução criada com sucesso"));

@@ -181,7 +181,9 @@ public class PropostaAquisicaoBean implements Serializable {
         return "aquisitionProposal.xhtml";
     }
      
-   
+    public List<AquisicaoProposta> getOpenProposals() {
+        return aquisicaoPropostaFacade.getOpenList();
+    }
      
     public String editProposal(AquisicaoProposta p) {
         this.proposedAcquisition = p;

@@ -18,7 +18,7 @@
 
                 <div class="ui-grid-col-12">
                     <h:form>
-                        <p:dataTable id="proposedAcquisitionList" var="proposedAcquisition" value="#{propostaAquisicaoBean.list}">
+                        <p:dataTable id="proposedAcquisitionList" var="proposedAcquisition" value="#{propostaAquisicaoBean.getOpenProposals()}">
                             <p:column headerText="Produto">
                                 <h:outputText value="#{proposedAcquisition.observacoes}" />
                             </p:column>

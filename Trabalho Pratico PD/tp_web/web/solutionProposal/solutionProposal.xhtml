@@ -14,43 +14,54 @@
                 <p:breadCrumb>
                     <p:menuitem  value="" url="/" />
                     <p:menuitem value="#{bundle.PropostaAquisicaoTitle_vista}" outcome="index" />
-                   
+
                 </p:breadCrumb>
 
                 <h1 class="page-title">
                     #{bundle.PropostaAquisicaoTitle_show}
                 </h1>
-                
-                <h:form styleClass="form" id="form">
+                <h:form styleClass="form">
                     <p:growl id="msgs" showDetail="true" />
-                    <h:inputHidden value="#{loginBean.loggedUser.idUtilizador}" id="id_utilizador" />
-                    <h:inputHidden id="idP" value="#{propostaAquisicaoBean.proposedAcquisition.idAquisicao}"/>
                     <p:panelGrid columns="2">
                         <h:outputLabel value="Produto" for="produto"/>
-                        <h:outputText id="produto" value="#{propostaAquisicaoBean.proposedAcquisition.idProduto.descricao}"/>                      
-                        
-                        <h:outputLabel value="Utilizador" for="utilizador"/>
+                        <h:outputText id="produto" value="#{propostaAquisicaoBean.proposedAcquisition.observacoes}"/>                      
+
+                        <h:outputLabel value="Criada por" for="utilizador"/>
                         <h:outputText id="utilizador" value="#{propostaAquisicaoBean.proposedAcquisition.idUtilizador.nome}"/>
-                        
+
                         <h:outputLabel value="Valor Máximo" for="valor_max"/>
-                        <h:outputText id="valor_max" value="#{propostaAquisicaoBean.proposedAcquisition.valorMax}"/>
-                        
-                        <h:outputLabel value="Observações" for="observacoes"/>
-                        <h:outputText id="observacoes" value="#{propostaAquisicaoBean.proposedAcquisition.observacoes}"/>
-                   
-                        <h:outputLabel value="Proposta de Solução" for="solucao"/>
-                        <h:inputText id="solucao" required="true"
-                                         requiredMessage="O campo Nome é obrigatório"
-                                         validator="#{propostaSolucaoBean.validateSolucao}" />
-                    
+                        <h:outputText id="valor_max" value="#{propostaAquisicaoBean.proposedAcquisition.valorMax} €"/>
                     </p:panelGrid>
-                    
-                    <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Criar"  action="#{propostaSolucaoBean.create}" >
-                        </h:commandLink>
+
                 </h:form>
-                
+
+                <h:form id="form"> 
+                    <h:inputHidden value="#{loginBean.loggedUser.idUtilizador}" id="id_utilizador" />
+                    <h:inputHidden id="idP" value="#{propostaAquisicaoBean.proposedAcquisition.idAquisicao}"/>
+                    <br/>
+                    <h:outputLink styleClass="ui-button ui-widget ui-state-default ui-corner-all success-button" value="javascript:void(0)" onclick="PF('dlg').show();" title="propostaSolucao">
+                        Proposta
+                    </h:outputLink>
+
+                    <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+                    <p:dialog header="Proposta de Solução" widgetVar="dlg" resizable="false">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputLabel value="Proposta de Solução" for="solucao"/>
+                            <h:inputText id="solucao" required="true"
+                                         requiredMessage="O campo Valor é obrigatório"
+                                         validator="#{propostaSolucaoBean.validateSolucao}" />
+
+                            <f:facet name="footer">
+                                <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" value="Criar"  action="#{propostaSolucaoBean.create()}" >
+                                </h:commandLink> 
+                            </f:facet>  
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>
-
 </html>
+
+
