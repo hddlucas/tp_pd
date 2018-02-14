@@ -96,7 +96,7 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
                 p.setAquisicaoProposta(a);
                 p.setComponente(c);
 
-                a.getComponenteProdutoCollection().add(p);
+                //a.getComponenteProdutoCollection().add(p);
                 c.getComponenteProdutoCollection().add(p);
                 
                 dAO.getEntityManager().persist(p);
@@ -141,7 +141,7 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
     public int totalPropostasEmAberto() {
 
         //encontras as que foram ganhas
-        Query q = dAO.getEntityManager().createNativeQuery("SELECT count(a.id_aquisicao) FROM aquisicao_proposta a, produto_proposta pp, proposta p where a.id_aquisicao = pp.id_aquisicao and pp.id_proposta = p.id_proposta AND p.ganhou=true");
+        Query q = dAO.getEntityManager().createNativeQuery("SELECT count(a.id_aquisicao) FROM aquisicao_proposta a, proposta p where a.id_aquisicao = p.id_aquisicao AND p.ganhou=true");
         Long count = (Long) q.getSingleResult();
 
         List<AquisicaoProposta> proposals = this.getAcquisitionProposals();
@@ -152,7 +152,7 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
 
     @Override
     public int getTotalPropostasRecebidas(AquisicaoProposta a) {
-        Query q = dAO.getEntityManager().createNativeQuery("SELECT count(p.id_proposta) FROM  produto_proposta pp, proposta p where pp.id_proposta = p.id_proposta AND p.deleted=false AND pp.id_aquisicao= #idAquisicao");
+        Query q = dAO.getEntityManager().createNativeQuery("SELECT count(p.id_proposta) FROM proposta p where p.deleted=false AND p.id_aquisicao= #idAquisicao");
         Long count = (Long) q.setParameter("idAquisicao", a.getIdAquisicao())
                 .getSingleResult();
 
@@ -162,7 +162,7 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
 
     @Override
     public boolean propostaAdjudicada(AquisicaoProposta a) {
-        Query q = dAO.getEntityManager().createNativeQuery("SELECT count(p.id_proposta) FROM  produto_proposta pp, proposta p where pp.id_proposta = p.id_proposta AND p.deleted=false AND p.ganhou=true AND pp.id_aquisicao= #idAquisicao ");
+        Query q = dAO.getEntityManager().createNativeQuery("SELECT count(p.id_proposta) FROM  proposta p where p.deleted=false AND p.ganhou=true AND p.id_aquisicao= #idAquisicao ");
         Long count = (Long) q.setParameter("idAquisicao", a.getIdAquisicao())
                 .getSingleResult();
 

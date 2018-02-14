@@ -26,19 +26,14 @@
                         <h:outputLabel value="Produto" for="produto"/>
                         <h:outputText id="produto" value="#{propostaAquisicaoBean.proposedAcquisition.observacoes}"/>                      
 
-                      
-                        
                         <h:outputLabel value="Valor Máximo" for="valor_max"/>
                         <h:outputText id="valor_max" value="#{propostaAquisicaoBean.proposedAcquisition.valorMax} €"/>
-                        
-                         <h:outputLabel value="Observacoes" for="observacoes"/>
-                         <h:outputText id="observacoes" value="#{propostaAquisicaoBean.observacoes}"/>
-                        
+
                         <h:outputLabel value="Criada por" for="utilizador"/>
                         <h:outputText id="utilizador" value="#{propostaAquisicaoBean.proposedAcquisition.idUtilizador.nome}"/>
 
                         <h:outputLabel value="Criada em" for="created_at"/>
-                        <h:outputText id="created_at" value="#{propostaAquisicaoBean.createdAt}"/>
+                        <h:outputText id="created_at" value="#{propostaAquisicaoBean.proposedAcquisition.createdAt}"/>
                         
                     </p:panelGrid>
 

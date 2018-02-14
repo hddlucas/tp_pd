@@ -13,7 +13,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import models.AquisicaoProposta;
-import models.ProdutoProposta;
 import models.Proposta;
 import models.Utilizador;
 import org.json.JSONObject;
@@ -24,9 +23,6 @@ import org.json.JSONObject;
  */
 @Stateless
 public class PropostaFacade implements PropostaFacadeLocal {
-
-    @EJB
-    private ProdutoPropostaControllerLocal produtoPropostaControllerL;
 
     @EJB
     private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;
@@ -55,13 +51,16 @@ public class PropostaFacade implements PropostaFacadeLocal {
             p.setDescricao(proposalFields.getString("observacoes"));
             p.setGanhou(Boolean.FALSE);
             p.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-
+            
             p.setIdUtilizador(u);
             u.getPropostaCollection().add(p);
+            
+            p.setIdAquisicao(a);
+            a.getPropostaList().add(p);
 
             dAO.getEntityManager().merge(u);
-
-//            
+            dAO.getEntityManager().merge(a);
+            
             return "1";
 
         } catch (Exception ex) {
@@ -123,18 +122,12 @@ public class PropostaFacade implements PropostaFacadeLocal {
             Proposta p = this.findProposta(Integer.parseInt(acceptJsonFields.getString("idSolucao")));
             p.setGanhou(true);
 
-            Query q =  dAO.getEntityManager().createNamedQuery("ProdutoProposta.findByIdProposta");
-            ProdutoProposta pp = (ProdutoProposta) q.setParameter("idProposta", p.getIdProposta()).getSingleResult();
-            
-            pp.setAvaliacao(acceptJsonFields.getString("rating"));
-            pp.setObservacoes(acceptJsonFields.getString("observacoes"));
-            
-            
-            dAO.getEntityManager().merge(pp);
+            p.setAvaliacao(acceptJsonFields.getString("rating"));
+            p.setObservacoes(acceptJsonFields.getString("observacoes"));
+
             dAO.getEntityManager().merge(p);
 
             return "1";
-            
         } catch (Exception ex) {
             throw ex;
         }

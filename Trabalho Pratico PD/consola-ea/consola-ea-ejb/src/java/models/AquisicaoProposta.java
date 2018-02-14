@@ -6,10 +6,9 @@
 package models;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hddlucas
+ * @author marcosequeira
  */
 @Entity
 @Table(name = "aquisicao_proposta")
@@ -41,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "AquisicaoProposta.findByObservacoes", query = "SELECT a FROM AquisicaoProposta a WHERE a.observacoes = :observacoes")
     , @NamedQuery(name = "AquisicaoProposta.findByCreatedAt", query = "SELECT a FROM AquisicaoProposta a WHERE a.createdAt = :createdAt")
     , @NamedQuery(name = "AquisicaoProposta.findByDeleted", query = "SELECT a FROM AquisicaoProposta a WHERE a.deleted = :deleted")})
+
 
 public class AquisicaoProposta implements Serializable {
 
@@ -61,13 +61,11 @@ public class AquisicaoProposta implements Serializable {
     @Basic(optional = false)
     @Column(name = "deleted")
     private boolean deleted;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aquisicaoProposta")
-    private Collection<ComponenteProduto> componenteProdutoCollection;
+    @OneToMany(mappedBy = "idAquisicao")
+    private List<Proposta> propostaList;
     @JoinColumn(name = "id_utilizador", referencedColumnName = "id_utilizador")
     @ManyToOne(optional = false)
     private Utilizador idUtilizador;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aquisicaoProposta")
-    private Collection<ProdutoProposta> produtoPropostaCollection;
 
     public AquisicaoProposta() {
     }
@@ -122,12 +120,12 @@ public class AquisicaoProposta implements Serializable {
     }
 
     @XmlTransient
-    public Collection<ComponenteProduto> getComponenteProdutoCollection() {
-        return componenteProdutoCollection;
+    public List<Proposta> getPropostaList() {
+        return propostaList;
     }
 
-    public void setComponenteProdutoCollection(Collection<ComponenteProduto> componenteProdutoCollection) {
-        this.componenteProdutoCollection = componenteProdutoCollection;
+    public void setPropostaList(List<Proposta> propostaList) {
+        this.propostaList = propostaList;
     }
 
     public Utilizador getIdUtilizador() {
@@ -136,15 +134,6 @@ public class AquisicaoProposta implements Serializable {
 
     public void setIdUtilizador(Utilizador idUtilizador) {
         this.idUtilizador = idUtilizador;
-    }
-
-    @XmlTransient
-    public Collection<ProdutoProposta> getProdutoPropostaCollection() {
-        return produtoPropostaCollection;
-    }
-
-    public void setProdutoPropostaCollection(Collection<ProdutoProposta> produtoPropostaCollection) {
-        this.produtoPropostaCollection = produtoPropostaCollection;
     }
 
     @Override

@@ -86,9 +86,9 @@ public class PropostaSolucaoBean implements Serializable {
 
             JsonObject fieldsObject = propostaFields.build();
 
-           String x= propostaFacade.create(fieldsObject.toString());
+           String x = propostaFacade.create(fieldsObject.toString());
            
-            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", x));
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Proposta de Solução inserida com sucesso"));
 
         } catch (Exception ex) {
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Ocorreu um erro ao criar a Proposta de Solução"));
