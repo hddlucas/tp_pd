@@ -105,12 +105,9 @@ public class PropostaFacade implements PropostaFacadeLocal {
     }
 
     @Override
-    public List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a) {
-
-        Query q = dAO.getEntityManager().createNamedQuery("Proposta.findPropostasSolucaoByPropostaAquisicao");
-        List<Proposta> propostasSolucao = q.setParameter("idAquisicao", a.getIdAquisicao()).getResultList();
-
-        return propostasSolucao;
+    public List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a) {        
+        AquisicaoProposta aq = aquisicaoPropostaFacade.findAquisicaoProposta(a.getIdAquisicao());
+        return aq.getPropostaList();
     }
 
     @Override

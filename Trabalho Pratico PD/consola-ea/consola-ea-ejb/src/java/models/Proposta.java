@@ -40,8 +40,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Proposta.findByAvaliacao", query = "SELECT p FROM Proposta p WHERE p.avaliacao = :avaliacao")
     , @NamedQuery(name = "Proposta.findByDeleted", query = "SELECT p FROM Proposta p WHERE p.deleted = :deleted")
     , @NamedQuery(name = "Proposta.findByDeleted", query = "SELECT p FROM Proposta p WHERE p.deleted = :deleted")
-   // , @NamedQuery(name = "Proposta.findPropostasSolucaoByPropostaAquisicao", query = "SELECT p FROM  Proposta p JOIN AquisicaoProposta a JOIN p.aquisicaoProposta pa  WHERE p.deleted=false AND pa.idAquisicao=:idAquisicao GROUP BY x")
-    //, @NamedQuery(name = "Proposta.findPropostasSolucaoByPropostaAquisicao", query = "SELECT x FROM ProdutoProposta pp, Proposta p JOIN pp.proposta x, AquisicaoProposta a JOIN pp.aquisicaoProposta pa  WHERE p.deleted=false AND pa.idAquisicao=:idAquisicao GROUP BY x")
 
 })
 
