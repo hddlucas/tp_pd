@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     13/02/2018 14:43:37                          */
+/* Created on:     14/02/2018 00:00:39                          */
 /*==============================================================*/
 
 
@@ -35,12 +35,6 @@ drop table OPERADOR;
 drop index PROFILES_PK;
 
 drop table PERFIL;
-
-drop index RELATIONSHIP_3_FK;
-
-drop index RELATIONSHIP_2_PK;
-
-drop table PRODUTO_PROPOSTA;
 
 drop index RELATIONSHIP_11_FK;
 
@@ -93,7 +87,6 @@ ID_UTILIZADOR
 create table AVALIACAO_VENDEDOR (
    ID_AVALIACAO_VENDEDOR SERIAL               not null,
    ID_UTILIZADOR        INT4                 null,
-   ID_AVALIADOR         INT4                 null,
    AVALIACAO            INT4                 not null,
    constraint PK_AVALIACAO_VENDEDOR primary key (ID_AVALIACAO_VENDEDOR)
 );
@@ -214,41 +207,18 @@ ID_PERFIL
 );
 
 /*==============================================================*/
-/* Table: PRODUTO_PROPOSTA                                      */
-/*==============================================================*/
-create table PRODUTO_PROPOSTA (
-   ID_PROPOSTA          INT4                 not null,
-   ID_AQUISICAO         INT4                 not null,
-   OBSERVACOES          TEXT                 null,
-   AVALIACAO            VARCHAR(1024)        null,
-   constraint PK_PRODUTO_PROPOSTA primary key (ID_PROPOSTA, ID_AQUISICAO)
-);
-
-/*==============================================================*/
-/* Index: RELATIONSHIP_2_PK                                     */
-/*==============================================================*/
-create unique index RELATIONSHIP_2_PK on PRODUTO_PROPOSTA (
-ID_PROPOSTA,
-ID_AQUISICAO
-);
-
-/*==============================================================*/
-/* Index: RELATIONSHIP_3_FK                                     */
-/*==============================================================*/
-create  index RELATIONSHIP_3_FK on PRODUTO_PROPOSTA (
-ID_PROPOSTA
-);
-
-/*==============================================================*/
 /* Table: PROPOSTA                                              */
 /*==============================================================*/
 create table PROPOSTA (
    ID_PROPOSTA          SERIAL               not null,
    ID_UTILIZADOR        INT4                 not null,
+   ID_AQUISICAO         INT4                 null,
    DESCRICAO            TEXT                 null,
    VALOR_TOTAL          FLOAT8               null,
    GANHOU               BOOL                 null,
    CREATED_AT           TIMESTAMP            null,
+   OBSERVACOES          TEXT                 null,
+   AVALIACAO            VARCHAR(10)          null,
    DELETED              BOOL                 not null,
    constraint PK_PROPOSTA primary key (ID_PROPOSTA)
 );
@@ -361,19 +331,14 @@ alter table MENSAGEM
       references UTILIZADOR (ID_UTILIZADOR)
       on delete restrict on update restrict;
 
-alter table PRODUTO_PROPOSTA
-   add constraint FK_PRODUTO__PRODUTO_P_PROPOSTA foreign key (ID_PROPOSTA)
-      references PROPOSTA (ID_PROPOSTA)
-      on delete restrict on update restrict;
-
-alter table PRODUTO_PROPOSTA
-   add constraint FK_PRODUTO__REFERENCE_AQUISICA foreign key (ID_AQUISICAO)
-      references AQUISICAO_PROPOSTA (ID_AQUISICAO)
-      on delete restrict on update restrict;
-
 alter table PROPOSTA
    add constraint FK_PROPOSTA_PROPOSTA__UTILIZAD foreign key (ID_UTILIZADOR)
       references UTILIZADOR (ID_UTILIZADOR)
+      on delete restrict on update restrict;
+
+alter table PROPOSTA
+   add constraint FK_PROPOSTA_REFERENCE_AQUISICA foreign key (ID_AQUISICAO)
+      references AQUISICAO_PROPOSTA (ID_AQUISICAO)
       on delete restrict on update restrict;
 
 alter table UTILIZADOR_PERFIL
@@ -385,6 +350,7 @@ alter table UTILIZADOR_PERFIL
    add constraint FK_UTILIZAD_UTILIZADO_PERFIL foreign key (ID_PERFIL)
       references PERFIL (ID_PERFIL)
       on delete restrict on update restrict;
+
 
 
 /*==============================================================*/
