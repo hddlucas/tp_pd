@@ -54,6 +54,10 @@
 
                                 <h:outputLabel for="cidade" value="Cidade" />  
                                 <h:outputText id="cidade" value="#{vendedoresBean.user.cidade}"/>  
+                                
+                                <h:outputLabel for="totalSales" value="Total de Vendas" />  
+                                <h:outputText id="totalSales" value="#{vendedoresBean.getTotalVendasVendedor(vendedoresBean.user)}"/>  
+                                
                             </p:panelGrid>
                         </h:form>
                     </p:tab>
@@ -65,15 +69,26 @@
                         </h2>
 
                         <h:form>
-                            <p:dataTable id="salesList" var="role" value="#{perfisBean.list}">
-
-                                <p:column headerText="Venda">
-                                    <h:outputText value="#{role.perfil}" />
-                                </p:column>
-
-                                <p:column headerText="Preço">
-                                    <h:outputText value="#{role.descricao}" />
-                                </p:column>
+                            <p:dataTable id="usersList" var="venda" value="#{vendedoresBean.getVendas(vendedoresBean.user)}">
+                            <p:column headerText="Id">
+                                <h:outputText value="#{venda.idProposta}" />
+                            </p:column>
+                                
+                            <p:column headerText="Produto">
+                                <h:outputText value="#{venda.idAquisicao.observacoes}" />
+                            </p:column>
+                                
+                            <p:column headerText="Adquirida por">
+                                <h:outputText value="#{venda.idAquisicao.idUtilizador.nome}" />
+                            </p:column>
+                                
+                            <p:column headerText="Preço de Venda">
+                                <h:outputText value="#{venda.valorTotal}" />
+                            </p:column>
+                                
+                            <p:column headerText="Pontuação do Produto">
+                                <h:outputText value="#{venda.avaliacao}" />
+                            </p:column>
 
                             </p:dataTable>
                         </h:form>

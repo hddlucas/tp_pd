@@ -7,6 +7,7 @@ package controllers;
 
 import controllers.exceptions.NonexistentEntityException;
 import controllers.exceptions.RollbackFailureException;
+import static java.lang.Math.toIntExact;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +17,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import models.Perfil;
+import models.Proposta;
 import models.Utilizador;
 import org.json.JSONObject;
 
@@ -345,6 +347,32 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
         } catch (Exception ex) {
             return 0;
         }
+    }
+
+    @Override
+    public int getTotalVendasVendedor(Utilizador u) {
+        try {
+            Utilizador user = this.findUtilizador(u.getIdUtilizador());
+            Query q = dAO.getEntityManager().createNativeQuery("SELECT COUNT(p.id_proposta) FROM proposta p where p.ganhou=true and p.id_utilizador=#idVendedor");
+
+            Long count = (Long) q.setParameter("idVendedor", user.getIdUtilizador()).getSingleResult();
+
+            return toIntExact(count);
+
+        } catch (Exception ex) {
+            return 1;
+        }    
+    }
+
+    @Override
+    public List<Proposta> getVendas(Utilizador u) {
+        Utilizador user = this.findUtilizador(u.getIdUtilizador());
+        List<Proposta> vendas = null;
+        Query q = dAO.getEntityManager().createNamedQuery("Utilizador.findVendas");
+        vendas = q
+                .setParameter("idUtilizador", user.getIdUtilizador())
+                .getResultList();
+        return vendas;
     }
 
 }

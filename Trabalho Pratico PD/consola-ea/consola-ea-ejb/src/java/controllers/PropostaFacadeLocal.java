@@ -21,7 +21,7 @@ public interface PropostaFacadeLocal {
     int getTotalWin();
     Double getTotalTransactedMoney();
     List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a);
-    String acceptProposal(String aceptFields) throws RollbackFailureException, Exception;
+    void acceptProposal(String aceptFields) throws RollbackFailureException, Exception;
     Proposta findProposta(Integer id);
 
 }

@@ -56,8 +56,11 @@
                     <p:dialog header="Proposta de Solução" widgetVar="dlg" resizable="false">
                         <h:panelGrid columns="2" cellpadding="5">                        
                             
-                            <h:outputText value="Pontuação:" />
+                            <h:outputText value="Avaliação do Produto:" />
                             <p:rating value="#{propostaSolucaoBean.produtoRating}" stars="10" />
+                            
+                            <h:outputText value="Avaliação do Vendedor:" />
+                            <p:rating value="#{propostaSolucaoBean.vendedorRating}" stars="10" />
                             
                             <h:outputLabel value="Descricao" for="observacoes"/>
                             <h:inputTextarea id="observacoes"  rows="12"/>

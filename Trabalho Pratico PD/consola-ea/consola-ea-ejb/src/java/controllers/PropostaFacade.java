@@ -13,6 +13,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import models.AquisicaoProposta;
+import models.AvaliacaoVendedor;
+import models.Mensagem;
 import models.Proposta;
 import models.Utilizador;
 import org.json.JSONObject;
@@ -111,7 +113,7 @@ public class PropostaFacade implements PropostaFacadeLocal {
     }
 
     @Override
-    public String acceptProposal(String aceptFields) throws RollbackFailureException, Exception {
+    public void acceptProposal(String aceptFields) throws RollbackFailureException, Exception {
 
         try {
             
@@ -119,12 +121,23 @@ public class PropostaFacade implements PropostaFacadeLocal {
             Proposta p = this.findProposta(Integer.parseInt(acceptJsonFields.getString("idSolucao")));
             p.setGanhou(true);
 
-            p.setAvaliacao(acceptJsonFields.getString("rating"));
+            p.setAvaliacao(acceptJsonFields.getString("produtoRating"));
             p.setObservacoes(acceptJsonFields.getString("observacoes"));
-
+            
             dAO.getEntityManager().merge(p);
 
-            return "1";
+
+            Utilizador u = utilizadorFacade.findUtilizador(p.getIdUtilizador().getIdUtilizador());
+             
+            AvaliacaoVendedor av = new AvaliacaoVendedor();
+            av.setAvaliacao(Integer.parseInt(acceptJsonFields.getString("vendedorRating")));
+            av.setIdAvaliador(p.getIdAquisicao().getIdUtilizador().getIdUtilizador());
+            
+            av.setIdUtilizador(u);
+            u.getAvaliacaoVendedorCollection().add(av);
+            
+            dAO.getEntityManager().merge(u);
+
         } catch (Exception ex) {
             throw ex;
         }

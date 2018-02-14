@@ -48,7 +48,7 @@
                             
                             
                             <p:column style="width:80px;text-align: center">
-                                <p:commandButton rendered="#{!propostaAquisicaoBean.proposalAdjudicated(proposedAcquisition)}" onclick="if (!confirm('Tem a certeza que deseja eliminar a proposta de aquisição?'))
+                                <p:commandButton rendered="#{propostaAquisicaoBean.getTotalOfReceivedProposals(proposedAcquisition) == 0}" onclick="if (!confirm('Tem a certeza que deseja eliminar a proposta de aquisição?'))
                                     return false" action="#{propostaAquisicaoBean.destroy(proposedAcquisition.idAquisicao)}"  icon="ui-icon-trash white"  styleClass="delete-button"  >
                                 </p:commandButton> 
 
