@@ -17,7 +17,7 @@ import models.Proposta;
  */
 @Local
 public interface PropostaFacadeLocal {
-    String create(String fields) throws RollbackFailureException, Exception;
+    void create(String fields) throws RollbackFailureException, Exception;
     int getTotalWin();
     Double getTotalTransactedMoney();
     List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a);

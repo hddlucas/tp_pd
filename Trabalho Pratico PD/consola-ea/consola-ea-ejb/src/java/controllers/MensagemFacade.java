@@ -38,7 +38,7 @@ public class MensagemFacade implements MensagemFacadeLocal {
     
     
     @Override
-    public void create(String fields) throws Exception {
+    public void create(String fields) throws RollbackFailureException, Exception {
         try {
 
             JSONObject messageFields = new JSONObject(fields);
@@ -67,6 +67,29 @@ public class MensagemFacade implements MensagemFacadeLocal {
         m.setLida(true);
         dAO.getEntityManager().merge(m);
 
+    }
+
+    @Override
+    public void sendNotification(String fields) throws RollbackFailureException, Exception{
+    try {
+
+            JSONObject messageFields = new JSONObject(fields);
+            Utilizador u = utilizadorFacade.findUtilizador(Integer.parseInt(messageFields.getString("destinatario")));
+                       
+            Mensagem m = new Mensagem();
+            m.setIdRemetente(Integer.parseInt(messageFields.getString("id_remetente")));
+            m.setAssunto(messageFields.getString("assunto"));
+            m.setMensagem(messageFields.getString("mensagem")); 
+            m.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            m.setLida(false);
+            m.setIdDestinatario(u);
+            u.getMensagemCollection().add(m);
+
+            dAO.getEntityManager().merge(u);
+            
+        } catch (Exception ex) {
+            throw ex;
+        }    
     }
 
   

@@ -386,7 +386,18 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
     @Override
     public int getPontuacaoMedia(Utilizador u) {
 
-           return 1;
+         Utilizador user = this.findUtilizador(u.getIdUtilizador());
+            Query q = dAO.getEntityManager().createNativeQuery("SELECT ROUND(AVG(av.avaliacao),0) FROM avaliacao_vendedor av  where av.id_utilizador= #idVendedor");
+
+            
+            if(q.setParameter("idVendedor", user.getIdUtilizador()).getSingleResult()!=null){
+                //Double count = (Double)  q.setParameter("idVendedor", user.getIdUtilizador()).getSingleResult();
+               
+                return 2;
+            }
+
+
+           return -1;
     }
 
 }

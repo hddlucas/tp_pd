@@ -89,16 +89,15 @@ public class MensagemBean implements Serializable {
         this.selectedUsers = selectedUsers;
     }
 
-      public String show(Mensagem m) {
+    public String show(Mensagem m) {
         this.message = m;
-        if(!this.message.getLida()){
+        if (!this.message.getLida()) {
             mensagemFacade.markAsRead(this.message.getIdMensagem());
             this.message.setLida(true);
         }
         return "message.xhtml";
     }
-    
-    
+
     public String create() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
@@ -110,17 +109,16 @@ public class MensagemBean implements Serializable {
                 messageFields.add("id_remetente", request.getParameter("form:id_remetente"));
                 messageFields.add("assunto", request.getParameter("form:assunto"));
                 messageFields.add("mensagem", request.getParameter("form:mensagem"));
-                messageFields.add("destinatario",destinatario);
+                messageFields.add("destinatario", destinatario);
                 JsonObject fieldsObject = messageFields.build();
 
-               mensagemFacade.create(fieldsObject.toString());
+                mensagemFacade.create(fieldsObject.toString());
             }
-            
-            if(destinatarios.length>1){
-                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação","Mensagens enviadas com sucesso"));
-            }
-            else{
-                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação","Mensagem enviada com sucesso"));
+
+            if (destinatarios.length > 1) {
+                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Mensagens enviadas com sucesso"));
+            } else {
+                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Mensagem enviada com sucesso"));
             }
 
         } catch (Exception ex) {
@@ -132,6 +130,32 @@ public class MensagemBean implements Serializable {
                     .getExternalContext()
                     .getFlash().setKeepMessages(true);
             return "index.xhtml?faces-redirect=true?";
+        }
+    }
+
+    public void sendNotification() throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+            JsonObjectBuilder messageFields = Json.createObjectBuilder();
+            messageFields.add("id_remetente", request.getParameter("message-form:id_remetente"));
+            messageFields.add("assunto", request.getParameter("message-form:assunto"));
+            messageFields.add("mensagem", request.getParameter("message-form:mensagem"));
+            messageFields.add("destinatario", request.getParameter("message-form:id_destinatario"));
+            JsonObject fieldsObject = messageFields.build();
+
+            mensagemFacade.sendNotification(fieldsObject.toString());
+
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Mensagem enviada com sucesso"));
+
+        } catch (Exception ex) {
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", ex.getMessage()));
+
+        } finally {
+            context.getCurrentInstance()
+                    .getExternalContext()
+                    .getFlash().setKeepMessages(true);
         }
     }
 

@@ -16,9 +16,36 @@
                     <p:menuitem value="#{bundle.vendedoresTitle_vista}" outcome="index" />
                 </p:breadCrumb>
 
+                <h:form id="message-form">   
+                    <h:outputLink  styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" style="width: 130px!important" value="javascript:void(0)" onclick="PF('dlg').show();" title="propostaSolucao">
+                        Enviar Mensagem
+                    </h:outputLink>
+                    <br/>
+                    <p:inputText value="#{vendedoresBean.user.idUtilizador}" id="id_destinatario" type="hidden" />
+                    <p:inputText value="#{loginBean.loggedUser.idUtilizador}" id="id_remetente" type="hidden" />
+
+                    <p:dialog header="Enviar Mensagem" widgetVar="dlg" resizable="false">
+                        <h:panelGrid columns="2" cellpadding="5">                        
+
+                            <h:outputText value="Assunto *" style="font-weight: bold"/>
+                            <h:inputText id="assunto" required="true" requiredMessage="O campo assunto é obrigatório"/>
+
+                            <h:outputLabel value="Mensagem *" for="mensagem" style="font-weight: bold"/>
+                            <h:inputTextarea id="mensagem"  rows="12" required="true" requiredMessage="O campo mensagem é obrigatório"/>
+                           
+                            <f:facet name="footer">
+                                <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button modal-button"  value="Enviar"  action="#{mensagemBean.sendNotification()}" >
+                                </h:commandLink> 
+                            </f:facet>  
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>  
+
+
                 <h1 class="page-title">
                     #{vendedoresBean.user.nome}
                 </h1>
+
 
 
                 <p:tabView>
@@ -62,15 +89,20 @@
                         </h:form>
                     </p:tab>
 
-                     <p:tab title="#{bundle.Salesman_avaliacao}">
+                    <p:tab title="#{bundle.Salesman_avaliacao}">
+                        <h2 class="page-subTitle">
+                            #{bundle.Salesman_avaliacao_resumo}
+                        </h2>
+
+                        <h:outputLabel value="#{vendedoresBean.getPontuacaoMedia(vendedoresBean.user)}" />
 
                         <h:form>
                             <p:repeat value="#{vendedoresBean.getAvaliacoes(vendedoresBean.user)}" var="avaliacao">
                                 <h:panelGrid columns="2" style="width:100%">
-                                    
+
                                     <p:outputPanel styleClass="salesman-avaliacoes">
                                         <h:panelGrid columns="2">
-                                    
+
                                             <h:outputText value="Avaliador" />
                                             <h:outputText value="#{utilizadoresBean.getUsernameById(avaliacao.idAvaliador)}"/>
 
@@ -83,8 +115,8 @@
                             </p:repeat>
                         </h:form>
                     </p:tab>
-                    
-                    
+
+
                     <p:tab title="#{bundle.vendedoresTitle_vendas}">
 
                         <h2 class="page-subTitle">
@@ -110,14 +142,13 @@
                                 </p:column>
 
                                 <p:column headerText="Pontuação do Produto">
-                                            <p:rating value="#{venda.avaliacao}" stars="10" readonly="true" />
+                                    <p:rating value="#{venda.avaliacao}" stars="10" readonly="true" />
                                 </p:column>
 
                             </p:dataTable>
                         </h:form>
                     </p:tab>    
 
-                   
                 </p:tabView>
             </ui:define>
         </ui:composition>

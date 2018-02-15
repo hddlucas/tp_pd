@@ -6,6 +6,7 @@
 package beans;
 
 import controllers.AquisicaoPropostaFacadeLocal;
+import controllers.MensagemFacadeLocal;
 import controllers.PropostaFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -34,10 +35,15 @@ import models.Utilizador;
 public class PropostaSolucaoBean implements Serializable {
 
     @EJB
+    private MensagemFacadeLocal mensagemFacade;
+
+    @EJB
     private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;
 
     @EJB
     private PropostaFacadeLocal propostaFacade;   
+    
+    
     
     private Proposta proposta = new Proposta();
     private Integer idProposta;
@@ -89,7 +95,7 @@ public class PropostaSolucaoBean implements Serializable {
 
             JsonObject fieldsObject = propostaFields.build();
 
-           String x = propostaFacade.create(fieldsObject.toString());
+           propostaFacade.create(fieldsObject.toString());
            
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Proposta de Solução inserida com sucesso"));
 

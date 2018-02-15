@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import controllers.exceptions.RollbackFailureException;
 import java.util.List;
 import javax.ejb.Local;
 import models.Mensagem;
@@ -17,7 +18,8 @@ import models.Utilizador;
  */
 @Local
 public interface MensagemFacadeLocal {
-     public void create(String fields)throws  Exception;
+     public void create(String fields)throws RollbackFailureException, Exception;
      List<Mensagem> getUsersMessagesList(int userId);
      public void markAsRead(int id);
+     public void sendNotification(String fields)throws RollbackFailureException, Exception;
 }

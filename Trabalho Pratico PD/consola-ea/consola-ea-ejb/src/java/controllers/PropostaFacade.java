@@ -11,6 +11,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.persistence.Query;
 import models.AquisicaoProposta;
 import models.AvaliacaoVendedor;
@@ -27,6 +30,9 @@ import org.json.JSONObject;
 public class PropostaFacade implements PropostaFacadeLocal {
 
     @EJB
+    private MensagemFacadeLocal mensagemFacade;
+
+    @EJB
     private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;
 
     @EJB
@@ -41,7 +47,7 @@ public class PropostaFacade implements PropostaFacadeLocal {
     private DAOLocal dAO;
 
     @Override
-    public String create(String fields) throws RollbackFailureException, Exception {
+    public void create(String fields) throws RollbackFailureException, Exception {
         try {
 
             JSONObject proposalFields = new JSONObject(fields);
@@ -62,7 +68,16 @@ public class PropostaFacade implements PropostaFacadeLocal {
 
             dAO.getEntityManager().merge(a);
             
-            return "1";
+           
+            //send notification informing that someone sent a solution proposal for this aquisition            
+             JsonObjectBuilder messageFields = Json.createObjectBuilder();
+             messageFields.add("id_remetente", Integer.toString(u.getIdUtilizador()));
+             messageFields.add("assunto", "Proposta de Solução Recebida");
+             messageFields.add("mensagem", "Recebeu uma nova proposta de Solução de " + u.getUsername() + " em " + new Timestamp(System.currentTimeMillis())+ " para a proposta " +  a.getIdAquisicao());
+             messageFields.add("destinatario", Integer.toString(a.getIdUtilizador().getIdUtilizador()));
+             JsonObject fieldsMessageObject= messageFields.build();
+            
+             mensagemFacade.sendNotification(fieldsMessageObject.toString());
 
         } catch (Exception ex) {
             throw ex;
@@ -137,6 +152,17 @@ public class PropostaFacade implements PropostaFacadeLocal {
             
             dAO.getEntityManager().merge(u);
 
+             //send notification informing salesman that proposal was acepted
+             JsonObjectBuilder messageFields = Json.createObjectBuilder();
+             messageFields.add("id_remetente", Integer.toString(p.getIdAquisicao().getIdUtilizador().getIdUtilizador()));
+             messageFields.add("assunto", "Proposta de Solução Aceite");
+             messageFields.add("mensagem", "A sua proposta de solução foi aceite por " + p.getIdAquisicao().getIdUtilizador().getUsername() + " em " + new Timestamp(System.currentTimeMillis()) );
+             messageFields.add("destinatario", Integer.toString(u.getIdUtilizador()));
+             JsonObject fieldsMessageObject= messageFields.build();
+
+             mensagemFacade.sendNotification(fieldsMessageObject.toString());
+            
+            
         } catch (Exception ex) {
             throw ex;
         }

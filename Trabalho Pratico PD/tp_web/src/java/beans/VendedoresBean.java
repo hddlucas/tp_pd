@@ -70,6 +70,9 @@ public class VendedoresBean implements Serializable {
         return utilizadorFacade.getAvaliacaoList(vendedor);
     }
     
+    public int getPontuacaoMedia(Utilizador user){
+        return utilizadorFacade.getPontuacaoMedia(user);
+    }
     
     
     public String show(Utilizador u) {

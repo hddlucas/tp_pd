@@ -51,7 +51,7 @@
 
                     <p:dialog header="Proposta de Solução" widgetVar="dlg" resizable="false">
                         <h:panelGrid columns="2" cellpadding="5">
-                            <h:outputLabel value="Valor" for="valor"/>
+                            <h:outputLabel value="Valor *" for="valor" style="font-weight: bold"/>
                              <p:inputNumber id="valor"
                                            required="true"
                                            minValue="1"
@@ -62,7 +62,7 @@
                                            validator="#{propostaSolucaoBean.validateSolucao}"
                                            />
                          
-                            <h:outputLabel value="Descricao" for="observacoes"/>
+                            <h:outputLabel value="Descricao *" for="observacoes" style="font-weight: bold"/>
                             <h:inputTextarea id="observacoes"  rows="12"/>
 
                             
