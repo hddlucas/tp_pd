@@ -72,6 +72,10 @@
                                     <h:outputText value="#{solution.createdAt}" />
                                 </p:column>
 
+                                  <p:column headerText="Valor Total">
+                                      <h:outputText styleClass="#{solution.valorTotal}  "/>
+                                </p:column>
+                                
                                 <p:column headerText="Estado">
                                     <h:outputText styleClass="#{solution.ganhou ? 'text-green' : 'text-red'}" value="#{solution.ganhou ? 'Ganhou' : 'Pendente'}  "/>
                                 </p:column>

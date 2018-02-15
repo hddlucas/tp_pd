@@ -16,6 +16,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
+import models.AvaliacaoVendedor;
 import models.Perfil;
 import models.Proposta;
 import models.Utilizador;
@@ -373,6 +374,19 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
                 .setParameter("idUtilizador", user.getIdUtilizador())
                 .getResultList();
         return vendas;
+    }
+
+    @Override
+    public List<AvaliacaoVendedor> getAvaliacaoList(Utilizador u) {
+        Utilizador user = this.findUtilizador(u.getIdUtilizador());
+      
+        return (List<AvaliacaoVendedor>) user.getAvaliacaoVendedorCollection();
+    }
+
+    @Override
+    public int getPontuacaoMedia(Utilizador u) {
+
+           return 1;
     }
 
 }

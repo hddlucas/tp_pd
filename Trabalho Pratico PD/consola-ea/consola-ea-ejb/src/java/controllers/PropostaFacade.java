@@ -60,7 +60,6 @@ public class PropostaFacade implements PropostaFacadeLocal {
             p.setIdAquisicao(a);
             a.getPropostaList().add(p);
 
-            dAO.getEntityManager().merge(u);
             dAO.getEntityManager().merge(a);
             
             return "1";

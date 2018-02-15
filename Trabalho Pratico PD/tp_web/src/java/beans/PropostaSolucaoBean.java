@@ -125,7 +125,7 @@ public class PropostaSolucaoBean implements Serializable {
 
         propostaFacade.acceptProposal(fieldsObject.toString());
         
-        context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", "Proposta de Solução criada com sucesso"));
+        context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", "Proposta de Solução aceite com sucesso"));
 
          } catch (Exception ex) {
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação","Ocorreu um erro ao aceitar a proposta de solução"));

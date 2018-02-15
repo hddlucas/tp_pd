@@ -20,6 +20,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
+import models.AvaliacaoVendedor;
 import models.Categoria;
 import models.Proposta;
 import models.Utilizador;
@@ -64,6 +65,12 @@ public class VendedoresBean implements Serializable {
     public List<Proposta> getVendas(Utilizador vendedor){
         return utilizadorFacade.getVendas(vendedor);
     }
+    
+    public List<AvaliacaoVendedor> getAvaliacoes(Utilizador vendedor){
+        return utilizadorFacade.getAvaliacaoList(vendedor);
+    }
+    
+    
     
     public String show(Utilizador u) {
         this.user = u;

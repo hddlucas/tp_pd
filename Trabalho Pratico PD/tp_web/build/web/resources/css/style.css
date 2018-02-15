@@ -555,3 +555,23 @@ tr.linhas_pares {
 .aquisitionProposal-components .delete-button{
     background-color: red!important;
 } 
+
+/*****************SALESMAN FEEDBACK***********/
+
+.salesman-avaliacoes tr{
+    text-align: left;
+}
+
+.salesman-avaliacoes td{
+    border:none;
+    font-size: 18px;
+    
+}
+
+.salesman-avaliacoes td:first-of-type{
+    font-weight: bold;
+}
+
+.salesman-avaliacoes hr:last-of-type{
+    display: none!important;
+}

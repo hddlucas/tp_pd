@@ -54,14 +54,37 @@
 
                                 <h:outputLabel for="cidade" value="Cidade" />  
                                 <h:outputText id="cidade" value="#{vendedoresBean.user.cidade}"/>  
-                                
+
                                 <h:outputLabel for="totalSales" value="Total de Vendas" />  
                                 <h:outputText id="totalSales" value="#{vendedoresBean.getTotalVendasVendedor(vendedoresBean.user)}"/>  
-                                
+
                             </p:panelGrid>
                         </h:form>
                     </p:tab>
 
+                     <p:tab title="#{bundle.Salesman_avaliacao}">
+
+                        <h:form>
+                            <p:repeat value="#{vendedoresBean.getAvaliacoes(vendedoresBean.user)}" var="avaliacao">
+                                <h:panelGrid columns="2" style="width:100%">
+                                    
+                                    <p:outputPanel styleClass="salesman-avaliacoes">
+                                        <h:panelGrid columns="2">
+                                    
+                                            <h:outputText value="Avaliador" />
+                                            <h:outputText value="#{utilizadoresBean.getUsernameById(avaliacao.idAvaliador)}"/>
+
+                                            <h:outputText value="Pontuação" />
+                                            <p:rating value="#{avaliacao.avaliacao}" readonly="true" stars="10"/>
+                                        </h:panelGrid>
+                                    </p:outputPanel>
+                                </h:panelGrid>
+                                <hr />
+                            </p:repeat>
+                        </h:form>
+                    </p:tab>
+                    
+                    
                     <p:tab title="#{bundle.vendedoresTitle_vendas}">
 
                         <h2 class="page-subTitle">
@@ -70,29 +93,31 @@
 
                         <h:form>
                             <p:dataTable id="usersList" var="venda" value="#{vendedoresBean.getVendas(vendedoresBean.user)}">
-                            <p:column headerText="Id">
-                                <h:outputText value="#{venda.idProposta}" />
-                            </p:column>
-                                
-                            <p:column headerText="Produto">
-                                <h:outputText value="#{venda.idAquisicao.observacoes}" />
-                            </p:column>
-                                
-                            <p:column headerText="Adquirida por">
-                                <h:outputText value="#{venda.idAquisicao.idUtilizador.nome}" />
-                            </p:column>
-                                
-                            <p:column headerText="Preço de Venda">
-                                <h:outputText value="#{venda.valorTotal}" />
-                            </p:column>
-                                
-                            <p:column headerText="Pontuação do Produto">
-                                <h:outputText value="#{venda.avaliacao}" />
-                            </p:column>
+                                <p:column headerText="Id">
+                                    <h:outputText value="#{venda.idProposta}" />
+                                </p:column>
+
+                                <p:column headerText="Produto">
+                                    <h:outputText value="#{venda.idAquisicao.observacoes}" />
+                                </p:column>
+
+                                <p:column headerText="Adquirida por">
+                                    <h:outputText value="#{venda.idAquisicao.idUtilizador.nome}" />
+                                </p:column>
+
+                                <p:column headerText="Preço de Venda">
+                                    <h:outputText value="#{venda.valorTotal}" />
+                                </p:column>
+
+                                <p:column headerText="Pontuação do Produto">
+                                            <p:rating value="#{venda.avaliacao}" stars="10" readonly="true" />
+                                </p:column>
 
                             </p:dataTable>
                         </h:form>
                     </p:tab>    
+
+                   
                 </p:tabView>
             </ui:define>
         </ui:composition>
