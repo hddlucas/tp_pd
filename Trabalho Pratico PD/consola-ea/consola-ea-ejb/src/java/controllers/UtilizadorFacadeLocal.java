@@ -7,7 +7,9 @@ package controllers;
 
 import java.util.List;
 import javax.ejb.Local;
+import models.AvaliacaoVendedor;
 import models.Perfil;
+import models.Proposta;
 import models.Utilizador;
 
 /**
@@ -35,4 +37,9 @@ public interface UtilizadorFacadeLocal {
     void removeUserRole(Utilizador u, int roleId);
     public String getUserNameById(int userId);
     public int getTotalUsersPerRole(String  roleName);
+    int getTotalVendasVendedor(Utilizador u);
+    List <Proposta> getVendas(Utilizador u);
+    List <AvaliacaoVendedor> getAvaliacaoList(Utilizador u);
+    int  getPontuacaoMedia(Utilizador u);
+
 }

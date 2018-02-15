@@ -9,18 +9,6 @@ and open the template in the editor.
 */
 
 /*****************GLOBAL CONFIGURATIONS***********/
-
-.jqplot-table-legend { width: auto; }
-
-
-.text-green{
-    color:green;
-}
-
-.text-red{
-    color:red;
-}
-
 .page-title{
     color: #248b8c;
     font-size: 24px;
@@ -76,11 +64,6 @@ and open the template in the editor.
     top: 30px!important;
 }
 
-.ui-button.create-button.modal-button{
-    margin: 0!important;
-    float: none!important;
-}
-
 .ui-button.create-button{
     float: right;
     margin-right: 130px!important;
@@ -88,7 +71,6 @@ and open the template in the editor.
     line-height: 32px!important;
     padding-bottom: 0!important;
 }
-
 
 .ui-button.cancel-button{
     float: right;
@@ -115,6 +97,25 @@ and open the template in the editor.
 .ui-button.update-button:hover{
     color:white!important;
 }
+
+
+
+.jqplot-table-legend { width: auto; }
+
+.text-green{
+    color:green;
+}
+
+.text-red{
+  color:red;
+}
+
+.ui-button.create-button.modal-button{
+   margin: 0!important;
+   float: none!important;
+}
+
+
 /*****************ICONS***********/
 .ui-icon.white { background-image: url("../../faces/javax.faces.resource/images/ui-icons_ffffff_256x240.png?ln=primefaces-aristo")!important; }
 
@@ -161,12 +162,12 @@ and open the template in the editor.
 }
 
 .header .title {
-    color: #fff;
+   color: #fff;
     margin-left: 10px;
     display: inline-block !important;
     text-decoration: none;
     font-size: 28px;
-
+    
 }
 
 .header .unlogged-user{
@@ -293,7 +294,7 @@ and open the template in the editor.
 }
 .registerBox .ui-panelgrid .ui-panelgrid-cell{
     text-align: left;
-
+    
 }
 
 .registerBox .image-container {
@@ -380,12 +381,16 @@ and open the template in the editor.
 }
 
 .form input,textarea,.ui-selectcheckboxmenu{
-    width: 100%!important;
-
+  width: 100%!important;
+  float: left;
 }
 
 .form .ui-widget-content a{
     font-weight: bold;
+}
+
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, .ui-datatable tfoot th{
+    vertical-align: middle;
 }
 
 .form  a{
@@ -415,9 +420,7 @@ table .delete-button{
     background-color: red!important;
 }
 
-.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, .ui-datatable tfoot th{
-    vertical-align: middle;
-}
+
 form.list_form th, td th {
 
     font-size: x-small;
@@ -443,7 +446,6 @@ form.list_form th, td th {
     background-color: #b2d5d6;
 
 }
-
 
 
 td {
@@ -481,6 +483,7 @@ tr.linhas_pares {
 }
 
 
+
 /*****************DASHBOARD***********/
 .dashboard-statistics{
     margin-bottom: -40px;
@@ -489,7 +492,7 @@ tr.linhas_pares {
 .dashboard-statistics-icon{
 
     display: inline-block!important;
-    -ms-transform: scale(1.5); /* IE 9 */
+   -ms-transform: scale(1.5); /* IE 9 */
     -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
     transform: scale(1.5);
     margin-right: 20px;
@@ -514,14 +517,14 @@ tr.linhas_pares {
 
 }
 
-
-/*****************DASHBOARD***********/
 .jqplot-title{
     font-weight: bold;
 }
 .pieModel1 .jqplot-title{
     font-size: 20px;
 }
+
+
 
 /*****************AQUISITION PROPOSAL COMPONENT***********/
 .aquisitionProposal-components label{
@@ -551,4 +554,24 @@ tr.linhas_pares {
 
 .aquisitionProposal-components .delete-button{
     background-color: red!important;
+} 
+
+/*****************SALESMAN FEEDBACK***********/
+
+.salesman-avaliacoes tr{
+    text-align: left;
+}
+
+.salesman-avaliacoes td{
+    border:none;
+    font-size: 18px;
+    
+}
+
+.salesman-avaliacoes td:first-of-type{
+    font-weight: bold;
+}
+
+.salesman-avaliacoes hr:last-of-type{
+    display: none!important;
 }

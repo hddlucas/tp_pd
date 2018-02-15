@@ -56,17 +56,18 @@
                     <p:dialog header="Proposta de Solução" widgetVar="dlg" resizable="false">
                         <h:panelGrid columns="2" cellpadding="5">                        
                             
-                            <h:outputText value="Pontuação:" />
+                            <h:outputText value="Avaliação do Produto:" style="font-weight: bold"/>
                             <p:rating value="#{propostaSolucaoBean.produtoRating}" stars="10" />
                             
-                            <h:outputLabel value="Descricao" for="observacoes"/>
+                            <h:outputText value="Avaliação do Vendedor:" style="font-weight: bold"/>
+                            <p:rating value="#{propostaSolucaoBean.vendedorRating}" stars="10" />
+                            
+                            <h:outputLabel value="Descricao" for="observacoes" style="font-weight: bold"/>
                             <h:inputTextarea id="observacoes"  rows="12"/>
                             <f:facet name="footer">
 
                                 <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button modal-button"  value="Aceitar"  action="#{propostaSolucaoBean.acceptProposal(propostaSolucaoBean.propostaSolucao.idProposta)}" >
                                 </h:commandLink> 
-
-
 
                             </f:facet>  
                         </h:panelGrid>

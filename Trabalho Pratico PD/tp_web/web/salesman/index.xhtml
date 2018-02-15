@@ -34,10 +34,10 @@
                             <p:column headerText="BI">
                                 <h:outputText value="#{user.bi}" />
                             </p:column>
-                            <p:column headerText="NIF">
-                                <h:outputText value="#{user.nif}" />
+                       
+                            <p:column headerText="Total de Vendas">
+                                <h:outputText value="#{vendedoresBean.getTotalVendasVendedor(user)}" />
                             </p:column>
-
                             <p:column style="width:80px;text-align: center">
                                 <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{vendedoresBean.show(user)}">
                                 </p:commandButton>

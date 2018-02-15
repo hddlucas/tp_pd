@@ -6,6 +6,7 @@
 package beans;
 
 import controllers.AquisicaoPropostaFacadeLocal;
+import controllers.MensagemFacadeLocal;
 import controllers.PropostaFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -34,10 +35,15 @@ import models.Utilizador;
 public class PropostaSolucaoBean implements Serializable {
 
     @EJB
+    private MensagemFacadeLocal mensagemFacade;
+
+    @EJB
     private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;
 
     @EJB
     private PropostaFacadeLocal propostaFacade;   
+    
+    
     
     private Proposta proposta = new Proposta();
     private Integer idProposta;
@@ -46,6 +52,9 @@ public class PropostaSolucaoBean implements Serializable {
     private Date createdAt;
     private Utilizador idUtilizador;
     private Integer produtoRating=0;
+    private Integer vendedorRating=0;
+
+   
 
     public PropostaSolucaoBean(PropostaFacadeLocal propostaFacade, Integer idProposta, Integer valorTotal, Boolean ganhou, Date createdAt, Utilizador idUtilizador) {
         this.propostaFacade = propostaFacade;
@@ -86,9 +95,9 @@ public class PropostaSolucaoBean implements Serializable {
 
             JsonObject fieldsObject = propostaFields.build();
 
-           String x= propostaFacade.create(fieldsObject.toString());
+           propostaFacade.create(fieldsObject.toString());
            
-            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", x));
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Proposta de Solução inserida com sucesso"));
 
         } catch (Exception ex) {
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Ocorreu um erro ao criar a Proposta de Solução"));
@@ -112,16 +121,17 @@ public class PropostaSolucaoBean implements Serializable {
         try{
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         JsonObjectBuilder aceptFields = Json.createObjectBuilder();
-
-        aceptFields.add("rating", Integer.toString(this.produtoRating));
+        
+        aceptFields.add("produtoRating", Integer.toString(this.produtoRating));
+        aceptFields.add("vendedorRating", Integer.toString(this.vendedorRating));
         aceptFields.add("idSolucao", Integer.toString(idPropostaSolucao));
         aceptFields.add("observacoes", request.getParameter("form:observacoes"));
         
         JsonObject fieldsObject = aceptFields.build();
 
-        String x= propostaFacade.acceptProposal(fieldsObject.toString());
+        propostaFacade.acceptProposal(fieldsObject.toString());
         
-        context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", x));
+        context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", "Proposta de Solução aceite com sucesso"));
 
          } catch (Exception ex) {
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação","Ocorreu um erro ao aceitar a proposta de solução"));
@@ -204,4 +214,11 @@ public class PropostaSolucaoBean implements Serializable {
         this.produtoRating = produtoRating;
     }
     
+     public Integer getVendedorRating() {
+        return vendedorRating;
+    }
+
+    public void setVendedorRating(Integer vendedorRating) {
+        this.vendedorRating = vendedorRating;
+    }
 }

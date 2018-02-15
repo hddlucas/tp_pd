@@ -11,9 +11,13 @@ import java.sql.Timestamp;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.persistence.Query;
 import models.AquisicaoProposta;
-import models.ProdutoProposta;
+import models.AvaliacaoVendedor;
+import models.Mensagem;
 import models.Proposta;
 import models.Utilizador;
 import org.json.JSONObject;
@@ -26,7 +30,7 @@ import org.json.JSONObject;
 public class PropostaFacade implements PropostaFacadeLocal {
 
     @EJB
-    private ProdutoPropostaControllerLocal produtoPropostaControllerL;
+    private MensagemFacadeLocal mensagemFacade;
 
     @EJB
     private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;
@@ -43,7 +47,7 @@ public class PropostaFacade implements PropostaFacadeLocal {
     private DAOLocal dAO;
 
     @Override
-    public String create(String fields) throws RollbackFailureException, Exception {
+    public void create(String fields) throws RollbackFailureException, Exception {
         try {
 
             JSONObject proposalFields = new JSONObject(fields);
@@ -55,14 +59,25 @@ public class PropostaFacade implements PropostaFacadeLocal {
             p.setDescricao(proposalFields.getString("observacoes"));
             p.setGanhou(Boolean.FALSE);
             p.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-
+            
             p.setIdUtilizador(u);
             u.getPropostaCollection().add(p);
+            
+            p.setIdAquisicao(a);
+            a.getPropostaList().add(p);
 
-            dAO.getEntityManager().merge(u);
-
-//            
-            return "1";
+            dAO.getEntityManager().merge(a);
+            
+           
+            //send notification informing that someone sent a solution proposal for this aquisition            
+             JsonObjectBuilder messageFields = Json.createObjectBuilder();
+             messageFields.add("id_remetente", Integer.toString(u.getIdUtilizador()));
+             messageFields.add("assunto", "Proposta de Solução Recebida");
+             messageFields.add("mensagem", "Recebeu uma nova proposta de Solução de " + u.getUsername() + " em " + new Timestamp(System.currentTimeMillis())+ " para a proposta " +  a.getIdAquisicao());
+             messageFields.add("destinatario", Integer.toString(a.getIdUtilizador().getIdUtilizador()));
+             JsonObject fieldsMessageObject= messageFields.build();
+            
+             mensagemFacade.sendNotification(fieldsMessageObject.toString());
 
         } catch (Exception ex) {
             throw ex;
@@ -106,16 +121,13 @@ public class PropostaFacade implements PropostaFacadeLocal {
     }
 
     @Override
-    public List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a) {
-
-        Query q = dAO.getEntityManager().createNamedQuery("Proposta.findPropostasSolucaoByPropostaAquisicao");
-        List<Proposta> propostasSolucao = q.setParameter("idAquisicao", a.getIdAquisicao()).getResultList();
-
-        return propostasSolucao;
+    public List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a) {        
+        AquisicaoProposta aq = aquisicaoPropostaFacade.findAquisicaoProposta(a.getIdAquisicao());
+        return aq.getPropostaList();
     }
 
     @Override
-    public String acceptProposal(String aceptFields) throws RollbackFailureException, Exception {
+    public void acceptProposal(String aceptFields) throws RollbackFailureException, Exception {
 
         try {
             
@@ -123,17 +135,33 @@ public class PropostaFacade implements PropostaFacadeLocal {
             Proposta p = this.findProposta(Integer.parseInt(acceptJsonFields.getString("idSolucao")));
             p.setGanhou(true);
 
-            Query q =  dAO.getEntityManager().createNamedQuery("ProdutoProposta.findByIdProposta");
-            ProdutoProposta pp = (ProdutoProposta) q.setParameter("idProposta", p.getIdProposta()).getSingleResult();
+            p.setAvaliacao(acceptJsonFields.getString("produtoRating"));
+            p.setObservacoes(acceptJsonFields.getString("observacoes"));
             
-            pp.setAvaliacao(acceptJsonFields.getString("rating"));
-            pp.setObservacoes(acceptJsonFields.getString("observacoes"));
-            
-            
-            dAO.getEntityManager().merge(pp);
             dAO.getEntityManager().merge(p);
 
-            return "1";
+
+            Utilizador u = utilizadorFacade.findUtilizador(p.getIdUtilizador().getIdUtilizador());
+             
+            AvaliacaoVendedor av = new AvaliacaoVendedor();
+            av.setAvaliacao(Integer.parseInt(acceptJsonFields.getString("vendedorRating")));
+            av.setIdAvaliador(p.getIdAquisicao().getIdUtilizador().getIdUtilizador());
+            
+            av.setIdUtilizador(u);
+            u.getAvaliacaoVendedorCollection().add(av);
+            
+            dAO.getEntityManager().merge(u);
+
+             //send notification informing salesman that proposal was acepted
+             JsonObjectBuilder messageFields = Json.createObjectBuilder();
+             messageFields.add("id_remetente", Integer.toString(p.getIdAquisicao().getIdUtilizador().getIdUtilizador()));
+             messageFields.add("assunto", "Proposta de Solução Aceite");
+             messageFields.add("mensagem", "A sua proposta de solução foi aceite por " + p.getIdAquisicao().getIdUtilizador().getUsername() + " em " + new Timestamp(System.currentTimeMillis()) );
+             messageFields.add("destinatario", Integer.toString(u.getIdUtilizador()));
+             JsonObject fieldsMessageObject= messageFields.build();
+
+             mensagemFacade.sendNotification(fieldsMessageObject.toString());
+            
             
         } catch (Exception ex) {
             throw ex;
