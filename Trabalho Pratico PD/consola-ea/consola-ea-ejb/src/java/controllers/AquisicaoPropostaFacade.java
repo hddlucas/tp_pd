@@ -183,6 +183,8 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
     }
     
     
+  
+     
     @Override
     public List<AquisicaoProposta> getOpenList() {
         Query q = dAO.getEntityManager().createNamedQuery("AquisicaoProposta.findAll");
@@ -198,5 +200,23 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
                
         return toReturn;
     }
+    
+    
+    @Override
+    public List<AquisicaoProposta> getClosedList() {
+        Query q = dAO.getEntityManager().createNamedQuery("AquisicaoProposta.findAll");
+        List<AquisicaoProposta> proposals = q.getResultList();
+        
+        List<AquisicaoProposta> toReturn = q.getResultList();
+        
+        proposals.forEach((k) -> {
+            if (propostaAdjudicada(k) == false) {
+                toReturn.remove(k);
+            }
+        });
+               
+        return toReturn;
+    }
+    
     
 }

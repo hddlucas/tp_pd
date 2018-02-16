@@ -15,17 +15,27 @@
                         #{bundle.ProccessesTitle_vista}
                     </h1>
                 </div>
-                
+
 
                 <div class="ui-grid-col-12">
+                    #{propostaAquisicaoBean.setFiltroProcessos("Todas")}
                     <h:form>
+                        <p:outputPanel id="customPanel" style="margin-bottom:10px">
+                            <p:outputLabel for="filtro" value="Selecione um filtro:" />
+                            <p:selectOneRadio id="filtro" value="#{propostaAquisicaoBean.filtroProcessos}"  
+                                              style="text-align: left;"  styleClass="selectOneRadio" layout="pageDirection" >
+                                <f:selectItem itemLabel="Todas" itemValue="Todas"  />
+                                <f:selectItem itemLabel="Adjudicada" itemValue="Adjudicada" />
+                                <f:selectItem itemLabel="Pendente" itemValue="Pendente" />
+                                <f:ajax event="change" render="@form"/>
+                            </p:selectOneRadio>
+                        </p:outputPanel>
+
                         <p:dataTable id="proposedAcquisitionList" var="proposedAcquisition" value="#{propostaAquisicaoBean.list}">
-                            
                             <p:column headerText="Id">
                                 <h:outputText value="#{proposedAcquisition.idAquisicao}" />
                             </p:column>
-                         
-                            
+                        
                             <p:column headerText="Produto">
                                 <h:outputText value="#{proposedAcquisition.observacoes}" />
                             </p:column>
@@ -34,7 +44,6 @@
                                 <h:outputText value="#{proposedAcquisition.valorMax} €" />
                             </p:column>
                             
-                         
                              <p:column headerText="Total Propostas Recebidas">
                                  <h:outputText value="#{propostaAquisicaoBean.getTotalOfReceivedProposals(proposedAcquisition)}" />
                             </p:column>
@@ -42,7 +51,6 @@
                             <p:column headerText="Estado">
                                  <h:outputText styleClass="#{propostaAquisicaoBean.proposalAdjudicated(proposedAcquisition) ? 'text-green' : 'text-red'}" value="#{propostaAquisicaoBean.proposalAdjudicated(proposedAcquisition) ? 'Adjudicada' : 'Pendente'}  "/>
                             </p:column>
-                            
                             
                             <p:column style="width:80px;text-align: center">
                                 <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{propostaAquisicaoBean.showProccess(proposedAcquisition)}">
