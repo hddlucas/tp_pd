@@ -158,6 +158,10 @@ public class MensagemBean implements Serializable {
                     .getFlash().setKeepMessages(true);
         }
     }
+    public int getTotalMessagesPerRead(Utilizador u){
+        return mensagemFacade.getTotalMessagesPerRead(u);
+    }
+    
 
     //PROPRIEDADES
     public Integer getIdMensagem() {
