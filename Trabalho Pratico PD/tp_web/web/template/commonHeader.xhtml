@@ -19,17 +19,29 @@
                     </h:commandLink>
                 </h:form>
 
+
+
                 <h:form styleClass="login-users">
                     <p:growl id="messages" showDetail="true"/>
 
+
                     <h:commandLink rendered="#{loginBean.loggedUser.username == null}" styleClass="unlogged-user" action="/authentication/login.xhtml" value="Clique para fazer Login"/>
+
+
 
                     <p:menuButton rendered="#{loginBean.loggedUser.username != null}" value="Bem vindo, #{loginBean.loggedUser.username}" >
                         <p:menuitem value="Ver Perfil" action="#{loginBean.showUserInfo(loginBean.loggedUser)}"  icon="ui-icon-person"/>
-                        <p:menuitem value="Mensagens" action="#{mensagemBean.showUserMessages(loginBean.loggedUser)}"   icon="ui-icon-mail-open"/>
+                        <p:menuitem value="Mensagens (#{mensagemBean.getTotalMessagesPerRead(loginBean.loggedUser)})" action="#{mensagemBean.showUserMessages(loginBean.loggedUser)}"   icon="ui-icon-mail-closed"/>
                         <p:menuitem value="Sair" action="#{loginBean.logout}"  icon="ui-icon-power"/>
 
                     </p:menuButton>
+
+                    <div class="perReadButton">
+                        <p:commandButton  rendered="#{loginBean.loggedUser.username != null}" type="submit" action="#{mensagemBean.showUserMessages(loginBean.loggedUser)}" icon="ui-icon-mail-closed white"  styleClass="mail-button"
+                                          value="(#{mensagemBean.getTotalMessagesPerRead(loginBean.loggedUser)})"/>
+                    </div>
+
+
                 </h:form>
 
             </p:layoutUnit>

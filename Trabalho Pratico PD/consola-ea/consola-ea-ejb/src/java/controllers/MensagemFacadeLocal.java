@@ -22,4 +22,5 @@ public interface MensagemFacadeLocal {
      List<Mensagem> getUsersMessagesList(int userId);
      public void markAsRead(int id);
      public void sendNotification(String fields)throws RollbackFailureException, Exception;
+     public int getTotalMessagesPerRead(Utilizador u);
 }

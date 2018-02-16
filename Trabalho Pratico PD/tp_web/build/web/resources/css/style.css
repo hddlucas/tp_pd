@@ -189,12 +189,33 @@ and open the template in the editor.
     border: none;
     color: white;
     font-size: 20px;
-    box-shadow: none
+    box-shadow: none;
+    margin-right: 20px;
 }
 
 .header .ui-icon-triangle-1-s{
     background-image: url("../../faces/javax.faces.resource/images/ui-icons_ffffff_256x240.png?ln=primefaces-aristo")!important; 
 }
+
+.header .mail-button{
+    background: none;
+    border: none;
+    box-shadow: none;
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+}
+.header .mail-button span{
+    color:white;
+    font-size: 10px;
+}
+
+.header .perReadButton{
+    position: absolute;
+    top: 33px;
+    right: 23px;
+}
+
 /*****************FOOTER***********/
 
 .footer .ui-layout-unit-content {

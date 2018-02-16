@@ -64,7 +64,9 @@ public class PropostaAquisicaoBean implements Serializable {
     private Date createdAt;
     private List<Componente> componentes;
     private List<Operador> operadores;
+    private String filtroProcessos;
 
+    
   
     
     private List<Item> items;
@@ -146,6 +148,13 @@ public class PropostaAquisicaoBean implements Serializable {
     }
 
     public List<AquisicaoProposta> getList() {
+        if("Adjudicada".equals(this.filtroProcessos)){
+            return aquisicaoPropostaFacade.getClosedList();
+        }
+
+        else if("Pendente".equals(this.filtroProcessos))
+            return aquisicaoPropostaFacade.getOpenList();
+
         return aquisicaoPropostaFacade.getAcquisitionProposals();
     }
 
@@ -243,5 +252,12 @@ public class PropostaAquisicaoBean implements Serializable {
         this.createdAt = createdAt;
     }
     
+    public String getFiltroProcessos() {
+        return filtroProcessos;
+    }
+
+    public void setFiltroProcessos(String filtroProcessos) {
+        this.filtroProcessos = filtroProcessos;
+    }
     
 }

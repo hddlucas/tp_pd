@@ -6,6 +6,7 @@
 package controllers;
 
 import controllers.exceptions.RollbackFailureException;
+import static java.lang.Math.toIntExact;
 import java.sql.Timestamp;
 import java.util.List;
 import javax.ejb.EJB;
@@ -92,6 +93,21 @@ public class MensagemFacade implements MensagemFacadeLocal {
         }    
     }
 
+    @Override
+    public int getTotalMessagesPerRead(Utilizador u) {
+        try {
+            Utilizador user = utilizadorFacade.findUtilizador(u.getIdUtilizador());
+
+            Query q = dAO.getEntityManager().createNativeQuery("SELECT COUNT(m.mensagem) FROM mensagem m  where m.lida=false and m.id_destinatario=#idDestinatario");
+
+            Long count = (Long) q.setParameter("idDestinatario", user.getIdUtilizador()).getSingleResult();
+
+            return toIntExact(count);
+
+        } catch (Exception ex) {
+            return 0;
+        }
+    }
   
     
 }
