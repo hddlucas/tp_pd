@@ -8,29 +8,23 @@ package beans;
 import Classes.Item;
 import controllers.AquisicaoPropostaFacadeLocal;
 import controllers.ComponenteFacadeLocal;
-import controllers.OperadorFacadeLocal;
 import controllers.PropostaFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.faces.validator.ValidatorException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
 import models.AquisicaoProposta;
-import models.Categoria;
 import models.Componente;
-import models.Operador;
 import models.Proposta;
 import models.Utilizador;
 
@@ -41,9 +35,6 @@ import models.Utilizador;
 @Named(value = "propostaAquisicaoBean")
 @SessionScoped
 public class PropostaAquisicaoBean implements Serializable {
-
-    @EJB
-    private OperadorFacadeLocal operadorFacade;
 
     @EJB
     private ComponenteFacadeLocal componenteFacade;
@@ -63,7 +54,6 @@ public class PropostaAquisicaoBean implements Serializable {
     private String observacoes;
     private Date createdAt;
     private List<Componente> componentes;
-    private List<Operador> operadores;
     private String filtroProcessos;
 
     
@@ -176,11 +166,7 @@ public class PropostaAquisicaoBean implements Serializable {
         this.componentes = componenteFacade.getComponentsList();
         return componentes;
     }
-    
-     public List<Operador> getOperadores() {
-        this.operadores = operadorFacade.getOperadorList();
-        return operadores;
-    }
+
      
     public List<Proposta>getProposalSolutionsList(AquisicaoProposta a){
         return propostaFacade.findPropostasSolucaoByPropostaAquisicao(a);

@@ -16,10 +16,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import models.AquisicaoProposta;
-import models.Categoria;
 import models.Componente;
 import models.ComponenteProduto;
-import models.Operador;
 import models.Utilizador;
 import org.json.JSONObject;
 
@@ -29,9 +27,6 @@ import org.json.JSONObject;
  */
 @Stateless
 public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
-
-    @EJB
-    private OperadorFacadeLocal operadorFacade;
 
     @EJB
     private ComponenteFacadeLocal componenteFacade;
@@ -86,7 +81,6 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
             i.forEach((x) -> {
                 ComponenteProduto p = new ComponenteProduto();
                 Componente c = componenteFacade.findComponente(x.getComponente());
-                Operador op = operadorFacade.findOperador(x.getOperador());
 
                 p.setAquisicaoProposta(a);
                 p.setComponente(c);

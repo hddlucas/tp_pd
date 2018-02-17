@@ -6,9 +6,11 @@
 package models;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,6 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
 
 
 public class AquisicaoProposta implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aquisicaoProposta")
+    private Collection<ComponenteProduto> componenteProdutoCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -159,6 +164,15 @@ public class AquisicaoProposta implements Serializable {
     @Override
     public String toString() {
         return "models.AquisicaoProposta[ idAquisicao=" + idAquisicao + " ]";
+    }
+
+    @XmlTransient
+    public Collection<ComponenteProduto> getComponenteProdutoCollection() {
+        return componenteProdutoCollection;
+    }
+
+    public void setComponenteProdutoCollection(Collection<ComponenteProduto> componenteProdutoCollection) {
+        this.componenteProdutoCollection = componenteProdutoCollection;
     }
     
 }
