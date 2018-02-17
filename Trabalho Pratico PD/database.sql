@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     14/02/2018 23:10:25                          */
+/* Created on:     17/02/2018 00:05:01                          */
 /*==============================================================*/
 
 
@@ -218,7 +218,7 @@ create table PROPOSTA (
    VALOR_TOTAL          FLOAT8               null,
    GANHOU               BOOL                 null,
    CREATED_AT           TIMESTAMP            null,
-   AVALIACAO            VARCHAR(2)           null,
+   AVALIACAO            INT4                 null,
    OBSERVACOES          TEXT                 null,
    DELETED              BOOL                 not null,
    constraint PK_PROPOSTA primary key (ID_PROPOSTA)
@@ -351,6 +351,7 @@ alter table UTILIZADOR_PERFIL
    add constraint FK_UTILIZAD_UTILIZADO_PERFIL foreign key (ID_PERFIL)
       references PERFIL (ID_PERFIL)
       on delete restrict on update restrict;
+
 
 
 
