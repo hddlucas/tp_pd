@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     17/02/2018 00:05:01                          */
+/* Created on:     17/02/2018 00:40:19                          */
 /*==============================================================*/
 
 
@@ -29,8 +29,6 @@ drop index RELATIONSHIP_5_PK;
 drop table COMPONENTE_PRODUTO;
 
 drop table MENSAGEM;
-
-drop table OPERADOR;
 
 drop index PROFILES_PK;
 
@@ -141,9 +139,9 @@ ID_CATEGORIA
 create table COMPONENTE_PRODUTO (
    ID_COMPONENTE        INT4                 not null,
    ID_AQUISICAO         INT4                 not null,
-   ID_OPERADOR          INT4                 null,
    AVALIACAO            INT4                 null,
    VALOR                VARCHAR(255)         null,
+   OPERADOR             VARCHAR(2)           null,
    constraint PK_COMPONENTE_PRODUTO primary key (ID_COMPONENTE, ID_AQUISICAO)
 );
 
@@ -177,16 +175,6 @@ create table MENSAGEM (
    CREATED_AT           TIMESTAMP            null,
    DELETED              BOOL                 not null,
    constraint PK_MENSAGEM primary key (ID_MENSAGEM)
-);
-
-/*==============================================================*/
-/* Table: OPERADOR                                              */
-/*==============================================================*/
-create table OPERADOR (
-   ID_OPERADOR          SERIAL               not null,
-   NOME                 VARCHAR(1024)        null,
-   DESCRICAO            VARCHAR(1024)        null,
-   constraint PK_OPERADOR primary key (ID_OPERADOR)
 );
 
 /*==============================================================*/
@@ -322,11 +310,6 @@ alter table COMPONENTE_PRODUTO
       references AQUISICAO_PROPOSTA (ID_AQUISICAO)
       on delete restrict on update restrict;
 
-alter table COMPONENTE_PRODUTO
-   add constraint FK_COMPONEN_REFERENCE_OPERADOR foreign key (ID_OPERADOR)
-      references OPERADOR (ID_OPERADOR)
-      on delete restrict on update restrict;
-
 alter table MENSAGEM
    add constraint FK_MENSAGEM_REFERENCE_UTILIZAD foreign key (ID_DESTINATARIO)
       references UTILIZADOR (ID_UTILIZADOR)
@@ -369,14 +352,6 @@ VALUES ('admin','12345','Administrador','123456789','123456789',true,false),('ve
 
 INSERT INTO  perfil (perfil,descricao,deleted)
 VALUES ('admin','Administrador',false),('avaliador','Avaliador',false),('agente','Agente',false),('vendedor','Vendedor',false);
-
-
-/*==============================================================*/
-/* DEFAULT OPERATORS                             			*/
-/*==============================================================*/
-
-INSERT INTO  operador (nome,descricao)
-VALUES ('=','Igual a'),('<','Menor que'),('>','Maior que'),('!','Diferente de'),('⊃','Inclui'),('⊅','Exclui');
 
 
 
