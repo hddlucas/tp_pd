@@ -35,6 +35,9 @@
                         <h:outputLabel for="observations" value="Observações"/>
                         <h:outputText  id="observations"   value="#{propostaAquisicaoBean.proposedAcquisition.observacoes}"/>
 
+                        <h:outputLabel for="created_by" value="Criada por"/>
+                        <h:outputText  id="created_by"   value="#{propostaAquisicaoBean.proposedAcquisition.idUtilizador.username}"/>
+
                         <h:outputLabel for="created_at" value="Criada em"/>
                         <h:outputText  id="created_at"   value="#{propostaAquisicaoBean.proposedAcquisition.createdAt}"/>
 

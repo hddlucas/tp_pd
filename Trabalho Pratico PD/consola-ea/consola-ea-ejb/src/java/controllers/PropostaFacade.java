@@ -64,7 +64,6 @@ public class PropostaFacade implements PropostaFacadeLocal {
             u.getPropostaCollection().add(p);
             
             p.setIdAquisicao(a);
-            a.getPropostaList().add(p);
 
             dAO.getEntityManager().merge(a);
             
@@ -135,7 +134,7 @@ public class PropostaFacade implements PropostaFacadeLocal {
             Proposta p = this.findProposta(Integer.parseInt(acceptJsonFields.getString("idSolucao")));
             p.setGanhou(true);
 
-            p.setAvaliacao(acceptJsonFields.getString("produtoRating"));
+            p.setAvaliacao(Integer.parseInt(acceptJsonFields.getString("produtoRating")));
             p.setObservacoes(acceptJsonFields.getString("observacoes"));
             
             dAO.getEntityManager().merge(p);

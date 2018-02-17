@@ -75,7 +75,7 @@
 
                                   <h:outputLabel value="Valor"
                                            for="value"/>
-                                  <p:inputText id="value" value="#{item.valor}"/>
+                                  <p:inputText id="value" value="#{item.valor}" style="float:none"/>
                                 
                                 <p:commandButton  class="delete-button" icon="ui-icon-closethick white" action="#{propostaAquisicaoBean.remove(item)}" update="@form" />
 

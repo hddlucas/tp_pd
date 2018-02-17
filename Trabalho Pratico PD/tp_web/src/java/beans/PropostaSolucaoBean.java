@@ -53,7 +53,9 @@ public class PropostaSolucaoBean implements Serializable {
     private Utilizador idUtilizador;
     private Integer produtoRating=0;
     private Integer vendedorRating=0;
+    private int avaliacao;
 
+   
    
 
     public PropostaSolucaoBean(PropostaFacadeLocal propostaFacade, Integer idProposta, Integer valorTotal, Boolean ganhou, Date createdAt, Utilizador idUtilizador) {
@@ -221,4 +223,14 @@ public class PropostaSolucaoBean implements Serializable {
     public void setVendedorRating(Integer vendedorRating) {
         this.vendedorRating = vendedorRating;
     }
+    
+     public int getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(int avaliacao) {
+        this.avaliacao = avaliacao;
+    }
+
+    
 }
