@@ -5,6 +5,7 @@
  */
 package beans;
 
+import Classes.Item;
 import controllers.AquisicaoPropostaFacadeLocal;
 import controllers.MensagemFacadeLocal;
 import controllers.PropostaFacadeLocal;
@@ -12,6 +13,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -118,32 +120,38 @@ public class PropostaSolucaoBean implements Serializable {
         return "/aquisitionalProposal/solutionProposal.xhtml?faces-redirect=true";
     }
     
-    public String acceptProposal(int idPropostaSolucao){
+    public String acceptProposal(int idPropostaSolucao, List <Item> items){
         FacesContext context = FacesContext.getCurrentInstance();
         try{
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         JsonObjectBuilder aceptFields = Json.createObjectBuilder();
         
+        Proposta p = propostaFacade.findProposta(idPropostaSolucao);
+        AquisicaoProposta aquisicaoProposta = aquisicaoPropostaFacade.findAquisicaoProposta(p.getIdAquisicao().getIdAquisicao());
+ 
+        
         aceptFields.add("produtoRating", Integer.toString(this.produtoRating));
         aceptFields.add("vendedorRating", Integer.toString(this.vendedorRating));
         aceptFields.add("idSolucao", Integer.toString(idPropostaSolucao));
         aceptFields.add("observacoes", request.getParameter("form:observacoes"));
+        aceptFields.add("id_aquisicao", Integer.toString(aquisicaoProposta.getIdAquisicao()));
         
         JsonObject fieldsObject = aceptFields.build();
 
-        propostaFacade.acceptProposal(fieldsObject.toString());
+        propostaFacade.acceptProposal(fieldsObject.toString(), items);
         
         context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", "Proposta de Solução aceite com sucesso"));
-
+        return "deu";
+        
          } catch (Exception ex) {
-            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação","Ocorreu um erro ao aceitar a proposta de solução"));
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", ex.getMessage()));
             return "/aquisitionalProposal/aquisitionProposal.xhtml?faces-redirect=true";
 
         } finally {
             context.getCurrentInstance()
                     .getExternalContext()
                     .getFlash().setKeepMessages(true);
-            return "/aquisitionalProposal/aquisitionProposal.xhtml?faces-redirect=true";
+//            return "/aquisitionalProposal/aquisitionProposal.xhtml?faces-redirect=true";
 
         }
     }

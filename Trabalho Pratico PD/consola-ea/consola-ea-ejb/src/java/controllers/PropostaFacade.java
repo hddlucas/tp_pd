@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import Classes.Item;
 import controllers.exceptions.RollbackFailureException;
 import static java.lang.Math.toIntExact;
 import java.sql.Timestamp;
@@ -126,10 +127,10 @@ public class PropostaFacade implements PropostaFacadeLocal {
     }
 
     @Override
-    public void acceptProposal(String aceptFields) throws RollbackFailureException, Exception {
+    public String acceptProposal(String aceptFields, List <Item> items) throws RollbackFailureException, Exception {
+    //public String acceptProposal(String aceptFields) throws RollbackFailureException, Exception {
 
         try {
-            
             JSONObject acceptJsonFields = new JSONObject(aceptFields);
             Proposta p = this.findProposta(Integer.parseInt(acceptJsonFields.getString("idSolucao")));
             p.setGanhou(true);
@@ -139,9 +140,8 @@ public class PropostaFacade implements PropostaFacadeLocal {
             
             dAO.getEntityManager().merge(p);
 
-
             Utilizador u = utilizadorFacade.findUtilizador(p.getIdUtilizador().getIdUtilizador());
-             
+            
             AvaliacaoVendedor av = new AvaliacaoVendedor();
             av.setAvaliacao(Integer.parseInt(acceptJsonFields.getString("vendedorRating")));
             av.setIdAvaliador(p.getIdAquisicao().getIdUtilizador().getIdUtilizador());
@@ -150,6 +150,16 @@ public class PropostaFacade implements PropostaFacadeLocal {
             u.getAvaliacaoVendedorCollection().add(av);
             
             dAO.getEntityManager().merge(u);
+            
+            //update avaliation of componente_produto 
+            items.forEach((k) -> {
+               String query = "UPDATE componente_produto set avaliacao=? WHERE id_componente=? AND id_aquisicao=?";               
+               Query qu = dAO.getEntityManager().createNativeQuery(query);
+               qu.setParameter(1, k.getAvaliacao());
+               qu.setParameter(2, k.getComponente());
+               qu.setParameter(3, p.getIdAquisicao().getIdAquisicao());
+               qu.executeUpdate();
+            });
 
              //send notification informing salesman that proposal was acepted
              JsonObjectBuilder messageFields = Json.createObjectBuilder();
@@ -161,9 +171,9 @@ public class PropostaFacade implements PropostaFacadeLocal {
 
              mensagemFacade.sendNotification(fieldsMessageObject.toString());
             
-            
+             return "Sucesso";
         } catch (Exception ex) {
-            throw ex;
+            return ex.getMessage();
         }
 
     }

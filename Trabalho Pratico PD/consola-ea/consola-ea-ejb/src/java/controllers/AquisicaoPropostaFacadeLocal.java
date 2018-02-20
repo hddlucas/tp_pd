@@ -7,10 +7,12 @@ package controllers;
 
 import Classes.Item;
 import controllers.exceptions.RollbackFailureException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 import models.AquisicaoProposta;
+import models.ComponenteProduto;
 import models.Proposta;
 import models.Utilizador;
 
@@ -33,5 +35,7 @@ public interface AquisicaoPropostaFacadeLocal {
     int getTotalPropostasRecebidas(AquisicaoProposta a);
     public boolean propostaAdjudicada(AquisicaoProposta a);
     void destroy(Integer id)throws Exception;
-    
+    String getUltimaPropostaId();
+    String update(String fields, List<Item> i, int propostaId) throws Exception;
+    List <Item> getComponenteProduto(AquisicaoProposta a);
 }

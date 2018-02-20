@@ -16,8 +16,10 @@
                     </h1>
                 </div>
                 
-                <p:button outcome="create" value="#{bundle.PropostaAquisicaoTitle_criar}"/>
 
+                <p:commandButton value="#{bundle.PropostaAquisicaoTitle_criar}"  title="View" action="#{propostaAquisicaoBean.createPage()}">
+                                </p:commandButton>
+                
 
                 <div class="ui-grid-col-12">
                     <h:form>

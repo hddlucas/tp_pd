@@ -70,7 +70,7 @@
                                 <p:outputLabel  for="operador" value="Operador" />
                                 <p:selectOneMenu id="operador" value="#{item.operador}" >   
                                     <f:selectItem itemLabel="Selecione um operador"/>
-                                    <f:selectItems value="#{propostaAquisicaoBean.operadores}" var="operador" itemLabel="#{operador.descricao}" itemValue="#{operador.idOperador}"/>
+                                    <f:selectItems value="#{propostaAquisicaoBean.operadores}" var="operador" itemLabel="#{operador.descricao}" itemValue="#{operador.id}"/>
                                 </p:selectOneMenu>
 
                                   <h:outputLabel value="Valor"

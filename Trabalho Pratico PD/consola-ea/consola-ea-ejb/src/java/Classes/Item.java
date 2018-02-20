@@ -14,7 +14,10 @@ public class Item {
     private String label;
     private String value;
     private int componente;
+    private String componenteString;
     private int operador;
+    private String operadorString;
+    private int avaliacao;
 
     public int getOperador() {
         return operador;
@@ -57,4 +60,27 @@ public class Item {
         this.value = value;
     }
 
+    public String getOperadorString() {
+        return operadorString;
+    }
+
+    public void setOperadorString(String operadorString) {
+        this.operadorString = operadorString;
+    }
+
+    public String getComponenteString() {
+        return componenteString;
+    }
+
+    public void setComponenteString(String componenteString) {
+        this.componenteString = componenteString;
+    }
+
+    public int getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(int avaliacao) {
+        this.avaliacao = avaliacao;
+    }
 }

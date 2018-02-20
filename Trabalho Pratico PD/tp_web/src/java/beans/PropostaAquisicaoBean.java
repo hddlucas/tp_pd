@@ -6,6 +6,7 @@
 package beans;
 
 import Classes.Item;
+import Classes.Operador;
 import controllers.AquisicaoPropostaFacadeLocal;
 import controllers.ComponenteFacadeLocal;
 import controllers.PropostaFacadeLocal;
@@ -25,6 +26,7 @@ import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
 import models.AquisicaoProposta;
 import models.Componente;
+import models.ComponenteProduto;
 import models.Proposta;
 import models.Utilizador;
 
@@ -39,7 +41,6 @@ public class PropostaAquisicaoBean implements Serializable {
     @EJB
     private ComponenteFacadeLocal componenteFacade;
 
-    
     @EJB
     private AquisicaoPropostaFacadeLocal aquisicaoPropostaFacade;  
     
@@ -56,18 +57,30 @@ public class PropostaAquisicaoBean implements Serializable {
     private List<Componente> componentes;
     private String filtroProcessos;
 
-    
-  
-    
+    private Operador op;
     private List<Item> items;
-
+    private List<Operador> operadores;
+ 
     @PostConstruct
     public void init() {
         items = new ArrayList<>();
+        
+        operadores = new ArrayList<>();   
+        
+        operadores.add(new Operador(1, "Igual a", "="));
+        operadores.add(new Operador(2, "Menor que", "<"));
+        operadores.add(new Operador(3, "Maior que", ">"));
+        operadores.add(new Operador(4, "Inclui", "⊃"));
+        operadores.add(new Operador(5, "Exclui", "⊅"));
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     public void add() {
         Item item = new Item();
+                
         item.setLabel("" + items.size());
         items.add(item);
     }
@@ -80,7 +93,10 @@ public class PropostaAquisicaoBean implements Serializable {
         return items;
     }
     
-        
+    public List<Operador> getOperadores() {
+       
+        return operadores;
+    } 
     /**
      * Creates a new instance of PropostaAquisicaoBean
      */
@@ -103,22 +119,51 @@ public class PropostaAquisicaoBean implements Serializable {
 
             JsonObject fieldsObject = messageFields.build();
 
-            String x  = aquisicaoPropostaFacade.create(fieldsObject.toString(),items);
-            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", x));
-
-
+            if(items.isEmpty()){
+                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Não tem componentes associados"));
+                return "error";
+            }
+            else{
+                String x  = aquisicaoPropostaFacade.create(fieldsObject.toString(),items);
+                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", "Produto Inserido com sucesso"));
+                return "index.xhtml?faces-redirect=true?"; 
+            }
+            
         } catch (Exception ex) {
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", ex.getMessage()));
 
             return "index.xhtml?faces-redirect=true?";
-        } finally {
-            context.getCurrentInstance()
-                    .getExternalContext()
-                    .getFlash().setKeepMessages(true);
-            return "index.xhtml?faces-redirect=true?";
         }
     }
     
+    
+        public String update(AquisicaoProposta a) throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            this.proposedAcquisition = a;
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+            JsonObjectBuilder messageFields = Json.createObjectBuilder();
+            messageFields.add("id_utilizador", request.getParameter("form:id_utilizador"));
+            messageFields.add("valor_max", request.getParameter("form:max_value_input"));
+            messageFields.add("observacoes", request.getParameter("form:observacoes"));
+
+            JsonObject fieldsObject = messageFields.build();
+            
+            if(items.isEmpty()){
+                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Não tem componentes associados"));
+                return "error";
+            }
+            else {
+                aquisicaoPropostaFacade.update(fieldsObject.toString(), items, a.getIdAquisicao());
+                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Informacao do Produto atualizado com sucesso"));
+                return "index.xhtml?faces-redirect=true?";
+            }
+        } catch (Exception ex) {
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", ex.toString()));
+            return "index.xhtml?faces-redirect=true?";
+        }
+    }
    
     public String destroy(int id) throws Exception {
       FacesContext context = FacesContext.getCurrentInstance();
@@ -171,9 +216,35 @@ public class PropostaAquisicaoBean implements Serializable {
     public List<Proposta>getProposalSolutionsList(AquisicaoProposta a){
         return propostaFacade.findPropostasSolucaoByPropostaAquisicao(a);
     }
-     
+    
+
     public String showProposal(AquisicaoProposta p) {
         this.proposedAcquisition = p;
+
+        List<Item> toReturn = items;
+        items.forEach((i) -> {
+            toReturn.remove(i);
+        });
+        items = toReturn;
+ 
+        p.getComponenteProdutoCollection().forEach((k) -> {
+            Item item = new Item();
+            int operador = Integer.parseInt(k.getOperador());
+            item.setLabel("" + items.size());
+            item.setComponenteString(k.getComponente().getNome());
+            item.setComponente(k.getComponente().getIdComponente());
+            
+            this.getOperadores().forEach((y) -> {
+                if(y.getId() == operador){
+                    item.setOperadorString(y.getDescricao());
+                    item.setOperador(y.getId());
+                }
+            });
+            
+            item.setValor(k.getValor());          
+            items.add(item);
+        });
+        
         return "aquisitionProposal.xhtml";
     }
     
@@ -181,8 +252,6 @@ public class PropostaAquisicaoBean implements Serializable {
         this.proposedAcquisition = p;
         return "/processes/proccess.xhtml";
     }
-    
-    
      
     public List<AquisicaoProposta> getOpenProposals() {
         return aquisicaoPropostaFacade.getOpenList();
@@ -190,11 +259,44 @@ public class PropostaAquisicaoBean implements Serializable {
      
     public String editProposal(AquisicaoProposta p) {
         this.proposedAcquisition = p;
+        
+        List<Item> toReturn = items;
+        
+        items.forEach((i) -> {
+            toReturn.remove(i);
+        });
+        
+        items = toReturn;
+        
+        p.getComponenteProdutoCollection().forEach((k) -> {
+            Item item = new Item();
+            int operador = Integer.parseInt(k.getOperador());
+            item.setLabel("" + items.size());
+            item.setComponente(k.getComponente().getIdComponente());
+            item.setOperador(operador);
+            item.setValor(k.getValor());                       
+            items.add(item);
+        });
+        
         return "edit.xhtml";
+    }
+    
+    
+    public String createPage() {       
+        List<Item> toReturn = items;
+        
+        items.forEach((i) -> {
+            toReturn.remove(i);
+        });
+        
+        items = toReturn;
+
+        return "create.xhtml";
     }
      
     public String show(AquisicaoProposta p) {
         this.proposedAcquisition = p;
+                
         return "solutionProposal.xhtml";
     }
 
@@ -245,5 +347,4 @@ public class PropostaAquisicaoBean implements Serializable {
     public void setFiltroProcessos(String filtroProcessos) {
         this.filtroProcessos = filtroProcessos;
     }
-    
 }
