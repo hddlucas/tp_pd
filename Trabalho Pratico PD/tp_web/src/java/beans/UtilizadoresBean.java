@@ -340,6 +340,7 @@ public class UtilizadoresBean implements Serializable {
                 throw new ValidatorException(msg);
             }
         }
+        
     }
 
     public void validateBi(FacesContext context, UIComponent component, Object value) throws ValidatorException {

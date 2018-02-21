@@ -62,11 +62,9 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
         try {
 
             Perfil p = (Perfil) dAO.getEntityManager().find(Perfil.class, roleId);
-            if (u.getPerfilCollection().size() > 0 && roleId == 4 || this.hasRole(u.getIdUtilizador(), "vendedor"))  {
+            if (u.getPerfilCollection().size() > 0 && roleId == 4 || this.hasRole(u.getIdUtilizador(), "vendedor")) {
                 return;
             }
-            
-       
 
             u.getPerfilCollection().add(p);
             p.getUtilizadorCollection().add(u);
@@ -256,18 +254,23 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
 
     @Override
     public boolean hasRole(int userId, String role) {
-        boolean isAdmin = false;
-        Utilizador u = (Utilizador) dAO.getEntityManager().find(Utilizador.class, userId);
-        Collection<Perfil> perfis = u.getPerfilCollection();
-        Iterator<Perfil> it = perfis.iterator();
-        while (it.hasNext()) {
-            Perfil p = it.next();
-            if (p.getPerfil().equals(role)) {
-                return true;
+        try {
+            boolean hasRole = false;
+            Utilizador u = (Utilizador) dAO.getEntityManager().find(Utilizador.class, userId);
+            Collection<Perfil> perfis = u.getPerfilCollection();
+            Iterator<Perfil> it = perfis.iterator();
+            while (it.hasNext()) {
+                Perfil p = it.next();
+                if (p.getPerfil().equals(role)) {
+                    return true;
+                }
             }
+
+            return hasRole;
+        } catch (Exception ex) {
+            return false;
         }
 
-        return isAdmin;
     }
 
     @Override
@@ -343,7 +346,6 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
                     total++;
                 }
             });
-
             return total;
         } catch (Exception ex) {
             return 0;
@@ -362,7 +364,7 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
 
         } catch (Exception ex) {
             return 1;
-        }    
+        }
     }
 
     @Override
@@ -379,25 +381,42 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
     @Override
     public List<AvaliacaoVendedor> getAvaliacaoList(Utilizador u) {
         Utilizador user = this.findUtilizador(u.getIdUtilizador());
-      
+
         return (List<AvaliacaoVendedor>) user.getAvaliacaoVendedorCollection();
     }
 
     @Override
     public int getPontuacaoMedia(Utilizador u) {
+        try {
+            Utilizador user = this.findUtilizador(u.getIdUtilizador());
+            Query q = dAO.getEntityManager().createNativeQuery("SELECT AVG(CAST(av.avaliacao as float)) FROM avaliacao_vendedor av  where av.id_utilizador=#idVendedor");
 
-         Utilizador user = this.findUtilizador(u.getIdUtilizador());
-            Query q = dAO.getEntityManager().createNativeQuery("SELECT ROUND(AVG(av.avaliacao),0) FROM avaliacao_vendedor av  where av.id_utilizador= #idVendedor");
-
-            
-            if(q.setParameter("idVendedor", user.getIdUtilizador()).getSingleResult()!=null){
-                //Double count = (Double)  q.setParameter("idVendedor", user.getIdUtilizador()).getSingleResult();
-               
-                return 2;
+            if (q.setParameter("idVendedor", user.getIdUtilizador()).getSingleResult() != null) {
+                Double count = (Double) q.setParameter("idVendedor", user.getIdUtilizador()).getSingleResult();
+                return (int) Math.round(count);
             }
+            return -1;
+        } catch (Exception ex) {
+            return -1;
+        }
+    }
 
+    @Override
+    public int getPontuacaoMediaProdutosVendidos(Utilizador u) {
 
-           return -1;
+        try {
+            Utilizador user = this.findUtilizador(u.getIdUtilizador());
+            Query q = dAO.getEntityManager().createNativeQuery("SELECT AVG(CAST(p.avaliacao as float)) FROM proposta p where p.ganhou=true and  p.id_utilizador=#idVendedor");
+
+            if (q.setParameter("idVendedor", user.getIdUtilizador()).getSingleResult() != null) {
+                Double count = (Double) q.setParameter("idVendedor", user.getIdUtilizador()).getSingleResult();
+                return (int) Math.round(count);
+            }
+            return -1;
+
+        } catch (Exception ex) {
+            return -1;
+        }
     }
 
 }

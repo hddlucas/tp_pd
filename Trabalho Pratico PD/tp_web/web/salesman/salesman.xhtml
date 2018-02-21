@@ -85,6 +85,12 @@
                                 <h:outputLabel for="totalSales" value="Total de Vendas" />  
                                 <h:outputText id="totalSales" value="#{vendedoresBean.getTotalVendasVendedor(vendedoresBean.user)}"/>  
 
+                                <h:outputLabel for="pontuacaoMedia" value="Pontuação Média" />  
+                                <h:outputText id="pontuacaoMedia" value="#{vendedoresBean.getPontuacaoMedia(vendedoresBean.user) ==-1 ? 'Ainda não foi avaliado' :vendedoresBean.getPontuacaoMedia(vendedoresBean.user)}"/>  
+
+                                <h:outputLabel for="pontuacaoMediaProdutos" value="Pontuação Média Produtos Vendidos" />  
+                                <h:outputText id="pontuacaoMediaProdutos" value="#{vendedoresBean.getPontuacaoMediaProdutosVendidos(user)==-1 ? 'Ainda não foi avaliado' :vendedoresBean.getPontuacaoMediaProdutosVendidos(vendedoresBean.user)}"/>  
+                            
                             </p:panelGrid>
                         </h:form>
                     </p:tab>
@@ -94,7 +100,8 @@
                             #{bundle.Salesman_avaliacao_resumo}
                         </h2>
 
-                        <h:outputLabel value="#{vendedoresBean.getPontuacaoMedia(vendedoresBean.user)}" />
+                        <h5 style="text-decoration: underline;margin-bottom: -20px;"> Pontuação Média: #{vendedoresBean.getPontuacaoMedia(vendedoresBean.user) ==-1 ? 'Ainda não foi avaliado' :vendedoresBean.getPontuacaoMedia(vendedoresBean.user)} </h5>
+                        <h5 style="text-decoration: underline"> Pontuação Média Produtos Vendidos: #{vendedoresBean.getPontuacaoMediaProdutosVendidos(vendedoresBean.user) ==-1 ? 'Ainda não foi avaliado' :vendedoresBean.getPontuacaoMediaProdutosVendidos(vendedoresBean.user)} </h5>
 
                         <h:form>
                             <p:repeat value="#{vendedoresBean.getAvaliacoes(vendedoresBean.user)}" var="avaliacao">

@@ -30,14 +30,19 @@
                             <p:column headerText="Nome">
                                 <h:outputText value="#{user.nome}" />
                             </p:column>
-
-                            <p:column headerText="BI">
-                                <h:outputText value="#{user.bi}" />
-                            </p:column>
-                       
+                      
                             <p:column headerText="Total de Vendas">
                                 <h:outputText value="#{vendedoresBean.getTotalVendasVendedor(user)}" />
                             </p:column>
+                            
+                            <p:column headerText="Pontuação Média">
+                                <h:outputText value="#{vendedoresBean.getPontuacaoMedia(user) ==-1 ? '-' :vendedoresBean.getPontuacaoMedia(user)}"/>  
+                            </p:column>
+
+                             <p:column headerText="Pontuação Média Produtos Vendidos">
+                                 <h:outputText value="#{vendedoresBean.getPontuacaoMediaProdutosVendidos(user) ==-1 ? '-' : vendedoresBean.getPontuacaoMediaProdutosVendidos(user)}"/>  
+                            </p:column>
+                            
                             <p:column style="width:80px;text-align: center">
                                 <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{vendedoresBean.show(user)}">
                                 </p:commandButton>

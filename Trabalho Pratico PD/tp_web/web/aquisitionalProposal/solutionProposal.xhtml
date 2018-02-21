@@ -62,11 +62,17 @@
                             <h:outputText value="Avaliação do Vendedor:" style="font-weight: bold"/>
                             <p:rating value="#{propostaSolucaoBean.vendedorRating}" stars="10" />
                             
-                            <h:outputLabel value="Descricao" for="observacoes" style="font-weight: bold"/>
+                            <ui:repeat value="#{propostaAquisicaoBean.items}" var="item">
+                                <h:outputText value="Avaliação do Componente #{item.componenteString} :" style="font-weight: bold"/>
+                                <p:rating id="avaliacao" value="#{item.avaliacao}" stars="10" />
+                            </ui:repeat>
+                            
+                            <br/>
+                            <h:outputLabel value="Observações" for="observacoes" style="font-weight: bold"/>
                             <h:inputTextarea id="observacoes"  rows="12"/>
                             <f:facet name="footer">
 
-                                <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button modal-button"  value="Aceitar"  action="#{propostaSolucaoBean.acceptProposal(propostaSolucaoBean.propostaSolucao.idProposta)}" >
+                                <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button modal-button"  value="Aceitar"  action="#{propostaSolucaoBean.acceptProposal(propostaSolucaoBean.propostaSolucao.idProposta, propostaAquisicaoBean.items)}" >
                                 </h:commandLink> 
 
                             </f:facet>  

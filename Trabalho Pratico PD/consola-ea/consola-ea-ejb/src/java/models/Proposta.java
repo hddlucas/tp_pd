@@ -65,7 +65,7 @@ public class Proposta implements Serializable {
     @Column(name = "observacoes")
     private String observacoes;
     @Column(name = "avaliacao")
-    private String avaliacao;
+    private int avaliacao;
     @Basic(optional = false)
     @Column(name = "deleted")
     private boolean deleted;
@@ -136,11 +136,11 @@ public class Proposta implements Serializable {
         this.observacoes = observacoes;
     }
 
-    public String getAvaliacao() {
+    public int getAvaliacao() {
         return avaliacao;
     }
 
-    public void setAvaliacao(String avaliacao) {
+    public void setAvaliacao(int avaliacao) {
         this.avaliacao = avaliacao;
     }
 

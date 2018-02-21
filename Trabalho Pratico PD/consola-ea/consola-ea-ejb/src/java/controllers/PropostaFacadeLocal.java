@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import Classes.Item;
 import controllers.exceptions.RollbackFailureException;
 import java.util.List;
 import javax.ejb.Local;
@@ -21,7 +22,7 @@ public interface PropostaFacadeLocal {
     int getTotalWin();
     Double getTotalTransactedMoney();
     List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a);
-    void acceptProposal(String aceptFields) throws RollbackFailureException, Exception;
+    String acceptProposal(String aceptFields, List <Item> items) throws RollbackFailureException, Exception;
     Proposta findProposta(Integer id);
 
 }

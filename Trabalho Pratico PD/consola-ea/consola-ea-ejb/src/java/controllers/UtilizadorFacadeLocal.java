@@ -41,5 +41,5 @@ public interface UtilizadorFacadeLocal {
     List <Proposta> getVendas(Utilizador u);
     List <AvaliacaoVendedor> getAvaliacaoList(Utilizador u);
     int  getPontuacaoMedia(Utilizador u);
-
+    int getPontuacaoMediaProdutosVendidos(Utilizador u);
 }

@@ -70,12 +70,12 @@
                                 <p:outputLabel  for="operador" value="Operador" />
                                 <p:selectOneMenu id="operador" value="#{item.operador}" >   
                                     <f:selectItem itemLabel="Selecione um operador"/>
-                                    <f:selectItems value="#{propostaAquisicaoBean.operadores}" var="operador" itemLabel="#{operador.descricao}" itemValue="#{operador.idOperador}"/>
+                                    <f:selectItems value="#{propostaAquisicaoBean.operadores}" var="operador" itemLabel="#{operador.descricao}" itemValue="#{operador.id}"/>
                                 </p:selectOneMenu>
 
                                   <h:outputLabel value="Valor"
                                            for="value"/>
-                                  <p:inputText id="value" value="#{item.valor}"/>
+                                  <p:inputText id="value" value="#{item.valor}" style="float:none"/>
                                 
                                 <p:commandButton  class="delete-button" icon="ui-icon-closethick white" action="#{propostaAquisicaoBean.remove(item)}" update="@form" />
 
