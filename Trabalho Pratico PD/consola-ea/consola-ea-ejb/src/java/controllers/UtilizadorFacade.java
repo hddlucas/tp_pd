@@ -254,18 +254,23 @@ public class UtilizadorFacade implements UtilizadorFacadeLocal {
 
     @Override
     public boolean hasRole(int userId, String role) {
-        boolean isAdmin = false;
-        Utilizador u = (Utilizador) dAO.getEntityManager().find(Utilizador.class, userId);
-        Collection<Perfil> perfis = u.getPerfilCollection();
-        Iterator<Perfil> it = perfis.iterator();
-        while (it.hasNext()) {
-            Perfil p = it.next();
-            if (p.getPerfil().equals(role)) {
-                return true;
+        try {
+            boolean hasRole = false;
+            Utilizador u = (Utilizador) dAO.getEntityManager().find(Utilizador.class, userId);
+            Collection<Perfil> perfis = u.getPerfilCollection();
+            Iterator<Perfil> it = perfis.iterator();
+            while (it.hasNext()) {
+                Perfil p = it.next();
+                if (p.getPerfil().equals(role)) {
+                    return true;
+                }
             }
+
+            return hasRole;
+        } catch (Exception ex) {
+            return false;
         }
 
-        return isAdmin;
     }
 
     @Override
