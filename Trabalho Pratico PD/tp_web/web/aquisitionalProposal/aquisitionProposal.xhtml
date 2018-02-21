@@ -60,8 +60,8 @@
                             </h2>
                             
                             <div class="aquisitionProposal-components">
-                                <ui:repeat value="#{propostaAquisicaoBean.items}" var="item">
-                                    <p:panelGrid columns="2">
+                                <p:repeat value="#{propostaAquisicaoBean.items}" var="item">
+                                    <h:panelGrid columns="2" >
                                         <p:outputLabel  for="componente:" value="Componente #{item.label}" />
                                         <h:outputText id="componente" value="#{item.componenteString}" style="float:none"/>
 
@@ -70,9 +70,9 @@
 
                                         <p:outputLabel  for="valor" value="Valor" />
                                         <h:outputText id="valor" value="#{item.valor}" style="float:none"/>
-                                    </p:panelGrid>
-                                    <br/>
-                                </ui:repeat>
+                                    </h:panelGrid>
+                                    <hr />
+                                </p:repeat>
                             </div>
                             <br />
                         </h:form>
