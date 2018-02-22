@@ -24,5 +24,7 @@ public interface PropostaFacadeLocal {
     List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a);
     String acceptProposal(String aceptFields, List <Item> items) throws RollbackFailureException, Exception;
     Proposta findProposta(Integer id);
+    List<Proposta> getAcquisitionProposals(int userId);
+    void update(String fields, int propostaId) throws Exception;
 
 }

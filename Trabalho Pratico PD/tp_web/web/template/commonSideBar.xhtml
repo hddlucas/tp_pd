@@ -18,6 +18,7 @@
                             <p:menuitem rendered="#{utilizadoresBean.hasRole(loginBean.loggedUser.idUtilizador,'avaliador')}" value="Categorias" outcome="/categories/index" />
                             <p:menuitem rendered="#{utilizadoresBean.hasRole(loginBean.loggedUser.idUtilizador,'avaliador') or utilizadoresBean.hasRole(loginBean.loggedUser.idUtilizador,'agente')}" value="Vendedores" outcome="/salesman/index" />
                             <p:menuitem rendered="#{utilizadoresBean.hasRole(loginBean.loggedUser.idUtilizador,'vendedor')}" value="Propostas em Aberto" outcome="/solutionProposal/index" />
+                            <p:menuitem rendered="#{utilizadoresBean.hasRole(loginBean.loggedUser.idUtilizador,'vendedor')}" value="As minhas propostas" outcome="/myProposals/index" />
                             <p:menuitem rendered="#{utilizadoresBean.hasRole(loginBean.loggedUser.idUtilizador,'agente') or utilizadoresBean.hasRole(loginBean.loggedUser.idUtilizador,'avaliador')}" value="Componentes" outcome="/components/index" />
                             <p:menuitem rendered="#{utilizadoresBean.hasRole(loginBean.loggedUser.idUtilizador,'avaliador')}" value="As Minhas Propostas" outcome="/aquisitionalProposal/index" />
                             <p:menuitem rendered="#{utilizadoresBean.hasRole(loginBean.loggedUser.idUtilizador,'admin') or utilizadoresBean.hasRole(loginBean.loggedUser.idUtilizador,'avaliador')}" value="Processos" outcome="/processes/index" />

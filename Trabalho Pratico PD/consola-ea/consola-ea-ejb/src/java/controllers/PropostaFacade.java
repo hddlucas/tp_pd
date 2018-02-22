@@ -178,4 +178,32 @@ public class PropostaFacade implements PropostaFacadeLocal {
 
     }
 
+    @Override
+    public List<Proposta> getAcquisitionProposals(int userId) {
+        Query q = dAO.getEntityManager().createNamedQuery("Proposta.findByIdUtilizador");
+        List<Proposta> proposals = q.setParameter("idUtilizador", userId).getResultList();
+
+        return proposals;
+    }
+    
+    @Override
+    public void update(String fields, int propostaId) throws Exception {
+        try {
+            Proposta p = (Proposta) dAO.getEntityManager().find(Proposta.class, propostaId);
+            JSONObject proposalFields = new JSONObject(fields);
+
+            if(proposalFields.has("observations")){
+                p.setObservacoes(proposalFields.getString("observations"));
+            }
+            
+            if(proposalFields.has("max_value")){
+                p.setValorTotal(Double.parseDouble(proposalFields.getString("max_value")));
+            }
+            
+            dAO.getEntityManager().merge(p);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
 }

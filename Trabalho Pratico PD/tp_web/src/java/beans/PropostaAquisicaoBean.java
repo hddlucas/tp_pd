@@ -9,11 +9,13 @@ import Classes.Item;
 import Classes.Operador;
 import controllers.AquisicaoPropostaFacadeLocal;
 import controllers.ComponenteFacadeLocal;
+import controllers.ComponenteProdutoControllerLocal;
 import controllers.PropostaFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -39,6 +41,9 @@ import models.Utilizador;
 public class PropostaAquisicaoBean implements Serializable {
 
     @EJB
+    private ComponenteProdutoControllerLocal componenteProdutoController;
+
+    @EJB
     private ComponenteFacadeLocal componenteFacade;
 
     @EJB
@@ -46,6 +51,8 @@ public class PropostaAquisicaoBean implements Serializable {
     
     @EJB
     private PropostaFacadeLocal propostaFacade; 
+    
+    
     
     private AquisicaoProposta proposedAcquisition = new AquisicaoProposta();
 
@@ -125,7 +132,7 @@ public class PropostaAquisicaoBean implements Serializable {
             }
             else{
                 String x  = aquisicaoPropostaFacade.create(fieldsObject.toString(),items);
-                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", "Produto Inserido com sucesso"));
+                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", x));
                 return "index.xhtml?faces-redirect=true?"; 
             }
             
@@ -140,7 +147,6 @@ public class PropostaAquisicaoBean implements Serializable {
         public String update(AquisicaoProposta a) throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
-            this.proposedAcquisition = a;
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
             JsonObjectBuilder messageFields = Json.createObjectBuilder();
@@ -155,8 +161,8 @@ public class PropostaAquisicaoBean implements Serializable {
                 return "error";
             }
             else {
-                aquisicaoPropostaFacade.update(fieldsObject.toString(), items, a.getIdAquisicao());
-                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Informacao do Produto atualizado com sucesso"));
+                String x = aquisicaoPropostaFacade.update(fieldsObject.toString(), items, a.getIdAquisicao());
+                context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Informação alterada com sucesso"));
                 return "index.xhtml?faces-redirect=true?";
             }
         } catch (Exception ex) {
@@ -203,9 +209,7 @@ public class PropostaAquisicaoBean implements Serializable {
 
     public boolean proposalAdjudicated(AquisicaoProposta a) {
         return aquisicaoPropostaFacade.propostaAdjudicada(a);
-    }
-
-    
+    }   
 
     public List<Componente> getComponentes() {
         this.componentes = componenteFacade.getComponentsList();
@@ -218,17 +222,54 @@ public class PropostaAquisicaoBean implements Serializable {
     }
     
 
-    public String showProposal(AquisicaoProposta p) {
-        this.proposedAcquisition = p;
+    public String showProposal(int idAquisicao) {
+        this.proposedAcquisition = aquisicaoPropostaFacade.findAquisicaoProposta(idAquisicao);
 
-        List<Item> toReturn = items;
-        items.forEach((i) -> {
-            toReturn.remove(i);
-        });
-        items = toReturn;
- 
-        p.getComponenteProdutoCollection().forEach((k) -> {
-            Item item = new Item();
+        items.clear();
+        
+        List <ComponenteProduto> cp = componenteProdutoController.getComponentePropostaByIdAquisicao(idAquisicao);
+       
+        cp.forEach((k) -> {
+            Item item = new Item(); 
+            
+            int operador = Integer.parseInt(k.getOperador());
+            item.setLabel("" + items.size());
+            item.setComponenteString(k.getComponente().getNome());
+            item.setComponente(k.getComponente().getIdComponente());
+            
+            this.getOperadores().forEach((y) -> {
+                if(y.getId() == operador){
+                    item.setOperadorString(y.getDescricao());
+                    item.setOperador(y.getId());
+                }
+            });
+            
+            item.setValor(k.getValor());          
+            items.add(item);
+        }); 
+       
+        return "aquisitionProposal.xhtml";
+    }
+    
+     public String showProccess(AquisicaoProposta p) {
+        this.proposedAcquisition = p;
+        return "/processes/proccess.xhtml";
+    }
+     
+    public List<AquisicaoProposta> getOpenProposals() {
+        return aquisicaoPropostaFacade.getOpenList();
+    }
+     
+    public String editProposal(int idAquisicao) {
+        this.proposedAcquisition = aquisicaoPropostaFacade.findAquisicaoProposta(idAquisicao);
+
+        items.clear();
+        
+        List <ComponenteProduto> cp = componenteProdutoController.getComponentePropostaByIdAquisicao(idAquisicao);
+       
+        cp.forEach((k) -> {
+            Item item = new Item(); 
+            
             int operador = Integer.parseInt(k.getOperador());
             item.setLabel("" + items.size());
             item.setComponenteString(k.getComponente().getNome());
@@ -244,52 +285,13 @@ public class PropostaAquisicaoBean implements Serializable {
             item.setValor(k.getValor());          
             items.add(item);
         });
-        
-        return "aquisitionProposal.xhtml";
-    }
-    
-     public String showProccess(AquisicaoProposta p) {
-        this.proposedAcquisition = p;
-        return "/processes/proccess.xhtml";
-    }
-     
-    public List<AquisicaoProposta> getOpenProposals() {
-        return aquisicaoPropostaFacade.getOpenList();
-    }
-     
-    public String editProposal(AquisicaoProposta p) {
-        this.proposedAcquisition = p;
-        
-        List<Item> toReturn = items;
-        
-        items.forEach((i) -> {
-            toReturn.remove(i);
-        });
-        
-        items = toReturn;
-        
-        p.getComponenteProdutoCollection().forEach((k) -> {
-            Item item = new Item();
-            int operador = Integer.parseInt(k.getOperador());
-            item.setLabel("" + items.size());
-            item.setComponente(k.getComponente().getIdComponente());
-            item.setOperador(operador);
-            item.setValor(k.getValor());                       
-            items.add(item);
-        });
-        
+
         return "edit.xhtml";
     }
     
     
     public String createPage() {       
-        List<Item> toReturn = items;
-        
-        items.forEach((i) -> {
-            toReturn.remove(i);
-        });
-        
-        items = toReturn;
+        items.clear();
 
         return "create.xhtml";
     }

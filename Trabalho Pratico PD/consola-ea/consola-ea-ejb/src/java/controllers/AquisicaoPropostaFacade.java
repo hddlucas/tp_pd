@@ -77,23 +77,34 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
             a.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             a.setIdUtilizador(u);
             u.getAquisicaoPropostaCollection().add(a);
-
             dAO.getEntityManager().merge(u);
+                        
             int newId = Integer.parseInt(this.getUltimaPropostaId());
-           
+            
+            AquisicaoProposta b = this.findAquisicaoProposta(newId);
+            
             i.forEach((x) -> {
-
-               String query = "Insert INTO componente_produto (id_componente, id_aquisicao, valor, operador) values (?,?,?,?)";
-               int id_componente = Integer.parseInt(String.valueOf(x.getComponente()));
+               int id_componente = x.getComponente();
                
-               Query qu = dAO.getEntityManager().createNativeQuery(query);
-               qu.setParameter(1, id_componente);
-               qu.setParameter(2, newId);
-               qu.setParameter(3, x.getValor());
-               qu.setParameter(4, x.getOperador());
-               qu.executeUpdate();
+               Componente comp = componenteFacade.findComponente(id_componente);
+               ComponenteProduto cp = new ComponenteProduto();
+               cp.setAquisicaoProposta(b);
+               cp.setComponente(comp);
+               cp.setOperador(String.valueOf(x.getOperador()));
+               cp.setValor(x.getValor());
                
+               ComponenteProdutoPK cppk = new ComponenteProdutoPK(id_componente, newId);
+               
+               cp.setComponenteProdutoPK(cppk);
+               
+//               b.getComponenteProdutoCollection().add(cp);
+               comp.getComponenteProdutoCollection().add(cp);
+                          
+               dAO.getEntityManager().merge(comp);
+               dAO.getEntityManager().merge(cp);
             });
+//            dAO.getEntityManager().merge(u);
+            dAO.getEntityManager().merge(b);
 
             return "Sucesso";
             
@@ -110,37 +121,37 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
             AquisicaoProposta a = (AquisicaoProposta) dAO.getEntityManager().find(AquisicaoProposta.class, propostaId);
          
             JSONObject proposalFields = new JSONObject(fields);
-            Utilizador u = utilizadorFacade.findUtilizador(Integer.parseInt(proposalFields.getString("id_utilizador")));
 
             a.setValorMax(Double.parseDouble(proposalFields.getString("valor_max")));
             a.setObservacoes(proposalFields.getString("observacoes"));
-            a.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-            a.setIdUtilizador(u);
-            u.getAquisicaoPropostaCollection().add(a);
-
-            dAO.getEntityManager().merge(u);
-            int newId = a.getIdAquisicao();
             
             String queryDelete = "DELETE FROM componente_produto WHERE id_aquisicao=?";
             
             Query q = dAO.getEntityManager().createNativeQuery(queryDelete);
-            q.setParameter(1, newId);
+            q.setParameter(1, propostaId);
             q.executeUpdate();
             
             i.forEach((x) -> {
-               String query = "Insert INTO componente_produto (id_componente, id_aquisicao, valor, operador) values (?,?,?,?)";
-               int id_componente = Integer.parseInt(String.valueOf(x.getComponente()));
+               int id_componente = x.getComponente();
                
-               Query qu = dAO.getEntityManager().createNativeQuery(query);
-               qu.setParameter(1, id_componente);
-               qu.setParameter(2, newId);
-               qu.setParameter(3, x.getValor());
-               qu.setParameter(4, x.getOperador());
-               qu.executeUpdate();
+               Componente comp = componenteFacade.findComponente(id_componente);
+               ComponenteProduto cp = new ComponenteProduto();
+               cp.setAquisicaoProposta(a);
+               cp.setComponente(comp);
+               cp.setOperador(String.valueOf(x.getOperador()));
+               cp.setValor(x.getValor());
+               
+               ComponenteProdutoPK cppk = new ComponenteProdutoPK(id_componente, propostaId);
+               
+               cp.setComponenteProdutoPK(cppk);
+               
+               comp.getComponenteProdutoCollection().add(cp);
+                          
+               dAO.getEntityManager().merge(comp);
+               dAO.getEntityManager().persist(cp);
             });
-            
             dAO.getEntityManager().merge(a);
-            
+
             return "Sucesso";
         } catch (Exception ex) {
             return ex.getMessage();
@@ -267,5 +278,14 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
         Query q = dAO.getEntityManager().createNativeQuery("SELECT id_aquisicao FROM aquisicao_proposta ORDER BY id_aquisicao DESC LIMIT 1");
                 
         return q.getSingleResult().toString();
+    }
+    
+    @Override
+    public List <ComponenteProduto> getComponenteProdutoId(int id) {
+        Query q = dAO.getEntityManager().createNativeQuery("SELECT cp FROM componente_produto cp WHERE id_aquisicao=#idAquisicao");
+                
+        q.setParameter("idAquisicao", id);
+        
+        return q.getResultList();
     }
 }

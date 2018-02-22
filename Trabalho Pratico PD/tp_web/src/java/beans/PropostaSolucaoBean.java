@@ -175,6 +175,7 @@ public class PropostaSolucaoBean implements Serializable {
         }
     }
     
+    
     //PROPRIEDADES
      public Integer getIdProposta() {
         return idProposta;
@@ -240,5 +241,43 @@ public class PropostaSolucaoBean implements Serializable {
         this.avaliacao = avaliacao;
     }
 
+    public List<Proposta> getListToUser(int userId) {
+
+        return propostaFacade.getAcquisitionProposals(userId);
+    }
     
+    public String showSolutionProposalSaller(Proposta ps) {
+        this.proposta = ps;
+        return "/myProposals/solutionProposal.xhtml?faces-redirect=true";
+    } 
+    
+    public String editSaller(Proposta ps) {
+        this.proposta = ps;
+        return "/myProposals/edit.xhtml?faces-redirect=true";
+    }    
+    
+    
+    public String update(Proposta ps) throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+//            this.proposta = ps;
+            JsonObjectBuilder proposalFields = Json.createObjectBuilder();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+            proposalFields.add("observations", request.getParameter("form:observations"));
+            proposalFields.add("max_value", request.getParameter("form:max_value"));
+
+            JsonObject fieldsObject = proposalFields.build();
+            propostaFacade.update(fieldsObject.toString(), ps.getIdProposta());
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Proposta alterada com sucesso"));
+
+        } catch (Exception ex) {
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", ex.toString()));
+        } finally {
+            FacesContext.getCurrentInstance()
+                    .getExternalContext()
+                    .getFlash().setKeepMessages(true);
+            return "index.xhtml?faces-redirect=true?";
+        }
+    }
 }
