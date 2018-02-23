@@ -26,5 +26,5 @@ public interface PropostaFacadeLocal {
     Proposta findProposta(Integer id);
     List<Proposta> getAcquisitionProposals(int userId);
     void update(String fields, int propostaId) throws Exception;
-
+    void destroy(Integer id) throws Exception;
 }

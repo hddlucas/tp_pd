@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Proposta.findAll", query = "SELECT p FROM Proposta p")
     , @NamedQuery(name = "Proposta.findByIdProposta", query = "SELECT p FROM Proposta p WHERE p.idProposta = :idProposta")
-    , @NamedQuery(name = "Proposta.findByIdUtilizador", query = "SELECT p FROM Proposta p WHERE p.idUtilizador.idUtilizador = :idUtilizador")
+    , @NamedQuery(name = "Proposta.findByIdUtilizador", query = "SELECT p FROM Proposta p WHERE p.deleted=false AND p.idUtilizador.idUtilizador = :idUtilizador")
     , @NamedQuery(name = "Proposta.findByDescricao", query = "SELECT p FROM Proposta p WHERE p.descricao = :descricao")
     , @NamedQuery(name = "Proposta.findByValorTotal", query = "SELECT p FROM Proposta p WHERE p.valorTotal = :valorTotal")
     , @NamedQuery(name = "Proposta.findByGanhou", query = "SELECT p FROM Proposta p WHERE p.ganhou = :ganhou")

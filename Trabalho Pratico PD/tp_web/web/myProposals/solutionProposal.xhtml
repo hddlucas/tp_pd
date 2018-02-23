@@ -18,6 +18,10 @@
                 </p:breadCrumb>
 
                 <c:if test="#{propostaAquisicaoBean.proposalAdjudicated(propostaSolucaoBean.propostaSolucao.idAquisicao) eq false}">
+                    <p:commandButton  value="Eliminar" styleClass="top-delete-button" onclick="if (!confirm('Tem a certeza que deseja eliminar a proposta?'))
+                            return false" action="#{propostaSolucaoBean.destroy(propostaSolucaoBean.propostaSolucao.idProposta)}"  icon="ui-icon-trash white"    >
+                    </p:commandButton>  
+                    
                     <p:commandButton  value="Editar" styleClass="top-edit-button" action="#{propostaSolucaoBean.editSaller(propostaSolucaoBean.propostaSolucao)}"  icon="ui-icon-pencil white"    >
                     </p:commandButton> 
                 </c:if> 
@@ -35,7 +39,7 @@
                         <h:outputText  id="max_value"   value="#{propostaSolucaoBean.propostaSolucao.valorTotal} €"/>
 
                         <h:outputLabel for="observations" value="Observações"/>
-                        <h:outputText  id="observations"   value="#{propostaSolucaoBean.propostaSolucao.descricao}"/>
+                        <h:outputText  id="observations"   value="#{propostaSolucaoBean.propostaSolucao.observacoes}"/>
 
                         <h:outputLabel for="vendedor" value="Vendedor"/>
                         <h:outputText  id="vendedor"   value="#{propostaSolucaoBean.propostaSolucao.idUtilizador.nome}"/>

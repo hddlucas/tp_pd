@@ -208,4 +208,16 @@ public class PropostaFacade implements PropostaFacadeLocal {
         }
     }
     
+    @Override
+    public void destroy(Integer id) throws Exception  {
+        try {
+            Proposta p = dAO.getEntityManager().find(Proposta.class, id);
+            p.setDeleted(true);
+            dAO.getEntityManager().merge(p);
+
+        } catch (Exception ex) { 
+            throw ex;
+        }
+    }
+    
 }

@@ -279,4 +279,21 @@ public class PropostaSolucaoBean implements Serializable {
             return "index.xhtml?faces-redirect=true?";
         }
     }
+    
+    public String destroy(int id) throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            propostaFacade.destroy(id);
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Proposta Removida com sucesso"));
+
+        } catch (Exception ex) {
+            context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um problema ao eliminar a Proposta"));
+
+        } finally {
+            FacesContext.getCurrentInstance()
+                    .getExternalContext()
+                    .getFlash().setKeepMessages(true);
+            return "index.xhtml?faces-redirect=true";
+        }
+    }
 }
