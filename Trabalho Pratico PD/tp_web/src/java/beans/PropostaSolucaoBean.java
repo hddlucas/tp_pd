@@ -141,7 +141,7 @@ public class PropostaSolucaoBean implements Serializable {
         propostaFacade.acceptProposal(fieldsObject.toString(), items);
         
         context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação", "Proposta de Solução aceite com sucesso"));
-        return "deu";
+
         
          } catch (Exception ex) {
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", ex.getMessage()));
@@ -151,8 +151,7 @@ public class PropostaSolucaoBean implements Serializable {
             context.getCurrentInstance()
                     .getExternalContext()
                     .getFlash().setKeepMessages(true);
-//            return "/aquisitionalProposal/aquisitionProposal.xhtml?faces-redirect=true";
-
+            return "/aquisitionalProposal/aquisitionProposal.xhtml?faces-redirect=true";
         }
     }
     

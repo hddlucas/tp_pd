@@ -128,7 +128,6 @@ public class PropostaFacade implements PropostaFacadeLocal {
 
     @Override
     public String acceptProposal(String aceptFields, List <Item> items) throws RollbackFailureException, Exception {
-    //public String acceptProposal(String aceptFields) throws RollbackFailureException, Exception {
 
         try {
             JSONObject acceptJsonFields = new JSONObject(aceptFields);
@@ -147,9 +146,12 @@ public class PropostaFacade implements PropostaFacadeLocal {
             av.setIdAvaliador(p.getIdAquisicao().getIdUtilizador().getIdUtilizador());
             
             av.setIdUtilizador(u);
+            av.setIdProposta(p);
+            p.getAvaliacaoVendedorCollection().add(av);
             u.getAvaliacaoVendedorCollection().add(av);
             
             dAO.getEntityManager().merge(u);
+            dAO.getEntityManager().merge(p);
             
             //update avaliation of componente_produto 
             items.forEach((k) -> {
