@@ -56,21 +56,14 @@
                             
                             <br/>
                             <h2 class="page-subTitle">
-                                #{bundle.PropostaAquisicaoTitle_componentes}
+                                #{bundle.PropostaAquisicaoTitle_caracteristicas}
                             </h2>
                             
                             <div class="aquisitionProposal-components">
                                 <p:repeat value="#{propostaAquisicaoBean.items}" var="item">
-                                    <h:panelGrid columns="2" >
-                                        <p:outputLabel  for="componente:" value="Componente #{item.label}" />
-                                        <h:outputText id="componente" value="#{item.componenteString}" style="float:none"/>
-
-                                        <p:outputLabel  for="operador" value="Operador" />
-                                        <h:outputText id="operador" value="#{item.operadorString}" style="float:none"/>
-
-                                        <p:outputLabel  for="valor" value="Valor" />
+                                    <p:outputLabel id="componente" value="#{item.componenteString}: " style="float:none;margin-right: 5px !important;"/>
+                                        <h:outputText  id="operador" value="#{item.operadorString} " style="float:none" />
                                         <h:outputText id="valor" value="#{item.valor}" style="float:none"/>
-                                    </h:panelGrid>
                                     <hr />
                                 </p:repeat>
                             </div>
