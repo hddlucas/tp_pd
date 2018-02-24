@@ -56,23 +56,33 @@
 
                     <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 
-                    <p:dialog header="Proposta de Solução" widgetVar="dlg" resizable="false">
-                        <h:panelGrid columns="2" cellpadding="5">                        
+                    <p:dialog header="Proposta de Solução" widgetVar="dlg" resizable="true" style="overflow: scroll;">
+                        <h:panelGrid columns="1"  style="text-align: left!important;">                        
+                            <h1 class="page-title" style="font-size: 15px!important;color: #248b8c;margin-bottom: 0px">
+                                    Produto
+                            </h1>
                             
-                            <h:outputText value="Avaliação do Produto:" style="font-weight: bold"/>
+                            <h:outputText value="Avaliação do Produto:" style="font-weight: bold;"/>
                             <p:rating value="#{propostaSolucaoBean.produtoRating}" stars="10" />
                             
-                            <h:outputText value="Avaliação do Vendedor:" style="font-weight: bold"/>
-                            <p:rating value="#{propostaSolucaoBean.vendedorRating}" stars="10" />
+                            <h1 class="page-title" style="font-size: 15px!important;color: #248b8c;margin-bottom: 0px">
+                                    Vendedor
+                            </h1>
+                            
+                            <h:outputText value="Avaliação do Vendedor:" style="font-weight: bold;"/>
+                            <p:rating value="#{propostaSolucaoBean.vendedorRating}" stars="10"/>
+                            
+                            <h1 class="page-title" style="font-size: 15px!important;color: #248b8c;margin-bottom: 0px">
+                                    Componentes
+                            </h1>
                             
                             <ui:repeat value="#{propostaAquisicaoBean.items}" var="item">
-                                <h:outputText value="Avaliação do Componente #{item.componenteString} :" style="font-weight: bold"/>
-                                <p:rating id="avaliacao" value="#{item.avaliacao}" stars="10" />
+                                <h:outputText value="Avaliação do Componente #{item.componenteString} :" style="font-weight: bold;"/>
+                                <p:rating id="avaliacao" value="#{item.avaliacao}" stars="10"/>
                             </ui:repeat>
-                            
                             <br/>
-                            <h:outputLabel value="Observações" for="observacoes" style="font-weight: bold"/>
-                            <h:inputTextarea id="observacoes"  rows="12"/>
+                            <h:outputLabel value="Observações" for="observacoes" style="font-weight: bold;"/>
+                            <h:inputTextarea id="observacoes"  rows="4"/>
                             <f:facet name="footer">
 
                                 <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button modal-button"  value="Aceitar"  action="#{propostaSolucaoBean.acceptProposal(propostaSolucaoBean.propostaSolucao.idProposta, propostaAquisicaoBean.items)}" >

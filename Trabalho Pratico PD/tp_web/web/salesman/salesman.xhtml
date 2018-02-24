@@ -32,7 +32,7 @@
 
                             <h:outputLabel value="Mensagem *" for="mensagem" style="font-weight: bold"/>
                             <h:inputTextarea id="mensagem"  rows="12" required="true" requiredMessage="O campo mensagem é obrigatório"/>
-                           
+
                             <f:facet name="footer">
                                 <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button modal-button"  value="Enviar"  action="#{mensagemBean.sendNotification()}" >
                                 </h:commandLink> 
@@ -90,7 +90,7 @@
 
                                 <h:outputLabel for="pontuacaoMediaProdutos" value="Pontuação Média Produtos Vendidos" />  
                                 <h:outputText id="pontuacaoMediaProdutos" value="#{vendedoresBean.getPontuacaoMediaProdutosVendidos(user)==-1 ? 'Ainda não foi avaliado' :vendedoresBean.getPontuacaoMediaProdutosVendidos(vendedoresBean.user)}"/>  
-                            
+
                             </p:panelGrid>
                         </h:form>
                     </p:tab>
@@ -105,19 +105,28 @@
 
                         <h:form>
                             <p:repeat value="#{vendedoresBean.getAvaliacoes(vendedoresBean.user)}" var="avaliacao">
-                                <h:panelGrid columns="2" style="width:100%">
+                                <p:outputPanel styleClass="salesman-avaliacoes">
+                                    <h:panelGrid columns="2">
 
-                                    <p:outputPanel styleClass="salesman-avaliacoes">
+                                        <h:outputText value="Avaliador" />
+                                        <h:outputText value="#{utilizadoresBean.getUsernameById(avaliacao.idAvaliador)}"/>
+
+                                        <h:outputText value="Pontuação" />
+                                        <p:rating value="#{avaliacao.avaliacao}" readonly="true" stars="10"/>
+
+                                        <h:outputText value="Comentário" />
+                                        <h:outputText value="#{avaliacao.idProposta.observacoes}"/>
+
+
+                                    </h:panelGrid>
+
+                                    <p:repeat value="#{propostaAquisicaoBean.getComponenteProduto(avaliacao.idProposta.idAquisicao)}" var="item">
                                         <h:panelGrid columns="2">
-
-                                            <h:outputText value="Avaliador" />
-                                            <h:outputText value="#{utilizadoresBean.getUsernameById(avaliacao.idAvaliador)}"/>
-
-                                            <h:outputText value="Pontuação" />
-                                            <p:rating value="#{avaliacao.avaliacao}" readonly="true" stars="10"/>
+                                            <h:outputText value="Avaliação do Componente #{item.componente.nome}"/>
+                                            <p:rating  value="#{item.avaliacao}" readonly="true" stars="10"/>
                                         </h:panelGrid>
-                                    </p:outputPanel>
-                                </h:panelGrid>
+                                    </p:repeat>
+                                </p:outputPanel>
                                 <hr />
                             </p:repeat>
                         </h:form>
