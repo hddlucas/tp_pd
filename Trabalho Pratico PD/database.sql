@@ -380,74 +380,49 @@ VALUES (1,1),(4,2),(2,3),(3,4),(1,5),(1,6);
 
 INSERT INTO  categoria (nome,deleted)
 VALUES 
-('Alternador',false),
-('Antena',false),
-('Batería',false),
-('Caixa da Direcção',false),
-('Escova de limpa-vidros',false),
-('Lâmpada',false),
-('Motor de Limpa Vidros',false),
-('Radiador',false),
-('Válvula de Escape',false);
-
+('Medidas',false),
+('Dados fabrico',false),
+('Medidas Eléctricas',false),
+('Montagem',false),
+('Instalação',false),
+('Estética',false);
     
 INSERT INTO  componente (id_categoria,nome,observacoes,deleted)
 VALUES 
-(1,'Corrente de carga do alternador [A]','',false),
-(1,'Tensão [V]','',false),
-(1,'Ø da polia [mm]','',false),   
-(1,'Número de nervuras','',false), 
-(1,'Tipo de instalação eléctrica de bordo','',false), 
-(1,'Comprimento','',false), 
-(1,'Aprovação do fabricante','',false), 
-(1,'Borne','',false), 
 
-(2,'Tipo de antena','',false),
-(2,'Medida da rosca','',false),
-(2,'Tipo de funcionamento','',false),   
-(2,'Lado de montagem','',false), 
+(1,'Medida da rosca','',false),
+(1,'Comprimento (mm)','',false),   
+(1,'Largura [mm]','',false), 
+(1,'Altura [mm]','',false), 
+(1,'Medida da rosca','',false),
+(1,'Comprimento [polegadas]','',false),   
+(1,'Unidade de quantidade','',false), 
+(1,'Diâmetro [mm]','',false),
+(1,'Peso líquido [kg]','',false),
+(1,'Espessura [mm]','',false),
+
+(2,'Aprovação do fabricante','',false), 
+(2,'Ano de fabrico a partir de','',false), 
 
 (3,'Intensidade da corrente [A]','',false),
 (3,'Corrente de ensaio a frio EN [A]','',false),
-(3,'Comprimento (mm)','',false),   
-(3,'Largura [mm]','',false), 
-(3,'Altura [mm]','',false), 
-(3,'Tensão [V]','',false), 
-(3,'Informação sobre montagem','',false), 
+(3,'Potência nominal [W]','',false),
+(3,'Tensão [V]','',false),
 
-(4,'Cor','',false),
+(4,'Lado de montagem','',false), 
+(4,'Informação sobre montagem','',false), 
 (4,'Lado de montagem','',false),
 
-(5,'Lado de montagem','',false),
-(5,'Comprimento (mm)','',false),
-(5,'Comprimento [polegadas]','',false),   
-(5,'Tipo de escova de limpa-vidros','',false), 
-(5,'Ano de fabrico a partir de','',false), 
-(5,'Unidade de quantidade','',false), 
-(5,'Aprovação do fabricante','',false), 
-(5,'Linha de produtos','',false), 
+(5,'Tipo de instalação eléctrica de bordo','',false), 
 
-(6,'Tipo de homologação','',false),
-(6,'Tipo de casquilho','',false),
-(6,'Tipo de lâmpada','',false),
-(6,'Comprimento (mm)','',false),
-(6,'Diâmetro [mm]','',false),
-(6,'Potência nominal [W]','',false),
-(6,'Tensão [V]','',false),
+(6'Cor','',false);
 
-(7,'Lado de montagem','',false),
-(7,'Tensão [V]','',false),
-(7,'Veículo com volante à esquerda/à direita','',false),
-(7,'Versão','',false),
-(7,'Qualidade','',false),
 
-(8,'Peso líquido [kg]','',false),
-(8,'Espessura [mm]','',false),
-(8,'Altura [mm]','',false),
 
-(9,'Largura [mm]','',false),
-(9,'Número de ligações','',false),
-(9,'Tipo de funcionamento','',false);
+
+
+
+
 
   
 
