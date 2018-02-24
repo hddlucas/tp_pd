@@ -20,12 +20,12 @@
                     #{bundle.PropostaAquisicaoTitle_vista}
                 </h1>
 
-                <p:commandButton  value="Eliminar" styleClass="top-delete-button" onclick="if (!confirm('Tem a certeza que deseja eliminar a proposta de aquisição?'))
+                <p:commandButton  rendered="#{propostaAquisicaoBean.getTotalOfReceivedProposals(propostaAquisicaoBean.proposedAcquisition) == 0}" value="Eliminar" styleClass="top-delete-button" onclick="if (!confirm('Tem a certeza que deseja eliminar a proposta de aquisição?'))
                             return false" action="#{propostaAquisicaoBean.destroy(propostaAquisicaoBean.proposedAcquisition.idAquisicao)}"  icon="ui-icon-trash white"    >
                 </p:commandButton> 
 
 
-                <p:commandButton  value="Editar" styleClass="top-edit-button" action="#{propostaAquisicaoBean.editProposal(propostaAquisicaoBean.proposedAcquisition.idAquisicao)}"  icon="ui-icon-pencil white"    >
+                <p:commandButton  rendered="#{propostaAquisicaoBean.getTotalOfReceivedProposals(propostaAquisicaoBean.proposedAcquisition) == 0}" value="Editar" styleClass="top-edit-button" action="#{propostaAquisicaoBean.editProposal(propostaAquisicaoBean.proposedAcquisition.idAquisicao)}"  icon="ui-icon-pencil white"    >
                 </p:commandButton> 
 
                 <p:tabView>
