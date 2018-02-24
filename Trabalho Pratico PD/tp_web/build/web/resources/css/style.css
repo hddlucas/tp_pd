@@ -580,6 +580,10 @@ tr.linhas_pares {
 
 /*****************SALESMAN FEEDBACK***********/
 
+.salesman-avaliacoes{
+    text-align: left;
+}
+
 .salesman-avaliacoes tr{
     text-align: left;
 }
@@ -587,6 +591,7 @@ tr.linhas_pares {
 .salesman-avaliacoes td{
     border:none;
     font-size: 18px;
+    width: 600px;
     
 }
 
