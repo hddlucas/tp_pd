@@ -122,7 +122,10 @@ public class PropostaFacade implements PropostaFacadeLocal {
     @Override
     public List<Proposta> findPropostasSolucaoByPropostaAquisicao(int idProposta) {        
         AquisicaoProposta aq = aquisicaoPropostaFacade.findAquisicaoProposta(idProposta);
-        return aq.getPropostaList();
+        List<Proposta> aqf = aq.getPropostaList();
+        aqf.removeIf(p -> p.getDeleted()==true);
+        
+        return aqf;
     }
 
     @Override

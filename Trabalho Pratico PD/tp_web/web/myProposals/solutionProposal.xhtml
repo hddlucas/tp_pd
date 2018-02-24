@@ -64,6 +64,9 @@
                         <h:outputLabel value="Descrição do Produto" for="product_description" />
                         <h:outputText id="product_description" value="#{propostaSolucaoBean.propostaSolucao.idAquisicao.observacoes}"/>
 
+                        <h:outputLabel for="status_aquisition" value="Estado"/>
+                        <h:outputText id="status_aquisition" styleClass="#{propostaAquisicaoBean.proposalAdjudicated(propostaSolucaoBean.propostaSolucao.idAquisicao) ? 'text-green' : 'text-red'}" value="#{propostaAquisicaoBean.proposalAdjudicated(propostaSolucaoBean.propostaSolucao.idAquisicao) ? 'Encerrada' : 'Pendente'}  "/>
+                       
                         <h:outputLabel for="created_at" value="Criada em"/>
                         <h:outputText  id="created_at"   value="#{propostaSolucaoBean.propostaSolucao.createdAt}"/>
                     </p:panelGrid>
