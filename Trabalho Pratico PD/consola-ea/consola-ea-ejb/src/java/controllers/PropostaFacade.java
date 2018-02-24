@@ -69,9 +69,8 @@ public class PropostaFacade implements PropostaFacadeLocal {
             
             a.getPropostaList().add(p);
             u.getAquisicaoPropostaCollection().add(a);
-            
-            dAO.getEntityManager().merge(a);
 
+            dAO.getEntityManager().persist(p);
            
             //send notification informing that someone sent a solution proposal for this aquisition            
              JsonObjectBuilder messageFields = Json.createObjectBuilder();

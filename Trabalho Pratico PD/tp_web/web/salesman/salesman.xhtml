@@ -114,6 +114,9 @@
                                         <h:outputText value="Pontuação" />
                                         <p:rating value="#{avaliacao.avaliacao}" readonly="true" stars="10"/>
 
+                                         <h:outputText value="Pontuação do produto" />
+                                         <p:rating value="#{avaliacao.idProposta.avaliacao}" readonly="true" stars="10"/>
+                                        
                                         <h:outputText value="Comentário" />
                                         <h:outputText value="#{avaliacao.idProposta.observacoes}"/>
 
