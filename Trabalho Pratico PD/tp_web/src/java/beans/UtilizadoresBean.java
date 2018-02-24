@@ -20,11 +20,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.validator.ValidatorException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import models.Perfil;
 import models.Utilizador;
 
@@ -41,8 +43,7 @@ public class UtilizadoresBean implements Serializable {
 
     @EJB
     private UtilizadorFacadeLocal utilizadorFacade;
-    
-    
+
     private Map<Integer, Boolean> checked = new HashMap<Integer, Boolean>();
     private Utilizador user = new Utilizador();
     private Integer idUtilizador;
@@ -71,12 +72,13 @@ public class UtilizadoresBean implements Serializable {
         return this.user;
     }
 
+ 
     public Map<Integer, Boolean> getChecked() {
         checked = new HashMap<Integer, Boolean>();
         perfilFacade.getRolesList().forEach((k) -> {
             checked.put(k.getIdPerfil(), this.hasRole(this.user.getIdUtilizador(), k.getPerfil()));
         });
-        
+
         return checked;
     }
 
@@ -84,8 +86,6 @@ public class UtilizadoresBean implements Serializable {
         this.checked = checked;
     }
 
-    
-    
     public List<Utilizador> getList() {
         return utilizadorFacade.getUsersList();
     }
@@ -116,7 +116,7 @@ public class UtilizadoresBean implements Serializable {
 
         } catch (Exception ex) {
             context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um erro ao criar o utilizador"));
-            
+
             return "create.xhtml?faces-redirect=true?";
         } finally {
             context.getCurrentInstance()
@@ -171,12 +171,11 @@ public class UtilizadoresBean implements Serializable {
         }
     }
 
-    public String showUserInfo(Utilizador u){
+    public String showUserInfo(Utilizador u) {
         this.user = u;
         return "/users/userProfile.xhtml?faces-redirect=true?";
     }
-    
-    
+
     public String destroy(int id) throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
@@ -201,10 +200,9 @@ public class UtilizadoresBean implements Serializable {
     public void addUserRole(Utilizador u, Perfil p) {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
-            if(!this.hasRole(u.getIdUtilizador(),p.getPerfil())){
+            if (!this.hasRole(u.getIdUtilizador(), p.getPerfil())) {
                 utilizadorFacade.addUserRole(u, p.getIdPerfil());
-            }
-            else{
+            } else {
                 utilizadorFacade.removeUserRole(u, p.getIdPerfil());
             }
 
@@ -346,7 +344,7 @@ public class UtilizadoresBean implements Serializable {
                 throw new ValidatorException(msg);
             }
         }
-        
+
     }
 
     public void validateBi(FacesContext context, UIComponent component, Object value) throws ValidatorException {

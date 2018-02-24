@@ -8,6 +8,7 @@ package controllers;
 import Classes.Item;
 import controllers.exceptions.RollbackFailureException;
 import static java.lang.Math.toIntExact;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 import javax.ejb.EJB;
@@ -39,9 +40,11 @@ public class PropostaFacade implements PropostaFacadeLocal {
     @EJB
     private UtilizadorFacadeLocal utilizadorFacade;
 
-    
+        
     
     private int totalGanhas = 0;
+    private int index = 0;
+
     private double totalDinheiro = 0;
 
     @EJB
@@ -65,8 +68,9 @@ public class PropostaFacade implements PropostaFacadeLocal {
             p.setIdAquisicao(a);
             
             a.getPropostaList().add(p);
-            dAO.getEntityManager().merge(a);
-            
+            u.getAquisicaoPropostaCollection().add(a);
+
+            dAO.getEntityManager().persist(p);
            
             //send notification informing that someone sent a solution proposal for this aquisition            
              JsonObjectBuilder messageFields = Json.createObjectBuilder();
@@ -122,7 +126,9 @@ public class PropostaFacade implements PropostaFacadeLocal {
     @Override
     public List<Proposta> findPropostasSolucaoByPropostaAquisicao(int idProposta) {        
         AquisicaoProposta aq = aquisicaoPropostaFacade.findAquisicaoProposta(idProposta);
-        return aq.getPropostaList();
+    
+        
+        return (List<Proposta>) aq.getPropostaList();
     }
 
     @Override
@@ -150,17 +156,16 @@ public class PropostaFacade implements PropostaFacadeLocal {
             u.getAvaliacaoVendedorCollection().add(av);
             
             dAO.getEntityManager().merge(u);
-            dAO.getEntityManager().merge(p);
             
+           
             //update avaliation of componente_produto 
-            items.forEach((k) -> {
-               String query = "UPDATE componente_produto set avaliacao=? WHERE id_componente=? AND id_aquisicao=?";               
-               Query qu = dAO.getEntityManager().createNativeQuery(query);
-               qu.setParameter(1, k.getAvaliacao());
-               qu.setParameter(2, k.getComponente());
-               qu.setParameter(3, p.getIdAquisicao().getIdAquisicao());
-               qu.executeUpdate();
+            p.getIdAquisicao().getComponenteProdutoCollection().forEach((k) -> {
+               k.setAvaliacao(items.get(index).getAvaliacao());
+               index++;
             });
+
+            dAO.getEntityManager().merge(p);
+
 
              //send notification informing salesman that proposal was acepted
              JsonObjectBuilder messageFields = Json.createObjectBuilder();
@@ -212,7 +217,11 @@ public class PropostaFacade implements PropostaFacadeLocal {
         try {
             Proposta p = dAO.getEntityManager().find(Proposta.class, id);
             p.setDeleted(true);
+            AquisicaoProposta a = aquisicaoPropostaFacade.findAquisicaoProposta(p.getIdAquisicao().getIdAquisicao());
+            a.getPropostaList().remove(p);
+            
             dAO.getEntityManager().merge(p);
+            dAO.getEntityManager().merge(a);
 
         } catch (Exception ex) { 
             throw ex;
