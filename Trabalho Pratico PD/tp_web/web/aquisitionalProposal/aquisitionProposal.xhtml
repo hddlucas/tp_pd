@@ -59,10 +59,10 @@
                                 #{bundle.PropostaAquisicaoTitle_caracteristicas}
                             </h2>
                             
-                            <div class="aquisitionProposal-components">
-                                <p:repeat value="#{propostaAquisicaoBean.items}" var="item">
-                                    <p:outputLabel id="componente" value="#{item.componenteString}: " style="float:none;margin-right: 5px !important;"/>
-                                        <h:outputText  id="operador" value="#{item.operadorString} " style="float:none" />
+                            <div class="aquisitionProposal-components" style="font-size: 13px">
+                                <p:repeat value="#{propostaAquisicaoBean.getComponenteProduto(propostaAquisicaoBean.proposedAcquisition)}" var="item">
+                                    <p:outputLabel id="componente" value="#{item.componente.nome}: " style="float:none;margin-right: 5px !important;"/>
+                                    <h:outputText  id="operador" value="#{propostaAquisicaoBean.getNomeOperadorById(item.operador)} " style="float:none" />
                                         <h:outputText id="valor" value="#{item.valor}" style="float:none"/>
                                     <hr />
                                 </p:repeat>

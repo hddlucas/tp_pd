@@ -17,25 +17,68 @@
                 </p:breadCrumb>
 
                 <h1 class="page-title">
-                    #{bundle.PropostaSolucaoTitle_show}
+                        A minha Proposta
                 </h1>
+
                 <h:form styleClass="form" id="form">
                     <p:growl id="msgs" showDetail="true" />
+                    <h:inputHidden id="idP" value="#{propostaAquisicaoBean.proposedAcquisition.idAquisicao}"/>
+
+                    <p:panelGrid columns="2">
+
+                        <h:outputLabel for="valor" value="Valor Total"/>
+                        <p:inputNumber id="valor"
+                                       value="#{propostaSolucaoBean.propostaSolucao.valorTotal}"
+                                       required="true"
+                                       minValue="1"
+                                       maxValue="1000000"
+                                       decimalSeparator="," 
+                                       thousandSeparator="."
+                                       requiredMessage="O campo Valor Máximo é obrigatório"
+                                       validator="#{propostaSolucaoBean.validateSolucao}"
+                                       
+                                       />
+
+                        <h:outputLabel for="observations" value="Observações"/>
+                        <h:inputTextarea  id="observations"  rows="10" value="#{propostaSolucaoBean.propostaSolucao.descricao}"/>
+
+                    </p:panelGrid>
+
+                    <h2 class="page-subTitle">
+                        Informação da Proposta de Aquisição
+                    </h2>
+
                     <p:panelGrid columns="2">
                         <h:outputLabel value="Id" for="id" />
                         <h:outputText id="id" value="#{propostaSolucaoBean.propostaSolucao.idProposta}"/>
 
-                        <h:outputLabel for="max_value" value="Valor Total"/>
-                        <h:inputText  id="max_value"   value="#{propostaSolucaoBean.propostaSolucao.valorTotal}"/>
+                        <h:outputLabel value="Proposta de Aquisicao criada por" for="created_by" />
+                        <h:outputText id="created_by" value="#{propostaSolucaoBean.propostaSolucao.idAquisicao.idUtilizador.nome}"/>
 
+                        <h:outputLabel value="Valor máximo da Proposta de Aquisicao" for="max_value" />
+                        <h:outputText id="max_value" value="#{propostaSolucaoBean.propostaSolucao.idAquisicao.valorMax} €"/>
 
-                        <h:outputLabel for="observations" value="Observações"/>
-                        <h:inputText  id="observations"   value="#{propostaSolucaoBean.propostaSolucao.observacoes}"/>
+                        <h:outputLabel value="Descrição do Produto" for="product_description" />
+                        <h:outputText id="product_description" value="#{propostaSolucaoBean.propostaSolucao.idAquisicao.observacoes}"/>
 
                         <h:outputLabel for="created_at" value="Criada em"/>
                         <h:outputText  id="created_at"   value="#{propostaSolucaoBean.propostaSolucao.createdAt}"/>
                     </p:panelGrid>
-                   
+
+                    <h2 class="page-subTitle">
+                        #{bundle.PropostaAquisicaoTitle_caracteristicas}
+                    </h2>
+
+                    <div class="aquisitionProposal-components" style="font-size: 13px">
+                        <p:repeat value="#{propostaAquisicaoBean.getComponenteProduto(propostaSolucaoBean.propostaSolucao.idAquisicao)}" var="item">
+                            <p:outputLabel id="componente" value="#{item.componente.nome}: " style="float:none;margin-right: 5px !important;"/>
+                            <h:outputText  id="operador" value="#{propostaAquisicaoBean.getNomeOperadorById(item.operador)} " style="float:none" />
+                            <h:outputText id="valor" value="#{item.valor}" style="float:none"/>
+                            <hr />
+                        </p:repeat>
+                    </div>
+                    <br />
+
                     <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all update-button" value="Atualizar"  action="#{propostaSolucaoBean.update(propostaSolucaoBean.propostaSolucao)}" >
                     </h:commandLink> 
 

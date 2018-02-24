@@ -65,7 +65,7 @@ public class PropostaFacade implements PropostaFacadeLocal {
             u.getPropostaCollection().add(p);
             
             p.setIdAquisicao(a);
-
+            a.getPropostaList().add(p);
             dAO.getEntityManager().merge(a);
             
            
@@ -121,8 +121,8 @@ public class PropostaFacade implements PropostaFacadeLocal {
     }
 
     @Override
-    public List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a) {        
-        AquisicaoProposta aq = aquisicaoPropostaFacade.findAquisicaoProposta(a.getIdAquisicao());
+    public List<Proposta> findPropostasSolucaoByPropostaAquisicao(int idProposta) {        
+        AquisicaoProposta aq = aquisicaoPropostaFacade.findAquisicaoProposta(idProposta);
         return aq.getPropostaList();
     }
 

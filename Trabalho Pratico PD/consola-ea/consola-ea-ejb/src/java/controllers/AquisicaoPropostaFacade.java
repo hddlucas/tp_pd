@@ -172,20 +172,11 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
     }
     
     @Override
-    public List <Item> getComponenteProduto(AquisicaoProposta a) {
+    public List <ComponenteProduto> getComponenteProduto(AquisicaoProposta a) {
         List<Item> items = null;
+        AquisicaoProposta aq = this.findAquisicaoProposta(a.getIdAquisicao());
         
-        a.getComponenteProdutoCollection().forEach((k) -> {
-            Item item = new Item();
-            int operador = Integer.parseInt(k.getOperador());
-            item.setLabel(k.getValor());
-            item.setComponente(operador);
-            item.setOperador(operador);
-                       
-            items.add(item);
-        });    
-        
-        return items;
+        return (List<ComponenteProduto>) aq.getComponenteProdutoCollection();
     }
 
     @Override

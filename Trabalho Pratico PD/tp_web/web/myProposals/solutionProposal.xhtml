@@ -14,42 +14,72 @@
 
                 <p:breadCrumb>
                     <p:menuitem  value="" url="/" />
-                    <p:menuitem value="#{bundle.PropostaAquisicaoTitle_vista}" outcome="index" />
+                    <p:menuitem value="#{bundle.myProposalsTitle_vista}" outcome="index" />
                 </p:breadCrumb>
 
                 <c:if test="#{propostaAquisicaoBean.proposalAdjudicated(propostaSolucaoBean.propostaSolucao.idAquisicao) eq false}">
                     <p:commandButton  value="Eliminar" styleClass="top-delete-button" onclick="if (!confirm('Tem a certeza que deseja eliminar a proposta?'))
-                            return false" action="#{propostaSolucaoBean.destroy(propostaSolucaoBean.propostaSolucao.idProposta)}"  icon="ui-icon-trash white"    >
+                                return false" action="#{propostaSolucaoBean.destroy(propostaSolucaoBean.propostaSolucao.idProposta)}"  icon="ui-icon-trash white"    >
                     </p:commandButton>  
-                    
+
                     <p:commandButton  value="Editar" styleClass="top-edit-button" action="#{propostaSolucaoBean.editSaller(propostaSolucaoBean.propostaSolucao)}"  icon="ui-icon-pencil white"    >
                     </p:commandButton> 
                 </c:if> 
-                
-                <h1 class="page-title">
-                    #{bundle.PropostaSolucaoTitle_show}
-                </h1>
+
+
                 <h:form styleClass="form">
                     <p:growl id="msgs" showDetail="true" />
+                    <h1 class="page-title">
+                        A minha Proposta
+                    </h1>
+
+                    <p:panelGrid columns="2">
+                        
+                        <h:outputLabel value="Valor oferecido: "  />
+                        <h:outputText  value="#{propostaSolucaoBean.propostaSolucao.valorTotal}"/>
+
+                        <h:outputLabel value="Descrição: "  />
+                        <h:outputText  value="#{propostaSolucaoBean.propostaSolucao.descricao}"/>
+
+                        <h:outputLabel for="status" value="Estado"/>
+                        <h:outputText  id="status"   styleClass="#{propostaSolucaoBean.propostaSolucao.ganhou==true ? 'text-green' : 'text-red'}" value="#{propostaSolucaoBean.propostaSolucao.ganhou==true ? 'Aceite' : 'Pendente'}"/>
+
+                    </p:panelGrid>
+
+                    <h2 class="page-subTitle">
+                        Informação da Proposta de Aquisição
+                    </h2>
+
                     <p:panelGrid columns="2">
                         <h:outputLabel value="Id" for="id" />
                         <h:outputText id="id" value="#{propostaSolucaoBean.propostaSolucao.idProposta}"/>
 
-                        <h:outputLabel for="max_value" value="Valor Total"/>
-                        <h:outputText  id="max_value"   value="#{propostaSolucaoBean.propostaSolucao.valorTotal} €"/>
+                        <h:outputLabel value="Proposta de Aquisicao criada por" for="created_by" />
+                        <h:outputText id="created_by" value="#{propostaSolucaoBean.propostaSolucao.idAquisicao.idUtilizador.nome}"/>
 
-                        <h:outputLabel for="observations" value="Observações"/>
-                        <h:outputText  id="observations"   value="#{propostaSolucaoBean.propostaSolucao.observacoes}"/>
+                        <h:outputLabel value="Valor máximo da Proposta de Aquisicao" for="max_value" />
+                        <h:outputText id="max_value" value="#{propostaSolucaoBean.propostaSolucao.idAquisicao.valorMax} €"/>
 
-                        <h:outputLabel for="vendedor" value="Vendedor"/>
-                        <h:outputText  id="vendedor"   value="#{propostaSolucaoBean.propostaSolucao.idUtilizador.nome}"/>
+                        <h:outputLabel value="Descrição do Produto" for="product_description" />
+                        <h:outputText id="product_description" value="#{propostaSolucaoBean.propostaSolucao.idAquisicao.observacoes}"/>
 
                         <h:outputLabel for="created_at" value="Criada em"/>
                         <h:outputText  id="created_at"   value="#{propostaSolucaoBean.propostaSolucao.createdAt}"/>
-                        
-                        <h:outputLabel for="status" value="Estado"/>
-                        <h:outputText  id="status"   styleClass="#{propostaSolucaoBean.propostaSolucao.ganhou==true ? 'text-green' : 'text-red'}" value="#{propostaSolucaoBean.propostaSolucao.ganhou==true ? 'Aceite' : 'Pendente'}"/>
                     </p:panelGrid>
+
+                    <h2 class="page-subTitle">
+                        #{bundle.PropostaAquisicaoTitle_caracteristicas}
+                    </h2>
+
+                    <div class="aquisitionProposal-components" style="font-size: 13px">
+                        <p:repeat value="#{propostaAquisicaoBean.getComponenteProduto(propostaSolucaoBean.propostaSolucao.idAquisicao)}" var="item">
+                            <p:outputLabel id="componente" value="#{item.componente.nome}: " style="float:none;margin-right: 5px !important;"/>
+                            <h:outputText  id="operador" value="#{propostaAquisicaoBean.getNomeOperadorById(item.operador)} " style="float:none" />
+                            <h:outputText id="valor" value="#{item.valor}" style="float:none"/>
+                            <hr />
+                        </p:repeat>
+                    </div>
+                    <br />
                 </h:form>
             </ui:define>
         </ui:composition>

@@ -264,7 +264,7 @@ public class PropostaSolucaoBean implements Serializable {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
             proposalFields.add("observations", request.getParameter("form:observations"));
-            proposalFields.add("max_value", request.getParameter("form:max_value"));
+            proposalFields.add("max_value", request.getParameter("form:valor_input"));
 
             JsonObject fieldsObject = proposalFields.build();
             propostaFacade.update(fieldsObject.toString(), ps.getIdProposta());
