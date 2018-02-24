@@ -411,11 +411,11 @@ VALUES
 
 (4,'Lado de montagem','',false), 
 (4,'Informação sobre montagem','',false), 
-(4,'Lado de montagem','',false),
+
 
 (5,'Tipo de instalação eléctrica de bordo','',false), 
 
-(6'Cor','',false);
+(6,'Cor','',false);
 
 
 
