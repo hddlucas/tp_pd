@@ -30,8 +30,8 @@
                         <h:outputText id="valor_max" value="#{propostaAquisicaoBean.proposedAcquisition.valorMax} €"/>
 
                         <h:outputLabel value="Criada por" for="utilizador"/>
-                        <h:outputText id="utilizador" value="#{propostaAquisicaoBean.proposedAcquisition.idUtilizador.nome}"/>
-
+                        <h:commandLink action="#{utilizadoresBean.showUserInfo(propostaAquisicaoBean.proposedAcquisition.idUtilizador)}" value="#{propostaAquisicaoBean.proposedAcquisition.idUtilizador.nome}">
+                        </h:commandLink>
                         <h:outputLabel value="Criada em" for="created_at"/>
                         <h:outputText id="created_at" value="#{propostaAquisicaoBean.proposedAcquisition.createdAt}"/>
 
