@@ -62,9 +62,8 @@ public class PropostaFacade implements PropostaFacadeLocal {
             p.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             
             p.setIdUtilizador(u);
-            u.getPropostaCollection().add(p);
-            
             p.setIdAquisicao(a);
+            
             a.getPropostaList().add(p);
             dAO.getEntityManager().merge(a);
             

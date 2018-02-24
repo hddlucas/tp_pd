@@ -97,13 +97,13 @@ public class AquisicaoPropostaFacade implements AquisicaoPropostaFacadeLocal {
                
                cp.setComponenteProdutoPK(cppk);
                
-//               b.getComponenteProdutoCollection().add(cp);
+               b.getComponenteProdutoCollection().add(cp);
                comp.getComponenteProdutoCollection().add(cp);
                           
                dAO.getEntityManager().merge(comp);
                dAO.getEntityManager().merge(cp);
             });
-//            dAO.getEntityManager().merge(u);
+
             dAO.getEntityManager().merge(b);
 
             return "Sucesso";
