@@ -62,10 +62,12 @@
 
                     <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 
-                    <p:dialog header="Proposta de Solução" widgetVar="dlg" resizable="false">
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <h:outputLabel value="Valor *" for="valor" style="font-weight: bold"/>
-                            <p:inputNumber id="valor"
+                    <p:dialog header="Proposta de Solução" widgetVar="dlg" resizable="false" width="450px" styleClass="proposta-solucao-vendedor">
+                        <h:panelGrid columns="1"  style="text-align: left!important;">                        
+                         
+                            <h:outputLabel value="Valor *" for="valor" style="font-weight: bold;" />
+                            <p:inputNumber style="width: 100%!important" 
+                                           id="valor"
                                            required="true"
                                            minValue="1"
                                            maxValue="1000000"
@@ -74,9 +76,9 @@
                                            requiredMessage="O campo Valor Máximo é obrigatório"
                                            validator="#{propostaSolucaoBean.validateSolucao}"
                                            />
-
-                            <h:outputLabel value="Descricao *" for="observacoes" style="font-weight: bold"/>
-                            <h:inputTextarea id="observacoes"  rows="12"/>
+                          
+                            <h:outputLabel value="Descricao *" for="observacoes" style="font-weight: bold;"/>
+                            <h:inputTextarea id="observacoes"  rows="12" style="width: 100%!important"/>
 
 
                             <f:facet name="footer">

@@ -602,3 +602,7 @@ tr.linhas_pares {
 .salesman-avaliacoes hr:last-of-type{
     display: none!important;
 }
+
+.proposta-solucao-vendedor .ui-inputfield{
+    width: 100%!important;
+}
