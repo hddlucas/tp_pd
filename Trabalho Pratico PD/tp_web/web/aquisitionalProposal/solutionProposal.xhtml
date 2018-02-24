@@ -32,9 +32,12 @@
                         <h:outputLabel for="observations" value="Observações"/>
                         <h:outputText  id="observations"   value="#{propostaSolucaoBean.propostaSolucao.descricao}"/>
 
+                       
+                        
                         <h:outputLabel for="vendedor" value="Vendedor"/>
-                        <h:outputText  id="vendedor"   value="#{propostaSolucaoBean.propostaSolucao.idUtilizador.nome}"/>
-
+                        <h:commandLink action="#{utilizadoresBean.showUserInfo(propostaSolucaoBean.propostaSolucao.idUtilizador)}" value="#{propostaSolucaoBean.propostaSolucao.idUtilizador.nome}">
+                        </h:commandLink>
+                        
                         <h:outputLabel for="created_at" value="Criada em"/>
                         <h:outputText  id="created_at"   value="#{propostaSolucaoBean.propostaSolucao.createdAt}"/>
                         
