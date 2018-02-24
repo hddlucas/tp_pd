@@ -5,8 +5,11 @@
  */
 package controllers;
 
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
+import models.AquisicaoProposta;
 import models.Componente;
 import models.ComponenteProduto;
 
@@ -24,6 +27,18 @@ public class ComponenteProdutoController implements ComponenteProdutoControllerL
         return dAO.getEntityManager().find(ComponenteProduto.class, id);
     }
 
+    @Override
+    public List<ComponenteProduto> getComponentePropostaByIdAquisicao(int idAquisicao) {
+        List<ComponenteProduto> cp;
+
+        Query q = dAO.getEntityManager().createNamedQuery("ComponenteProduto.findByIdAquisicao");
+        cp = q
+                .setParameter("idAquisicao", idAquisicao)
+                .getResultList();
+        
+        return cp;
+    }
+    
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

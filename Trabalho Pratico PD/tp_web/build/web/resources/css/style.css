@@ -20,6 +20,7 @@ and open the template in the editor.
 .page-subTitle{
     color: #248b8c;
     font-size: 18px;
+    margin-bottom: 20px;
 }
 
 .main .ui-layout-unit-content {
@@ -566,7 +567,7 @@ tr.linhas_pares {
 
 .aquisitionProposal-components hr{
     margin-bottom: 20px;
-    margin-top: -10px;
+    margin-top: 10px;
 }
 
 .aquisitionProposal-components hr:last-of-type{

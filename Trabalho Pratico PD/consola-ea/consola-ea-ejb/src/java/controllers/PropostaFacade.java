@@ -65,7 +65,7 @@ public class PropostaFacade implements PropostaFacadeLocal {
             u.getPropostaCollection().add(p);
             
             p.setIdAquisicao(a);
-
+            a.getPropostaList().add(p);
             dAO.getEntityManager().merge(a);
             
            
@@ -121,14 +121,13 @@ public class PropostaFacade implements PropostaFacadeLocal {
     }
 
     @Override
-    public List<Proposta> findPropostasSolucaoByPropostaAquisicao(AquisicaoProposta a) {        
-        AquisicaoProposta aq = aquisicaoPropostaFacade.findAquisicaoProposta(a.getIdAquisicao());
+    public List<Proposta> findPropostasSolucaoByPropostaAquisicao(int idProposta) {        
+        AquisicaoProposta aq = aquisicaoPropostaFacade.findAquisicaoProposta(idProposta);
         return aq.getPropostaList();
     }
 
     @Override
     public String acceptProposal(String aceptFields, List <Item> items) throws RollbackFailureException, Exception {
-    //public String acceptProposal(String aceptFields) throws RollbackFailureException, Exception {
 
         try {
             JSONObject acceptJsonFields = new JSONObject(aceptFields);
@@ -147,9 +146,12 @@ public class PropostaFacade implements PropostaFacadeLocal {
             av.setIdAvaliador(p.getIdAquisicao().getIdUtilizador().getIdUtilizador());
             
             av.setIdUtilizador(u);
+            av.setIdProposta(p);
+            p.getAvaliacaoVendedorCollection().add(av);
             u.getAvaliacaoVendedorCollection().add(av);
             
             dAO.getEntityManager().merge(u);
+            dAO.getEntityManager().merge(p);
             
             //update avaliation of componente_produto 
             items.forEach((k) -> {
@@ -178,4 +180,44 @@ public class PropostaFacade implements PropostaFacadeLocal {
 
     }
 
+    @Override
+    public List<Proposta> getAcquisitionProposals(int userId) {
+        Query q = dAO.getEntityManager().createNamedQuery("Proposta.findByIdUtilizador");
+        List<Proposta> proposals = q.setParameter("idUtilizador", userId).getResultList();
+
+        return proposals;
+    }
+    
+    @Override
+    public void update(String fields, int propostaId) throws Exception {
+        try {
+            Proposta p = (Proposta) dAO.getEntityManager().find(Proposta.class, propostaId);
+            JSONObject proposalFields = new JSONObject(fields);
+
+            if(proposalFields.has("observations")){
+                p.setObservacoes(proposalFields.getString("observations"));
+            }
+            
+            if(proposalFields.has("max_value")){
+                p.setValorTotal(Double.parseDouble(proposalFields.getString("max_value")));
+            }
+            
+            dAO.getEntityManager().merge(p);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
+    @Override
+    public void destroy(Integer id) throws Exception  {
+        try {
+            Proposta p = dAO.getEntityManager().find(Proposta.class, id);
+            p.setDeleted(true);
+            dAO.getEntityManager().merge(p);
+
+        } catch (Exception ex) { 
+            throw ex;
+        }
+    }
+    
 }

@@ -31,8 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "componente")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Componente.findAll", query = "SELECT c FROM Componente c")
-    , @NamedQuery(name = "Componente.findAllNotDeleted", query = "SELECT c FROM Componente c where c.deleted=false")
+    @NamedQuery(name = "Componente.findAll", query = "SELECT c FROM Componente c order by c.nome asc")
+    , @NamedQuery(name = "Componente.findAllNotDeleted", query = "SELECT c FROM Componente c where c.deleted=false order by c.nome asc")
     , @NamedQuery(name = "Componente.findByIdComponente", query = "SELECT c FROM Componente c WHERE c.idComponente = :idComponente")
     , @NamedQuery(name = "Componente.findByNome", query = "SELECT c FROM Componente c WHERE c.nome = :nome")
     , @NamedQuery(name = "Componente.findByObservacoes", query = "SELECT c FROM Componente c WHERE c.observacoes = :observacoes")

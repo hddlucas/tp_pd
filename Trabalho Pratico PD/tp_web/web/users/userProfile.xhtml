@@ -11,20 +11,15 @@
 
             <ui:define name="content">
 
-                <p:breadCrumb>
-                    <p:menuitem  value="" url="/" />
-                    <p:menuitem value="#{bundle.MensagensTitle_vista}" outcome="index" />
-                </p:breadCrumb>
-
                 <h1 class="page-title">
-                    #{mensagemBean.message.assunto} 
+                    #{utilizadoresBean.user.nome} 
                 </h1>
                 <h:form id="message-form">   
                     <h:outputLink  styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button" style="width: 130px!important" value="javascript:void(0)" onclick="PF('dlg').show();" title="propostaSolucao">
-                        Responder
+                        Enviar Mensagem
                     </h:outputLink>
                     <br/>
-                    <p:inputText value="#{mensagemBean.message.idRemetente}" id="id_destinatario" type="hidden" />
+                    <p:inputText value="#{utilizadoresBean.user.idUtilizador}" id="id_destinatario" type="hidden" />
                     <p:inputText value="#{loginBean.loggedUser.idUtilizador}" id="id_remetente" type="hidden" />
 
                     <p:dialog header="Enviar Mensagem" widgetVar="dlg" resizable="false">
@@ -48,23 +43,42 @@
                     <p:growl id="msgs" showDetail="true" />
 
                     <p:panelGrid columns="2">
-                        <h:outputLabel value="Id" for="id"/>
-                        <h:outputText id="id" value="#{mensagemBean.message.idMensagem}"/>
 
-                        <h:outputLabel value="Enviada por" for="id_remetente"/>
-                        <h:outputText id="id_remetente" value="#{utilizadoresBean.getUsernameById(mensagemBean.message.idRemetente)}"/>
+                        <h:outputLabel value="Username" for="username" />
+                        <h:outputText id="username" value="#{utilizadoresBean.user.username}"/>
 
-                        <h:outputLabel value="Assunto" for="assunto"/>
-                        <h:outputText id="assunto" value="#{mensagemBean.message.assunto}"/>
+                        <h:outputLabel value="Nome" for="nome"/>
+                        <h:outputText id="nome" value="#{utilizadoresBean.user.nome}"/>
 
-                        <h:outputLabel value="Mensagem" for="mensagem"/>
-                        <h:outputText id="mensagem" value="#{mensagemBean.message.mensagem}"/>
+                        <h:outputLabel for="bi" value="Nº Cartao Cidadão/BI" />  
+                        <h:outputText id="bi" value="#{utilizadoresBean.user.bi}"/>
 
-                        <h:outputLabel value="Enviada em" for="created_at"/>
-                        <h:outputText id="created_at" value="#{mensagemBean.message.createdAt}"/>
+                        <h:outputLabel for="nif" value="NIF" />  
+                        <h:outputText id="nif" value="#{utilizadoresBean.user.nif}"/>
+
+                        <h:outputLabel for="morada" value="Morada"/>
+                        <h:outputText  id="morada"   value="#{utilizadoresBean.user.morada}"/>
+
+                        <h:outputLabel for="contacto" value="Contacto"/>  
+                        <h:outputText id="contacto" value="#{utilizadoresBean.user.contacto}"/> 
+
+                        <h:outputLabel for="codigo_postal" value="Código Postal" />  
+                        <h:outputText id="codigo_postal" value="#{utilizadoresBean.user.codigoPostal}"/> 
+
+                        <h:outputLabel for="pais" value="País" />
+                        <h:outputText  value="#{utilizadoresBean.user.pais}"/>
+
+                        <h:outputLabel for="cidade" value="Cidade" />  
+                        <h:outputText id="cidade" value="#{utilizadoresBean.user.cidade}"/>  
+
+
+                        <h:outputLabel for="ultimo_login" value="Ultimo Login" />  
+                        <h:outputText id="ultimo_login" value="#{utilizadoresBean.user.ultimoLogin}  " />
 
                     </p:panelGrid>
                 </h:form>
+
+
             </ui:define>
         </ui:composition>
     </h:body>

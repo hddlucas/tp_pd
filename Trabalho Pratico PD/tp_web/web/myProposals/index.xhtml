@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/commonLayout.xhtml">
+
+            <ui:define name="content">
+                <div class="ui-grid-col-12">
+                    <h1 class="page-title">
+                        #{bundle.myProposalsTitle_vista}
+                    </h1>
+                </div>
+
+
+                <div class="ui-grid-col-12">
+                    <h:form>
+                        <p:dataTable id="proposedAcquisitionList" var="proposedSolution" value="#{propostaSolucaoBean.getListToUser(loginBean.loggedUser.idUtilizador)}">
+                            <p:column headerText="Id">
+                                <h:outputText value="#{proposedSolution.idProposta}" />
+                            </p:column>
+                        
+                            <p:column headerText="Produto">
+                                <h:outputText value="#{proposedSolution.idAquisicao.observacoes}" />
+                            </p:column>
+                         
+                            <p:column headerText="Valor Máximo">
+                                <h:outputText value="#{proposedSolution.idAquisicao.valorMax} €" />
+                            </p:column>
+                            
+                             <p:column headerText="Proposta Efetuada">
+                                 <h:outputText value="#{proposedSolution.valorTotal} €" />
+                            </p:column>
+                            
+                            <p:column headerText="Estado">
+                                <h:outputText styleClass="#{proposedSolution.ganhou ? 'text-green' : 'text-red'}" value="#{proposedSolution.ganhou ? 'Adjudicada' : 'Pendente'}  "/>
+                            </p:column>
+                            
+                            <p:column style="width:80px;text-align: center">
+                                <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{propostaSolucaoBean.showSolutionProposalSaller(proposedSolution)}">
+                                </p:commandButton>
+                            </p:column>
+                                                        
+                        </p:dataTable>
+
+                        <p:growl id="msgs" showDetail="true" />
+
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+
+</html>

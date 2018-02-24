@@ -25,7 +25,7 @@
                 </p:commandButton> 
 
 
-                <p:commandButton  value="Editar" styleClass="top-edit-button" action="#{propostaAquisicaoBean.editProposal(propostaAquisicaoBean.proposedAcquisition)}"  icon="ui-icon-pencil white"    >
+                <p:commandButton  value="Editar" styleClass="top-edit-button" action="#{propostaAquisicaoBean.editProposal(propostaAquisicaoBean.proposedAcquisition.idAquisicao)}"  icon="ui-icon-pencil white"    >
                 </p:commandButton> 
 
                 <p:tabView>
@@ -56,23 +56,16 @@
                             
                             <br/>
                             <h2 class="page-subTitle">
-                                #{bundle.PropostaAquisicaoTitle_componentes}
+                                #{bundle.PropostaAquisicaoTitle_caracteristicas}
                             </h2>
                             
-                            <div class="aquisitionProposal-components">
-                                <ui:repeat value="#{propostaAquisicaoBean.items}" var="item">
-                                    <p:panelGrid columns="2">
-                                        <p:outputLabel  for="componente:" value="Componente #{item.label}" />
-                                        <h:outputText id="componente" value="#{item.componenteString}" style="float:none"/>
-
-                                        <p:outputLabel  for="operador" value="Operador" />
-                                        <h:outputText id="operador" value="#{item.operadorString}" style="float:none"/>
-
-                                        <p:outputLabel  for="valor" value="Valor" />
+                            <div class="aquisitionProposal-components" style="font-size: 13px">
+                                <p:repeat value="#{propostaAquisicaoBean.getComponenteProduto(propostaAquisicaoBean.proposedAcquisition)}" var="item">
+                                    <p:outputLabel id="componente" value="#{item.componente.nome}: " style="float:none;margin-right: 5px !important;"/>
+                                    <h:outputText  id="operador" value="#{propostaAquisicaoBean.getNomeOperadorById(item.operador)} " style="float:none" />
                                         <h:outputText id="valor" value="#{item.valor}" style="float:none"/>
-                                    </p:panelGrid>
-                                    <br/>
-                                </ui:repeat>
+                                    <hr />
+                                </p:repeat>
                             </div>
                             <br />
                         </h:form>

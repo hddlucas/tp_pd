@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import java.util.List;
 import javax.ejb.Local;
 import models.ComponenteProduto;
 
@@ -15,5 +16,5 @@ import models.ComponenteProduto;
 @Local
 public interface ComponenteProdutoControllerLocal {
     ComponenteProduto findComponenteProduto(Integer id);
-
+    List<ComponenteProduto> getComponentePropostaByIdAquisicao(int idAquisicao);
 }

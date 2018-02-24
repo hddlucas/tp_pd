@@ -30,13 +30,26 @@
                         <h:outputText id="valor_max" value="#{propostaAquisicaoBean.proposedAcquisition.valorMax} €"/>
 
                         <h:outputLabel value="Criada por" for="utilizador"/>
-                        <h:outputText id="utilizador" value="#{propostaAquisicaoBean.proposedAcquisition.idUtilizador.nome}"/>
-
+                        <h:commandLink action="#{utilizadoresBean.showUserInfo(propostaAquisicaoBean.proposedAcquisition.idUtilizador)}" value="#{propostaAquisicaoBean.proposedAcquisition.idUtilizador.nome}">
+                        </h:commandLink>
                         <h:outputLabel value="Criada em" for="created_at"/>
                         <h:outputText id="created_at" value="#{propostaAquisicaoBean.proposedAcquisition.createdAt}"/>
-                        
-                    </p:panelGrid>
 
+                    </p:panelGrid>
+                    <br/>
+                    <h2 class="page-subTitle">
+                        #{bundle.PropostaAquisicaoTitle_caracteristicas}
+                    </h2>
+
+                    <div class="aquisitionProposal-components" style="font-size: 13px">
+                        <p:repeat value="#{propostaAquisicaoBean.getComponenteProduto(propostaAquisicaoBean.proposedAcquisition)}" var="item">
+                            <p:outputLabel id="componente" value="#{item.componente.nome}: " style="float:none;margin-right: 5px !important;"/>
+                            <h:outputText  id="operador" value="#{propostaAquisicaoBean.getNomeOperadorById(item.operador)} " style="float:none" />
+                            <h:outputText id="valor" value="#{item.valor}" style="float:none"/>
+                            <hr />
+                        </p:repeat>
+                    </div>
+                    <br />
                 </h:form>
 
                 <h:form id="form"> 
@@ -52,7 +65,7 @@
                     <p:dialog header="Proposta de Solução" widgetVar="dlg" resizable="false">
                         <h:panelGrid columns="2" cellpadding="5">
                             <h:outputLabel value="Valor *" for="valor" style="font-weight: bold"/>
-                             <p:inputNumber id="valor"
+                            <p:inputNumber id="valor"
                                            required="true"
                                            minValue="1"
                                            maxValue="1000000"
@@ -61,11 +74,11 @@
                                            requiredMessage="O campo Valor Máximo é obrigatório"
                                            validator="#{propostaSolucaoBean.validateSolucao}"
                                            />
-                         
+
                             <h:outputLabel value="Descricao *" for="observacoes" style="font-weight: bold"/>
                             <h:inputTextarea id="observacoes"  rows="12"/>
 
-                            
+
                             <f:facet name="footer">
                                 <h:outputLabel value=""/>
                                 <h:commandLink type="submit" styleClass="ui-button ui-widget ui-state-default ui-corner-all create-button modal-button" value="Criar"  action="#{propostaSolucaoBean.create()}" >

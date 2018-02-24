@@ -54,7 +54,7 @@
                                     return false" action="#{propostaAquisicaoBean.destroy(proposedAcquisition.idAquisicao)}"  icon="ui-icon-trash white"  styleClass="delete-button"  >
                                 </p:commandButton> 
 
-                                <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{propostaAquisicaoBean.showProposal(proposedAcquisition)}">
+                                <p:commandButton  styleClass="show-button" icon="ui-icon-search white" title="View" action="#{propostaAquisicaoBean.showProposal(proposedAcquisition.idAquisicao)}">
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>

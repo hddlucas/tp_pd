@@ -37,5 +37,6 @@ public interface AquisicaoPropostaFacadeLocal {
     void destroy(Integer id)throws Exception;
     String getUltimaPropostaId();
     String update(String fields, List<Item> i, int propostaId) throws Exception;
-    List <Item> getComponenteProduto(AquisicaoProposta a);
+    public List <ComponenteProduto> getComponenteProduto(AquisicaoProposta a);
+    List <ComponenteProduto> getComponenteProdutoId(int id);
 }

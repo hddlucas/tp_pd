@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     17/02/2018 00:40:19                          */
+/* Created on:     22/02/2018 23:37:23                          */
 /*==============================================================*/
 
 
@@ -84,7 +84,8 @@ ID_UTILIZADOR
 /*==============================================================*/
 create table AVALIACAO_VENDEDOR (
    ID_AVALIACAO_VENDEDOR SERIAL               not null,
-   ID_UTILIZADOR        INT4                 null,
+   ID_UTILIZADOR        INT4                 not null,
+   ID_PROPOSTA          INT4                 not null,
    ID_AVALIADOR         INT4                 not null,
    AVALIACAO            INT4                 not null,
    constraint PK_AVALIACAO_VENDEDOR primary key (ID_AVALIACAO_VENDEDOR)
@@ -295,6 +296,11 @@ alter table AVALIACAO_VENDEDOR
       references UTILIZADOR (ID_UTILIZADOR)
       on delete restrict on update restrict;
 
+alter table AVALIACAO_VENDEDOR
+   add constraint FK_AVALIACA_REFERENCE_PROPOSTA foreign key (ID_PROPOSTA)
+      references PROPOSTA (ID_PROPOSTA)
+      on delete restrict on update restrict;
+
 alter table COMPONENTE
    add constraint FK_COMPONEN_RELATIONS_CATEGORI foreign key (ID_CATEGORIA)
       references CATEGORIA (ID_CATEGORIA)
@@ -337,13 +343,18 @@ alter table UTILIZADOR_PERFIL
 
 
 
-
 /*==============================================================*/
 /* DEFAULT ADMIN                              			*/
 /*==============================================================*/
 
 INSERT INTO  utilizador (username,password,nome,nif,bi,ativo,deleted)
-VALUES ('admin','12345','Administrador','123456789','123456789',true,false),('vendedor','12345','Vendedor','123456789','123456789',true,false),('avaliador','12345','Avaliador','123456789','123456789',true,false),('agente','12345','Agente','123456789','123456789',true,false);
+VALUES 
+('admin','12345','Administrador','23323322112','111111111',true,false),
+('vendedor','12345','Vendedor','311112122','222222222',true,false),
+('avaliador','12345','Avaliador','12345122236789','333333333',true,false),
+('agente','12345','Agente','123333332332','444444444',true,false),
+('hddlucas','12345','Hugo David Duarte Lucas','12312223221','555555555',true,false),
+('marcosequeira','12345','Marco Sequeira','12323231221','666666666',true,false);
 
 
 /*==============================================================*/
@@ -360,5 +371,83 @@ VALUES ('admin','Administrador',false),('avaliador','Avaliador',false),('agente'
 /*==============================================================*/
 
 INSERT INTO  utilizador_perfil (id_perfil,id_utilizador)
-VALUES (1,1),(4,2),(2,3),(3,4);
+VALUES (1,1),(4,2),(2,3),(3,4),(1,5),(1,6);
+
+
+/*==============================================================*/
+/* CATEGORIAS	                                */
+/*==============================================================*/
+
+INSERT INTO  categoria (nome,deleted)
+VALUES 
+('Alternador',false),
+('Antena',false),
+('Batería',false),
+('Caixa da Direcção',false),
+('Escova de limpa-vidros',false),
+('Lâmpada',false),
+('Motor de Limpa Vidros',false),
+('Radiador',false),
+('Válvula de Escape',false);
+
+    
+INSERT INTO  componente (id_categoria,nome,observacoes,deleted)
+VALUES 
+(1,'Corrente de carga do alternador [A]','',false),
+(1,'Tensão [V]','',false),
+(1,'Ø da polia [mm]','',false),   
+(1,'Número de nervuras','',false), 
+(1,'Tipo de instalação eléctrica de bordo','',false), 
+(1,'Comprimento','',false), 
+(1,'Aprovação do fabricante','',false), 
+(1,'Borne','',false), 
+
+(2,'Tipo de antena','',false),
+(2,'Medida da rosca','',false),
+(2,'Tipo de funcionamento','',false),   
+(2,'Lado de montagem','',false), 
+
+(3,'Intensidade da corrente [A]','',false),
+(3,'Corrente de ensaio a frio EN [A]','',false),
+(3,'Comprimento (mm)','',false),   
+(3,'Largura [mm]','',false), 
+(3,'Altura [mm]','',false), 
+(3,'Tensão [V]','',false), 
+(3,'Informação sobre montagem','',false), 
+
+(4,'Cor','',false),
+(4,'Lado de montagem','',false),
+
+(5,'Lado de montagem','',false),
+(5,'Comprimento (mm)','',false),
+(5,'Comprimento [polegadas]','',false),   
+(5,'Tipo de escova de limpa-vidros','',false), 
+(5,'Ano de fabrico a partir de','',false), 
+(5,'Unidade de quantidade','',false), 
+(5,'Aprovação do fabricante','',false), 
+(5,'Linha de produtos','',false), 
+
+(6,'Tipo de homologação','',false),
+(6,'Tipo de casquilho','',false),
+(6,'Tipo de lâmpada','',false),
+(6,'Comprimento (mm)','',false),
+(6,'Diâmetro [mm]','',false),
+(6,'Potência nominal [W]','',false),
+(6,'Tensão [V]','',false),
+
+(7,'Lado de montagem','',false),
+(7,'Tensão [V]','',false),
+(7,'Veículo com volante à esquerda/à direita','',false),
+(7,'Versão','',false),
+(7,'Qualidade','',false),
+
+(8,'Peso líquido [kg]','',false),
+(8,'Espessura [mm]','',false),
+(8,'Altura [mm]','',false),
+
+(9,'Largura [mm]','',false),
+(9,'Número de ligações','',false),
+(9,'Tipo de funcionamento','',false);
+
+  
 

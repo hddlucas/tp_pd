@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author hddlucas
+ * @author marcosequeira
  */
 @Entity
 @Table(name = "avaliacao_vendedor")
@@ -39,13 +39,17 @@ public class AvaliacaoVendedor implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_avaliacao_vendedor")
     private Integer idAvaliacaoVendedor;
+    @Basic(optional = false)
     @Column(name = "id_avaliador")
-    private Integer idAvaliador;
+    private int idAvaliador;
     @Basic(optional = false)
     @Column(name = "avaliacao")
     private int avaliacao;
+    @JoinColumn(name = "id_proposta", referencedColumnName = "id_proposta")
+    @ManyToOne(optional = false)
+    private Proposta idProposta;
     @JoinColumn(name = "id_utilizador", referencedColumnName = "id_utilizador")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Utilizador idUtilizador;
 
     public AvaliacaoVendedor() {
@@ -55,8 +59,9 @@ public class AvaliacaoVendedor implements Serializable {
         this.idAvaliacaoVendedor = idAvaliacaoVendedor;
     }
 
-    public AvaliacaoVendedor(Integer idAvaliacaoVendedor, int avaliacao) {
+    public AvaliacaoVendedor(Integer idAvaliacaoVendedor, int idAvaliador, int avaliacao) {
         this.idAvaliacaoVendedor = idAvaliacaoVendedor;
+        this.idAvaliador = idAvaliador;
         this.avaliacao = avaliacao;
     }
 
@@ -68,11 +73,11 @@ public class AvaliacaoVendedor implements Serializable {
         this.idAvaliacaoVendedor = idAvaliacaoVendedor;
     }
 
-    public Integer getIdAvaliador() {
+    public int getIdAvaliador() {
         return idAvaliador;
     }
 
-    public void setIdAvaliador(Integer idAvaliador) {
+    public void setIdAvaliador(int idAvaliador) {
         this.idAvaliador = idAvaliador;
     }
 
@@ -82,6 +87,14 @@ public class AvaliacaoVendedor implements Serializable {
 
     public void setAvaliacao(int avaliacao) {
         this.avaliacao = avaliacao;
+    }
+
+    public Proposta getIdProposta() {
+        return idProposta;
+    }
+
+    public void setIdProposta(Proposta idProposta) {
+        this.idProposta = idProposta;
     }
 
     public Utilizador getIdUtilizador() {
