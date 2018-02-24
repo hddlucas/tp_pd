@@ -89,7 +89,7 @@
                                 <h:outputText id="pontuacaoMedia" value="#{vendedoresBean.getPontuacaoMedia(vendedoresBean.user) ==-1 ? 'Ainda não foi avaliado' :vendedoresBean.getPontuacaoMedia(vendedoresBean.user)}"/>  
 
                                 <h:outputLabel for="pontuacaoMediaProdutos" value="Pontuação Média Produtos Vendidos" />  
-                                <h:outputText id="pontuacaoMediaProdutos" value="#{vendedoresBean.getPontuacaoMediaProdutosVendidos(user)==-1 ? 'Ainda não foi avaliado' :vendedoresBean.getPontuacaoMediaProdutosVendidos(vendedoresBean.user)}"/>  
+                                 <h:outputText value="#{vendedoresBean.getPontuacaoMediaProdutosVendidos(vendedoresBean.user) ==-1 ? '-' : vendedoresBean.getPontuacaoMediaProdutosVendidos(vendedoresBean.user)}"/>  
 
                             </p:panelGrid>
                         </h:form>
